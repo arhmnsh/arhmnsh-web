@@ -36,7 +36,7 @@ const isArticleActive = (articlePath: string) => {
         <NuxtLink
           v-for="article in articles"
           :key="article.path"
-          :to="article.path"
+          :to="{ path: article.path, query: { c: category } }"
           :class="cn(
             'flex flex-col gap-1 rounded-lg border p-3 text-sm transition-colors hover:bg-muted/50',
             isArticleActive(article.path) ? 'border-foreground/10 bg-muted' : 'border-transparent'

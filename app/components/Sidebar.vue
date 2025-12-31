@@ -182,10 +182,10 @@ const isActive = (path: string) => route.path === path || route.path.startsWith(
           <NuxtLink
             v-for="cat in dynamicCategories"
             :key="cat"
-            :to="`/articles/${cat}`"
+            :to="{ path: '/articles', query: { c: cat } }"
             :class="cn(
               'flex items-center gap-3 rounded-md px-2 py-1.5 text-sm font-medium transition-colors hover:bg-muted hover:text-foreground',
-              isActive(`/articles/${cat}`) ? 'bg-muted text-foreground' : 'text-muted-foreground'
+              route.query.c === cat ? 'bg-muted text-foreground' : 'text-muted-foreground'
             )"
           >
             <component :is="getCategoryIcon(cat)" class="h-4 w-4" />

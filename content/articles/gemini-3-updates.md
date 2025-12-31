@@ -2,7 +2,7 @@
 title: "5 Gemini 3.0 Updates That Actually Matter for Work"
 date: "2025-12-16"
 excerpt: "Google's latest update brings agents to the forefront. Here is what you need to know about Gemini 3.0 and how it impacts your daily workflow."
-categories: ["ai"]
+categories: ["ai", "career"]
 ---
 
 Google just announced Gemini 3.0, and it is a massive leap forward for agentic workflows. Instead of just "chatting" with AI, we are now entering the era of "assigning" work to AI.

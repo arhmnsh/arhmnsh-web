@@ -1,10 +1,6 @@
 <script setup lang="ts">
 const route = useRoute()
-const category = computed(() => {
-  // route.params.category might be undefined if we visit /articles directly (if structure allows)
-  // But this file is /pages/articles/[category].vue, so it captures that segment.
-  return route.params.category as string
-})
+const category = computed(() => (route.query.c as string) || 'ai')
 
 const { data: articles } = await useAsyncData(`articles-${category.value}`, () => 
   queryCollection('articles')
