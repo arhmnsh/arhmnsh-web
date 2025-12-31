@@ -1,0 +1,505 @@
+[
+  {
+    "title": "Nuxt 4 Documentation",
+    "url": "https://nuxt.com/docs",
+    "description": "Official Nuxt 4 documentation with guides, API reference, and examples",
+    "tags": [
+      "frontend",
+      "vue",
+      "nuxt",
+      "docs"
+    ]
+  },
+  {
+    "title": "Tailwind CSS v4",
+    "url": "https://tailwindcss.com/docs",
+    "description": "Utility-first CSS framework for rapid UI development",
+    "tags": [
+      "frontend",
+      "css",
+      "design"
+    ]
+  },
+  {
+    "title": "Anthropic Claude",
+    "url": "https://anthropic.com",
+    "description": "Advanced AI assistant with long context windows",
+    "tags": [
+      "ai",
+      "llm",
+      "tools"
+    ]
+  },
+  {
+    "title": "Zod Schema Validation",
+    "url": "https://zod.dev",
+    "description": "TypeScript-first schema validation with static type inference",
+    "tags": [
+      "frontend",
+      "backend",
+      "typescript"
+    ]
+  },
+  {
+    "title": "Shadcn UI",
+    "url": "https://ui.shadcn.com",
+    "description": "Beautifully designed components built with Radix UI and Tailwind",
+    "tags": [
+      "frontend",
+      "design",
+      "component-library"
+    ]
+  },
+  {
+    "title": "OpenAI Platform",
+    "url": "https://platform.openai.com/docs",
+    "description": "Official OpenAI API documentation and guides",
+    "tags": [
+      "ai",
+      "llm",
+      "api"
+    ]
+  },
+  {
+    "title": "Vercel AI SDK",
+    "url": "https://sdk.vercel.ai/docs",
+    "description": "Build AI-powered applications with React, Next.js, and more",
+    "tags": [
+      "ai",
+      "sdk",
+      "frontend"
+    ]
+  },
+  {
+    "title": "React Server Components",
+    "url": "https://react.dev/reference/rsc/server-components",
+    "description": "Official React documentation for Server Components",
+    "tags": [
+      "frontend",
+      "react",
+      "docs"
+    ]
+  },
+  {
+    "title": "PostgreSQL Tutorial",
+    "url": "https://www.postgresql.org/docs/current/tutorial.html",
+    "description": "Official PostgreSQL tutorial for beginners",
+    "tags": [
+      "backend",
+      "database",
+      "sql"
+    ]
+  },
+  {
+    "title": "Prisma ORM",
+    "url": "https://www.prisma.io/docs",
+    "description": "Next-generation ORM for Node.js and TypeScript",
+    "tags": [
+      "backend",
+      "database",
+      "typescript",
+      "orm"
+    ]
+  },
+  {
+    "title": "tRPC",
+    "url": "https://trpc.io/docs",
+    "description": "End-to-end typesafe APIs made easy",
+    "tags": [
+      "backend",
+      "typescript",
+      "api"
+    ]
+  },
+  {
+    "title": "Hugging Face Transformers",
+    "url": "https://huggingface.co/docs/transformers",
+    "description": "State-of-the-art Machine Learning for PyTorch, TensorFlow, and JAX",
+    "tags": [
+      "ai",
+      "ml",
+      "python",
+      "docs"
+    ]
+  },
+  {
+    "title": "LangChain",
+    "url": "https://python.langchain.com/docs/get_started/introduction",
+    "description": "Framework for developing applications powered by language models",
+    "tags": [
+      "ai",
+      "llm",
+      "python",
+      "tools"
+    ]
+  },
+  {
+    "title": "Docker Best Practices",
+    "url": "https://docs.docker.com/develop/dev-best-practices/",
+    "description": "Official Docker development best practices",
+    "tags": [
+      "devops",
+      "docker",
+      "backend"
+    ]
+  },
+  {
+    "title": "Kubernetes Basics",
+    "url": "https://kubernetes.io/docs/tutorials/kubernetes-basics/",
+    "description": "Learn Kubernetes basics with interactive tutorials",
+    "tags": [
+      "devops",
+      "kubernetes",
+      "backend"
+    ]
+  },
+  {
+    "title": "System Design Primer",
+    "url": "https://github.com/donnemartin/system-design-primer",
+    "description": "Learn how to design large-scale systems",
+    "tags": [
+      "backend",
+      "architecture",
+      "learning"
+    ]
+  },
+  {
+    "title": "Refactoring Guru",
+    "url": "https://refactoring.guru/design-patterns",
+    "description": "Design patterns and refactoring techniques explained",
+    "tags": [
+      "backend",
+      "frontend",
+      "patterns",
+      "learning"
+    ]
+  },
+  {
+    "title": "Web.dev Performance",
+    "url": "https://web.dev/performance/",
+    "description": "Learn how to improve web performance",
+    "tags": [
+      "frontend",
+      "performance",
+      "learning"
+    ]
+  },
+  {
+    "title": "MDN Web Docs",
+    "url": "https://developer.mozilla.org/en-US/",
+    "description": "Comprehensive web development documentation",
+    "tags": [
+      "frontend",
+      "docs",
+      "learning"
+    ]
+  },
+  {
+    "title": "TypeScript Handbook",
+    "url": "https://www.typescriptlang.org/docs/handbook/intro.html",
+    "description": "Official TypeScript documentation and handbook",
+    "tags": [
+      "typescript",
+      "frontend",
+      "backend",
+      "docs"
+    ]
+  },
+  {
+    "title": "Next.js Documentation",
+    "url": "https://nextjs.org/docs",
+    "description": "The React Framework for Production",
+    "tags": [
+      "frontend",
+      "react",
+      "framework"
+    ]
+  },
+  {
+    "title": "Vite Guide",
+    "url": "https://vitejs.dev/guide/",
+    "description": "Next generation frontend tooling",
+    "tags": [
+      "frontend",
+      "build-tools"
+    ]
+  },
+  {
+    "title": "Supabase Docs",
+    "url": "https://supabase.com/docs",
+    "description": "Open source Firebase alternative",
+    "tags": [
+      "backend",
+      "database",
+      "auth"
+    ]
+  },
+  {
+    "title": "Stripe API",
+    "url": "https://stripe.com/docs/api",
+    "description": "Payment processing API documentation",
+    "tags": [
+      "backend",
+      "payments",
+      "api"
+    ]
+  },
+  {
+    "title": "AWS Documentation",
+    "url": "https://docs.aws.amazon.com/",
+    "description": "Amazon Web Services documentation",
+    "tags": [
+      "cloud",
+      "devops",
+      "backend"
+    ]
+  },
+  {
+    "title": "GitHub Actions",
+    "url": "https://docs.github.com/en/actions",
+    "description": "Automate your workflow from idea to production",
+    "tags": [
+      "devops",
+      "ci-cd",
+      "automation"
+    ]
+  },
+  {
+    "title": "Terraform Docs",
+    "url": "https://www.terraform.io/docs",
+    "description": "Infrastructure as Code documentation",
+    "tags": [
+      "devops",
+      "infrastructure",
+      "automation"
+    ]
+  },
+  {
+    "title": "Redis Documentation",
+    "url": "https://redis.io/documentation",
+    "description": "In-memory data structure store documentation",
+    "tags": [
+      "backend",
+      "database",
+      "caching"
+    ]
+  },
+  {
+    "title": "GraphQL",
+    "url": "https://graphql.org/learn/",
+    "description": "A query language for your API",
+    "tags": [
+      "backend",
+      "api",
+      "graphql"
+    ]
+  },
+  {
+    "title": "Figma Learn",
+    "url": "https://help.figma.com/",
+    "description": "Design and prototyping tool documentation",
+    "tags": [
+      "design",
+      "tools",
+      "ui-ux"
+    ]
+  },
+  {
+    "title": "Framer Motion",
+    "url": "https://www.framer.com/motion/",
+    "description": "Production-ready motion library for React",
+    "tags": [
+      "frontend",
+      "animation",
+      "react"
+    ]
+  },
+  {
+    "title": "Three.js Docs",
+    "url": "https://threejs.org/docs/",
+    "description": "JavaScript 3D library documentation",
+    "tags": [
+      "frontend",
+      "3d",
+      "graphics"
+    ]
+  },
+  {
+    "title": "D3.js",
+    "url": "https://d3js.org/",
+    "description": "Data visualization library for JavaScript",
+    "tags": [
+      "frontend",
+      "visualization",
+      "data"
+    ]
+  },
+  {
+    "title": "Jest Documentation",
+    "url": "https://jestjs.io/docs/getting-started",
+    "description": "Delightful JavaScript Testing Framework",
+    "tags": [
+      "testing",
+      "frontend",
+      "backend"
+    ]
+  },
+  {
+    "title": "Cypress Docs",
+    "url": "https://docs.cypress.io/",
+    "description": "Fast, easy and reliable testing for anything that runs in a browser",
+    "tags": [
+      "testing",
+      "frontend",
+      "e2e"
+    ]
+  },
+  {
+    "title": "Playwright",
+    "url": "https://playwright.dev/",
+    "description": "Fast and reliable end-to-end testing for modern web apps",
+    "tags": [
+      "testing",
+      "frontend",
+      "e2e"
+    ]
+  },
+  {
+    "title": "Storybook",
+    "url": "https://storybook.js.org/docs",
+    "description": "Build component libraries and design systems",
+    "tags": [
+      "frontend",
+      "component-library",
+      "tools"
+    ]
+  },
+  {
+    "title": "Webpack Documentation",
+    "url": "https://webpack.js.org/concepts/",
+    "description": "Static module bundler for modern JavaScript applications",
+    "tags": [
+      "frontend",
+      "build-tools"
+    ]
+  },
+  {
+    "title": "ESLint",
+    "url": "https://eslint.org/docs/latest/",
+    "description": "Find and fix problems in your JavaScript code",
+    "tags": [
+      "tools",
+      "linting",
+      "quality"
+    ]
+  },
+  {
+    "title": "Prettier",
+    "url": "https://prettier.io/docs/en/",
+    "description": "Opinionated code formatter",
+    "tags": [
+      "tools",
+      "formatting",
+      "quality"
+    ]
+  },
+  {
+    "title": "Astro Documentation",
+    "url": "https://docs.astro.build/",
+    "description": "The web framework for content-driven websites",
+    "tags": [
+      "frontend",
+      "framework",
+      "static-site"
+    ]
+  },
+  {
+    "title": "Remix Docs",
+    "url": "https://remix.run/docs",
+    "description": "Full stack web framework built on Web Standards",
+    "tags": [
+      "frontend",
+      "framework",
+      "react"
+    ]
+  },
+  {
+    "title": "SvelteKit",
+    "url": "https://kit.svelte.dev/docs",
+    "description": "The fastest way to build Svelte apps",
+    "tags": [
+      "frontend",
+      "framework",
+      "svelte"
+    ]
+  },
+  {
+    "title": "Solid.js",
+    "url": "https://www.solidjs.com/docs/latest",
+    "description": "Simple and performant reactivity for building user interfaces",
+    "tags": [
+      "frontend",
+      "framework"
+    ]
+  },
+  {
+    "title": "Qwik",
+    "url": "https://qwik.builder.io/docs/",
+    "description": "Resumable framework for instant-loading web applications",
+    "tags": [
+      "frontend",
+      "framework",
+      "performance"
+    ]
+  },
+  {
+    "title": "Bun Documentation",
+    "url": "https://bun.sh/docs",
+    "description": "Fast all-in-one JavaScript runtime",
+    "tags": [
+      "runtime",
+      "tools",
+      "backend"
+    ]
+  },
+  {
+    "title": "Deno Manual",
+    "url": "https://deno.land/manual",
+    "description": "A modern runtime for JavaScript and TypeScript",
+    "tags": [
+      "runtime",
+      "tools",
+      "backend"
+    ]
+  },
+  {
+    "title": "Rust Book",
+    "url": "https://doc.rust-lang.org/book/",
+    "description": "The Rust Programming Language book",
+    "tags": [
+      "backend",
+      "rust",
+      "learning"
+    ]
+  },
+  {
+    "title": "Go by Example",
+    "url": "https://gobyexample.com/",
+    "description": "Hands-on introduction to Go using annotated example programs",
+    "tags": [
+      "backend",
+      "golang",
+      "learning"
+    ]
+  },
+  {
+    "title": "Python Documentation",
+    "url": "https://docs.python.org/3/",
+    "description": "Official Python 3 documentation",
+    "tags": [
+      "backend",
+      "python",
+      "docs"
+    ]
+  }
+]
