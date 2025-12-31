@@ -13,7 +13,14 @@ import {
   ChartNoAxesColumn,
   CodeXml,
   Map,
-  Bookmark
+  Bookmark,
+  Car,
+  Building2,
+  HeartPulse,
+  User,
+  Cpu,
+  Plane,
+  PenTool
 } from 'lucide-vue-next'
 
 const route = useRoute()
@@ -40,6 +47,13 @@ const getCategoryIcon = (cat: string) => {
     case 'productivity': return ChartNoAxesColumn
     case 'job-search': return Briefcase
     case 'career': return CodeXml
+    case 'automotive': return Car
+    case 'business': return Building2
+    case 'health': return HeartPulse
+    case 'personal': return User
+    case 'technology': return Cpu
+    case 'travel': return Plane
+    case 'writing': return PenTool
     default: return Newspaper
   }
 }
