@@ -2,7 +2,7 @@
 title: "Why Transformers Matters"
 date: "2025-12-04"
 excerpt: "The importance of transformers cannot be overstated."
-category: "ai"
+categories: ["ai"]
 ---
 
 # Why Transformers Matters

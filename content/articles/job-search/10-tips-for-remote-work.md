@@ -2,7 +2,7 @@
 title: "10 Tips for Remote Work"
 date: "2025-12-11"
 excerpt: "Here are the top 10 tips you need to know about remote work."
-category: "job-search"
+categories: ["job-search"]
 ---
 
 # 10 Tips for Remote Work

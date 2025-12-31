@@ -2,7 +2,7 @@
 title: "Conflict Resolution for Beginners"
 date: "2025-12-12"
 excerpt: "Starting your journey in conflict resolution? Read this first."
-category: "career"
+categories: ["career"]
 ---
 
 # Conflict Resolution for Beginners

@@ -2,7 +2,7 @@
 title: "Understanding Agents"
 date: "2025-12-05"
 excerpt: "A comprehensive guide to understanding agents in the modern era."
-category: "ai"
+categories: ["ai"]
 ---
 
 # Understanding Agents

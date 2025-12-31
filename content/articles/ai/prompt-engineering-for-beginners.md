@@ -2,7 +2,7 @@
 title: "Prompt Engineering for Beginners"
 date: "2025-12-02"
 excerpt: "Starting your journey in prompt engineering? Read this first."
-category: "ai"
+categories: ["ai"]
 ---
 
 # Prompt Engineering for Beginners

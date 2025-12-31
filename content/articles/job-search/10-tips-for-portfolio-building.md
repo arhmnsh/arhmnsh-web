@@ -2,7 +2,7 @@
 title: "10 Tips for Portfolio Building"
 date: "2025-12-06"
 excerpt: "Here are the top 10 tips you need to know about portfolio building."
-category: "job-search"
+categories: ["job-search"]
 ---
 
 # 10 Tips for Portfolio Building

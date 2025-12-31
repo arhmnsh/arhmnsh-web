@@ -2,7 +2,7 @@
 title: "Understanding Deep Work"
 date: "2025-11-30"
 excerpt: "A comprehensive guide to understanding deep work in the modern era."
-category: "productivity"
+categories: ["productivity"]
 ---
 
 # Understanding Deep Work

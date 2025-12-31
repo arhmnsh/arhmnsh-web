@@ -2,7 +2,7 @@
 title: "10 Tips for Digital Detox"
 date: "2025-12-11"
 excerpt: "Here are the top 10 tips you need to know about digital detox."
-category: "productivity"
+categories: ["productivity"]
 ---
 
 # 10 Tips for Digital Detox

@@ -2,7 +2,7 @@
 title: "Advanced Anthropic Strategies"
 date: "2025-12-08"
 excerpt: "Take your anthropic skills to the next level."
-category: "ai"
+categories: ["ai"]
 ---
 
 # Advanced Anthropic Strategies

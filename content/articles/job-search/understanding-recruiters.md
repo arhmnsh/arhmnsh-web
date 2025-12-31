@@ -2,7 +2,7 @@
 title: "Understanding Recruiters"
 date: "2025-12-10"
 excerpt: "A comprehensive guide to understanding recruiters in the modern era."
-category: "job-search"
+categories: ["job-search"]
 ---
 
 # Understanding Recruiters

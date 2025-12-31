@@ -2,7 +2,7 @@
 title: "Networking for Beginners"
 date: "2025-12-02"
 excerpt: "Starting your journey in networking? Read this first."
-category: "job-search"
+categories: ["job-search"]
 ---
 
 # Networking for Beginners

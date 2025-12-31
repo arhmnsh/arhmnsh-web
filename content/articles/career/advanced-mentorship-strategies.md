@@ -2,7 +2,7 @@
 title: "Advanced Mentorship Strategies"
 date: "2025-12-03"
 excerpt: "Take your mentorship skills to the next level."
-category: "career"
+categories: ["career"]
 ---
 
 # Advanced Mentorship Strategies

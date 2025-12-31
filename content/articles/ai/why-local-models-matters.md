@@ -2,7 +2,7 @@
 title: "Why Local Models Matters"
 date: "2025-12-09"
 excerpt: "The importance of local models cannot be overstated."
-category: "ai"
+categories: ["ai"]
 ---
 
 # Why Local Models Matters

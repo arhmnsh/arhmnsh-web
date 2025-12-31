@@ -2,7 +2,7 @@
 title: "Notion for Beginners"
 date: "2025-12-02"
 excerpt: "Starting your journey in notion? Read this first."
-category: "productivity"
+categories: ["productivity"]
 ---
 
 # Notion for Beginners

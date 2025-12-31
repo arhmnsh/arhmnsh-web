@@ -2,7 +2,7 @@
 title: "Why Referrals Matters"
 date: "2025-12-09"
 excerpt: "The importance of referrals cannot be overstated."
-category: "job-search"
+categories: ["job-search"]
 ---
 
 # Why Referrals Matters

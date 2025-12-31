@@ -18,6 +18,32 @@ import {
 
 const route = useRoute()
 
+// Fetch articles once to extract categories
+const { data: articlesForCategories } = await useAsyncData('sidebar-categories', () => 
+  queryCollection('articles').all()
+)
+
+const dynamicCategories = computed(() => {
+  if (!articlesForCategories.value) return []
+  const cats = new Set<string>()
+  articlesForCategories.value.forEach(article => {
+    if (article.categories) {
+      article.categories.forEach(c => cats.add(c))
+    }
+  })
+  return Array.from(cats).sort()
+})
+
+const getCategoryIcon = (cat: string) => {
+  switch (cat.toLowerCase()) {
+    case 'ai': return Bot
+    case 'productivity': return ChartNoAxesColumn
+    case 'job-search': return Briefcase
+    case 'career': return CodeXml
+    default: return Newspaper
+  }
+}
+
 const { open } = useCommandMenu()
 
 const openSearch = () => {
@@ -154,44 +180,16 @@ const isActive = (path: string) => route.path === path || route.path.startsWith(
             Articles
           </div>
           <NuxtLink
-            to="/articles/ai"
+            v-for="cat in dynamicCategories"
+            :key="cat"
+            :to="`/articles/${cat}`"
             :class="cn(
               'flex items-center gap-3 rounded-md px-2 py-1.5 text-sm font-medium transition-colors hover:bg-muted hover:text-foreground',
-              isActive('/articles/ai') ? 'bg-muted text-foreground' : 'text-muted-foreground'
+              isActive(`/articles/${cat}`) ? 'bg-muted text-foreground' : 'text-muted-foreground'
             )"
           >
-            <Bot class="h-4 w-4" />
-            <span>AI</span>
-          </NuxtLink>
-          <NuxtLink
-            to="/articles/productivity"
-            :class="cn(
-              'flex items-center gap-3 rounded-md px-2 py-1.5 text-sm font-medium transition-colors hover:bg-muted hover:text-foreground',
-              isActive('/articles/productivity') ? 'bg-muted text-foreground' : 'text-muted-foreground'
-            )"
-          >
-            <ChartNoAxesColumn class="h-4 w-4" />
-            <span>Productivity</span>
-          </NuxtLink>
-          <NuxtLink
-            to="/articles/job-search"
-            :class="cn(
-              'flex items-center gap-3 rounded-md px-2 py-1.5 text-sm font-medium transition-colors hover:bg-muted hover:text-foreground',
-              isActive('/articles/job-search') ? 'bg-muted text-foreground' : 'text-muted-foreground'
-            )"
-          >
-            <Briefcase class="h-4 w-4" />
-            <span>Job Search</span>
-          </NuxtLink>
-          <NuxtLink
-            to="/articles/career"
-            :class="cn(
-              'flex items-center gap-3 rounded-md px-2 py-1.5 text-sm font-medium transition-colors hover:bg-muted hover:text-foreground',
-              isActive('/articles/career') ? 'bg-muted text-foreground' : 'text-muted-foreground'
-            )"
-          >
-            <CodeXml class="h-4 w-4" />
-            <span>Career</span>
+            <component :is="getCategoryIcon(cat)" class="h-4 w-4" />
+            <span class="capitalize">{{ cat.replace('-', ' ') }}</span>
           </NuxtLink>
         </div>
       </nav>

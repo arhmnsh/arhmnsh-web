@@ -2,7 +2,7 @@
 title: "Understanding Onboarding"
 date: "2025-12-10"
 excerpt: "A comprehensive guide to understanding onboarding in the modern era."
-category: "career"
+categories: ["career"]
 ---
 
 # Understanding Onboarding

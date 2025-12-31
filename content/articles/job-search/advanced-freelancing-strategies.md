@@ -2,7 +2,7 @@
 title: "Advanced Freelancing Strategies"
 date: "2025-12-13"
 excerpt: "Take your freelancing skills to the next level."
-category: "job-search"
+categories: ["job-search"]
 ---
 
 # Advanced Freelancing Strategies

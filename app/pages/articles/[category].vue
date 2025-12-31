@@ -6,24 +6,12 @@ const category = computed(() => {
   return route.params.category as string
 })
 
-// Debugging path
-console.log('Fetching articles for category:', category.value)
-
-const { data: allArticles } = await useAsyncData('all-articles-debug', () => 
-  queryCollection('articles').all()
-)
-
-console.log('All articles found:', allArticles.value?.length, allArticles.value)
-
 const { data: articles } = await useAsyncData(`articles-${category.value}`, () => 
   queryCollection('articles')
-    .where('category', '=', category.value)
+    .where('categories', 'LIKE', `%${category.value}%`)
     .order('date', 'DESC')
     .all()
 )
-
-console.log('Filtered articles found:', articles.value?.length)
-console.log('First article:', articles.value?.[0])
 
 /*
   Nuxt Content returns data with `_path`, `title`, etc.

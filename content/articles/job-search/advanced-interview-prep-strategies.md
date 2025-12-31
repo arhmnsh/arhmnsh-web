@@ -2,7 +2,7 @@
 title: "Advanced Interview Prep Strategies"
 date: "2025-12-03"
 excerpt: "Take your interview prep skills to the next level."
-category: "job-search"
+categories: ["job-search"]
 ---
 
 # Advanced Interview Prep Strategies

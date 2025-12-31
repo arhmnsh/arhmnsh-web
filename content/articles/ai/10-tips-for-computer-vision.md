@@ -2,7 +2,7 @@
 title: "10 Tips for Computer Vision"
 date: "2025-12-01"
 excerpt: "Here are the top 10 tips you need to know about computer vision."
-category: "ai"
+categories: ["ai"]
 ---
 
 # 10 Tips for Computer Vision

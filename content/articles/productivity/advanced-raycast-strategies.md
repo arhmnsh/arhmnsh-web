@@ -2,7 +2,7 @@
 title: "Advanced Raycast Strategies"
 date: "2025-12-13"
 excerpt: "Take your raycast skills to the next level."
-category: "productivity"
+categories: ["productivity"]
 ---
 
 # Advanced Raycast Strategies

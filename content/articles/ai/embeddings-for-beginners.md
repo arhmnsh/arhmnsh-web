@@ -2,7 +2,7 @@
 title: "Embeddings for Beginners"
 date: "2025-12-12"
 excerpt: "Starting your journey in embeddings? Read this first."
-category: "ai"
+categories: ["ai"]
 ---
 
 # Embeddings for Beginners

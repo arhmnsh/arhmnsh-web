@@ -2,7 +2,7 @@
 title: "10 Tips for Vector DBs"
 date: "2025-12-11"
 excerpt: "Here are the top 10 tips you need to know about vector dbs."
-category: "ai"
+categories: ["ai"]
 ---
 
 # 10 Tips for Vector DBs

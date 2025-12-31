@@ -2,7 +2,7 @@
 title: "Advanced Cover Letters Strategies"
 date: "2025-12-08"
 excerpt: "Take your cover letters skills to the next level."
-category: "job-search"
+categories: ["job-search"]
 ---
 
 # Advanced Cover Letters Strategies

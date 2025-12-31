@@ -2,7 +2,7 @@
 title: "RAG vs. Fine-Tuning: Validating Your AI Strategy"
 date: "2025-12-25"
 excerpt: "Should you fine-tune Llama 3 or just build a RAG pipeline? A CTO's guide to making the right technical decision."
-category: "ai"
+categories: ["ai"]
 ---
 
 # The Eternal Debate

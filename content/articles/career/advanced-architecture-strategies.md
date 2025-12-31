@@ -2,7 +2,7 @@
 title: "Advanced Architecture Strategies"
 date: "2025-12-08"
 excerpt: "Take your architecture skills to the next level."
-category: "career"
+categories: ["career"]
 ---
 
 # Advanced Architecture Strategies

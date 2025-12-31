@@ -2,7 +2,7 @@
 title: "Why Focus Matters"
 date: "2025-12-09"
 excerpt: "The importance of focus cannot be overstated."
-category: "productivity"
+categories: ["productivity"]
 ---
 
 # Why Focus Matters

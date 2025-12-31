@@ -2,7 +2,7 @@
 title: "10 Tips for Team Building"
 date: "2025-12-11"
 excerpt: "Here are the top 10 tips you need to know about team building."
-category: "career"
+categories: ["career"]
 ---
 
 # 10 Tips for Team Building

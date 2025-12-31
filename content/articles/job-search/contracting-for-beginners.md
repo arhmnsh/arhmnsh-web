@@ -2,7 +2,7 @@
 title: "Contracting for Beginners"
 date: "2025-12-12"
 excerpt: "Starting your journey in contracting? Read this first."
-category: "job-search"
+categories: ["job-search"]
 ---
 
 # Contracting for Beginners

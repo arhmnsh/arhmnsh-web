@@ -2,7 +2,7 @@
 title: "Understanding Inbox Zero"
 date: "2025-12-05"
 excerpt: "A comprehensive guide to understanding inbox zero in the modern era."
-category: "productivity"
+categories: ["productivity"]
 ---
 
 # Understanding Inbox Zero

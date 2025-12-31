@@ -2,7 +2,7 @@
 title: "Understanding Public Speaking"
 date: "2025-12-05"
 excerpt: "A comprehensive guide to understanding public speaking in the modern era."
-category: "career"
+categories: ["career"]
 ---
 
 # Understanding Public Speaking

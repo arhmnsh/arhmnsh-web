@@ -2,7 +2,7 @@
 title: "Why AI Safety Matters"
 date: "2025-12-14"
 excerpt: "The importance of ai safety cannot be overstated."
-category: "ai"
+categories: ["ai"]
 ---
 
 # Why AI Safety Matters

@@ -2,7 +2,7 @@
 title: "Understanding Cold Emailing"
 date: "2025-12-05"
 excerpt: "A comprehensive guide to understanding cold emailing in the modern era."
-category: "job-search"
+categories: ["job-search"]
 ---
 
 # Understanding Cold Emailing

@@ -2,7 +2,7 @@
 title: "Advanced Obsidian Strategies"
 date: "2025-12-03"
 excerpt: "Take your obsidian skills to the next level."
-category: "productivity"
+categories: ["productivity"]
 ---
 
 # Advanced Obsidian Strategies

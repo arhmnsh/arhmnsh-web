@@ -2,7 +2,7 @@
 title: "Personal Branding for Beginners"
 date: "2025-12-07"
 excerpt: "Starting your journey in personal branding? Read this first."
-category: "job-search"
+categories: ["job-search"]
 ---
 
 # Personal Branding for Beginners

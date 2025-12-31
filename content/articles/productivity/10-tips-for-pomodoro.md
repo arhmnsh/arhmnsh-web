@@ -2,7 +2,7 @@
 title: "10 Tips for Pomodoro"
 date: "2025-12-06"
 excerpt: "Here are the top 10 tips you need to know about pomodoro."
-category: "productivity"
+categories: ["productivity"]
 ---
 
 # 10 Tips for Pomodoro

@@ -2,7 +2,7 @@
 title: "Why Negotiation Matters"
 date: "2025-12-04"
 excerpt: "The importance of negotiation cannot be overstated."
-category: "job-search"
+categories: ["job-search"]
 ---
 
 # Why Negotiation Matters

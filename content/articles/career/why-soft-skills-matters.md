@@ -2,7 +2,7 @@
 title: "Why Soft Skills Matters"
 date: "2025-12-04"
 excerpt: "The importance of soft skills cannot be overstated."
-category: "career"
+categories: ["career"]
 ---
 
 # Why Soft Skills Matters
