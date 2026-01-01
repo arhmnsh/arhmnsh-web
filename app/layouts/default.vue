@@ -10,8 +10,11 @@
 <template>
   <div class="flex h-screen overflow-hidden bg-background font-sans text-foreground">
     <Sidebar />
-    <div class="ml-64 flex flex-1 flex-col overflow-hidden">
-      <slot />
+    <div class="flex flex-1 flex-col overflow-hidden lg:ml-64">
+      <MobileNav />
+      <div class="flex-1 overflow-hidden">
+        <slot />
+      </div>
     </div>
     <CommandMenu />
   </div>

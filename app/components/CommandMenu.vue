@@ -38,12 +38,7 @@ const bookmarks = computed(() => bookmarksRaw.value?.[0]?.meta?.body || [])
 const staticLinks = [
   { label: 'Home', path: '/', type: 'page' },
   { label: 'Getting Started', path: '/getting-started', type: 'page' },
-  { label: 'Leadership', path: '/courses', type: 'page' },
-  { label: 'AI Prompts', path: '/prompts', type: 'page' },
   { label: 'Bookmarks', path: '/bookmarks', type: 'page' },
-  { label: 'Tech Stack', path: '/academy', type: 'page' },
-  { label: 'Gear', path: '/gear', type: 'page' },
-  { label: 'Templates', path: '/templates', type: 'page' },
 ]
 
 const searchResults = computed(() => {

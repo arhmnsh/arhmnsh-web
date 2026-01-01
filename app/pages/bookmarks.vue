@@ -50,20 +50,21 @@ const selectTag = (tag: string) => {
 </script>
 
 <template>
-  <div class="flex h-full flex-1 overflow-hidden">
+  <div class="flex h-full flex-col lg:flex-row overflow-hidden">
     <!-- Col 2: Tags List -->
-    <div class="flex w-64 flex-col border-r bg-background/50">
-      <div class="flex h-16 min-h-[64px] shrink-0 items-center border-b px-6">
-        <h2 class="text-lg font-semibold">Tags</h2>
+    <div class="flex w-full overflow-x-auto lg:w-64 lg:flex-col border-r bg-background/50 flex-shrink-0">
+      <div class="flex h-16 min-h-[64px] shrink-0 items-center border-b px-6 lg:flex">
+        <h2 class="text-lg font-semibold lg:block hidden">Tags</h2>
+        <span class="lg:hidden text-sm font-medium text-muted-foreground mr-4 shrink-0">Filter by Tag:</span>
       </div>
-      <div class="flex-1 overflow-y-auto p-4">
-        <div class="flex flex-col gap-1">
+      <div class="flex-1 overflow-x-auto lg:overflow-y-auto p-4 flex lg:block items-center">
+        <div class="flex lg:flex-col gap-2 lg:gap-1">
           <button
             v-for="tag in allTags"
             :key="tag"
             @click="selectTag(tag)"
             :class="cn(
-              'flex items-center gap-2 rounded-md px-3 py-2 text-sm transition-colors hover:bg-muted',
+              'flex items-center gap-2 rounded-md px-3 py-2 text-sm transition-colors hover:bg-muted whitespace-nowrap',
                selectedTag === tag ? 'bg-muted font-medium text-foreground' : 'text-muted-foreground'
             )"
           >
@@ -75,7 +76,7 @@ const selectTag = (tag: string) => {
     </div>
 
     <!-- Col 3: Bookmarks List -->
-    <div class="flex flex-1 flex-col bg-background">
+    <div class="flex flex-1 flex-col bg-background overflow-hidden">
       <div class="flex h-16 min-h-[64px] shrink-0 items-center gap-2 border-b px-6">
         <h2 class="flex-shrink-0 text-lg font-semibold">
           {{ selectedTag ? `#${selectedTag}` : 'Bookmarks' }}
@@ -86,26 +87,26 @@ const selectTag = (tag: string) => {
       </div>
 
       <div class="flex-1 overflow-y-auto">
-        <div class="mx-auto w-full max-w-3xl p-8">
+        <div class="mx-auto w-full max-w-3xl p-4 lg:p-8">
           <div class="grid gap-4">
           <a
             v-for="(item, idx) in filteredBookmarks"
             :key="idx"
             :href="item.url"
             target="_blank"
-            class="group flex flex-col gap-2 rounded-xl border p-5 transition-all hover:border-foreground/20 hover:shadow-sm"
+            class="group flex flex-col gap-2 rounded-xl border p-4 lg:p-5 transition-all hover:border-foreground/20 hover:shadow-sm"
           >
             <div class="flex items-start justify-between">
-              <h3 class="font-medium group-hover:underline decoration-muted-foreground/30 underline-offset-4">{{ item.title }}</h3>
-              <ExternalLink class="h-4 w-4 text-muted-foreground opacity-0 transition-opacity group-hover:opacity-100" />
+              <h3 class="font-medium text-sm lg:text-base group-hover:underline decoration-muted-foreground/30 underline-offset-4">{{ item.title }}</h3>
+              <ExternalLink class="h-4 w-4 text-muted-foreground opacity-50 shrink-0 lg:opacity-0 transition-opacity lg:group-hover:opacity-100" />
             </div>
             
-            <p v-if="item.description" class="text-sm text-muted-foreground line-clamp-2">
+            <p v-if="item.description" class="text-xs lg:text-sm text-muted-foreground line-clamp-2">
               {{ item.description }}
             </p>
 
             <div class="flex items-center gap-2">
-              <span class="text-xs text-muted-foreground">{{ item.url }}</span>
+              <span class="text-[10px] lg:text-xs text-muted-foreground truncate">{{ item.url }}</span>
             </div>
 
             <div class="mt-2 flex flex-wrap gap-2">

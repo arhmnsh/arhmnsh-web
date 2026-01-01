@@ -3,16 +3,10 @@ import {
   Search,
   Home,
   Newspaper,
-  Zap,
-  GraduationCap,
-  Briefcase,
-  Monitor,
-  LayoutTemplate,
-  Wrench,
   Bot,
   ChartNoAxesColumn,
+  Briefcase,
   CodeXml,
-  Map,
   Bookmark,
   Car,
   Building2,
@@ -24,6 +18,12 @@ import {
 } from 'lucide-vue-next'
 
 const route = useRoute()
+const { isOpen, close } = useSidebar()
+
+// Close on route change
+watch(() => route.fullPath, () => {
+  if (isOpen.value) close()
+})
 
 // Fetch articles once to extract categories
 const { data: articlesForCategories } = await useAsyncData('sidebar-categories', () => 
@@ -68,13 +68,26 @@ const isActive = (path: string) => route.path === path || route.path.startsWith(
 </script>
 
 <template>
-  <aside class="fixed left-0 top-0 z-40 flex h-screen w-64 flex-col border-r bg-muted/30 dark:bg-muted/10">
-    <!-- Header / Logo -->
-    <div class="flex h-16 items-center px-6">
-      <NuxtLink to="/" class="font-serif text-xl font-bold italic tracking-wide">
-        AbdurRahaman
-      </NuxtLink>
-    </div>
+  <div>
+    <!-- Backdrop for mobile -->
+    <div 
+      v-if="isOpen" 
+      class="fixed inset-0 z-40 bg-background/80 backdrop-blur-sm lg:hidden"
+      @click="close"
+    />
+
+    <aside 
+      :class="cn(
+        'fixed left-0 top-0 z-40 flex h-screen w-64 flex-col border-r bg-muted/30 dark:bg-muted/10 transition-transform duration-300 ease-in-out lg:translate-x-0',
+        isOpen ? 'translate-x-0' : '-translate-x-full'
+      )"
+    >
+      <!-- Header / Logo -->
+      <div class="flex h-16 items-center px-6">
+        <NuxtLink to="/" class="font-serif text-xl font-bold italic tracking-wide">
+          AbdurRahaman
+        </NuxtLink>
+      </div>
 
     <!-- Search Bar -->
     <div class="px-4 py-2">
@@ -114,48 +127,8 @@ const isActive = (path: string) => route.path === path || route.path.startsWith(
           </NuxtLink>
         </div>
 
-        <!-- Mentorship -->
+        <!-- Resources (Only Bookmarks now) -->
         <div class="flex flex-col gap-1">
-          <div class="flex items-center justify-between px-2 py-1 text-xs font-semibold uppercase text-muted-foreground">
-             <span>Mentorship</span>
-          </div>
-          <NuxtLink
-            to="/getting-started"
-            :class="cn(
-              'flex items-center gap-3 rounded-md px-2 py-1.5 text-sm font-medium transition-colors hover:bg-muted hover:text-foreground',
-              isActive('/getting-started') ? 'bg-muted text-foreground' : 'text-muted-foreground'
-            )"
-          >
-            <Map class="h-4 w-4" />
-            <span>Getting Started</span>
-          </NuxtLink>
-          <NuxtLink
-            to="/courses"
-            :class="cn(
-              'flex items-center gap-3 rounded-md px-2 py-1.5 text-sm font-medium transition-colors hover:bg-muted hover:text-foreground',
-              isActive('/courses') ? 'bg-muted text-foreground' : 'text-muted-foreground'
-            )"
-          >
-            <GraduationCap class="h-4 w-4" />
-            <span>Leadership</span>
-          </NuxtLink>
-           <NuxtLink
-            to="/prompts"
-            :class="cn(
-              'flex items-center gap-3 rounded-md px-2 py-1.5 text-sm font-medium transition-colors hover:bg-muted hover:text-foreground',
-              isActive('/prompts') ? 'bg-muted text-foreground' : 'text-muted-foreground'
-            )"
-          >
-            <Zap class="h-4 w-4" />
-            <span>AI Prompts</span>
-          </NuxtLink>
-        </div>
-
-        <!-- Resources -->
-        <div class="flex flex-col gap-1">
-          <div class="px-2 py-1 text-xs font-semibold uppercase text-muted-foreground">
-            Resources
-          </div>
           <NuxtLink
             to="/bookmarks"
             :class="cn(
@@ -165,26 +138,6 @@ const isActive = (path: string) => route.path === path || route.path.startsWith(
           >
             <Bookmark class="h-4 w-4" />
             <span>Bookmarks</span>
-          </NuxtLink>
-          <NuxtLink
-            to="/academy"
-            :class="cn(
-              'flex items-center gap-3 rounded-md px-2 py-1.5 text-sm font-medium transition-colors hover:bg-muted hover:text-foreground',
-              isActive('/academy') ? 'bg-muted text-foreground' : 'text-muted-foreground'
-            )"
-          >
-            <Monitor class="h-4 w-4" />
-            <span>Tech Stack</span>
-          </NuxtLink>
-          <NuxtLink
-            to="/gear"
-            :class="cn(
-              'flex items-center gap-3 rounded-md px-2 py-1.5 text-sm font-medium transition-colors hover:bg-muted hover:text-foreground',
-              isActive('/gear') ? 'bg-muted text-foreground' : 'text-muted-foreground'
-            )"
-          >
-            <Wrench class="h-4 w-4" />
-            <span>Gear</span>
           </NuxtLink>
         </div>
 
@@ -216,4 +169,5 @@ const isActive = (path: string) => route.path === path || route.path.startsWith(
       </div>
     </div>
   </aside>
+  </div>
 </template>

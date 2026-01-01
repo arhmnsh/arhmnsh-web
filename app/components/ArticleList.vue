@@ -24,7 +24,7 @@ const isArticleActive = (articlePath: string) => {
 </script>
 
 <template>
-  <div class="flex h-full w-80 flex-col border-r bg-background">
+  <div class="flex h-full flex-col">
     <div class="flex h-16 items-center border-b px-6">
       <h2 class="text-lg font-semibold capitalize">{{ category.replace("-", " ") }}</h2>
     </div>
