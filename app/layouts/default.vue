@@ -12,7 +12,6 @@
     <Sidebar />
     <div class="flex flex-1 flex-col overflow-hidden lg:ml-64">
       <MobileNav />
-      <Breadcrumbs />
       <div class="flex-1 overflow-hidden">
         <slot />
       </div>
