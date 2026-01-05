@@ -20,13 +20,8 @@ import {
 const route = useRoute()
 const { isOpen, close } = useSidebar()
 
-// Close on route change (for mobile)
-watch(() => route.fullPath, () => {
-  if (isOpen.value) close()
-}, { immediate: true })
-
-// Fetch articles once to extract categories
-const { data: articlesForCategories } = await useAsyncData('sidebar-categories', () => 
+// Fetch articles once to extract categories (no await to keep component sync)
+const { data: articlesForCategories } = useAsyncData('sidebar-categories', () => 
   queryCollection('articles').all()
 )
 
@@ -77,10 +72,10 @@ const isActive = (path: string) => route.path === path || route.path.startsWith(
     />
 
     <aside 
-      :class="cn(
+      :class="[
         'fixed left-0 top-0 z-[70] flex h-screen w-64 flex-col border-r bg-muted/30 dark:bg-muted/10 transition-transform duration-300 ease-in-out lg:translate-x-0',
         isOpen ? 'translate-x-0' : '-translate-x-full'
-      )"
+      ]"
     >
       <!-- Header / Logo -->
       <div class="flex h-16 items-center px-6">
@@ -112,11 +107,12 @@ const isActive = (path: string) => route.path === path || route.path.startsWith(
 
     <!-- Navigation Content -->
     <div class="flex-1 overflow-y-auto px-4 py-4">
-      <nav class="flex flex-col gap-8" @click="close">
+      <nav class="flex flex-col gap-8">
         <!-- Main Links -->
         <div class="flex flex-col gap-1">
           <NuxtLink
             to="/"
+            @click="close"
             :class="cn(
               'flex items-center gap-3 rounded-md px-2 py-1.5 text-sm font-medium transition-colors hover:bg-muted hover:text-foreground',
               isActive('/') ? 'bg-muted text-foreground' : 'text-muted-foreground'
@@ -131,6 +127,7 @@ const isActive = (path: string) => route.path === path || route.path.startsWith(
         <div class="flex flex-col gap-1">
           <NuxtLink
             to="/bookmarks"
+            @click="close"
             :class="cn(
               'flex items-center gap-3 rounded-md px-2 py-1.5 text-sm font-medium transition-colors hover:bg-muted hover:text-foreground',
               isActive('/bookmarks') ? 'bg-muted text-foreground' : 'text-muted-foreground'
@@ -150,6 +147,7 @@ const isActive = (path: string) => route.path === path || route.path.startsWith(
             v-for="cat in dynamicCategories"
             :key="cat"
             :to="{ path: '/articles', query: { c: cat } }"
+            @click="close"
             :class="cn(
               'flex items-center gap-3 rounded-md px-2 py-1.5 text-sm font-medium transition-colors hover:bg-muted hover:text-foreground',
               route.query.c === cat ? 'bg-muted text-foreground' : 'text-muted-foreground'

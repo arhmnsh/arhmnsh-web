@@ -1,7 +1,7 @@
-// Singleton state to ensure consistency across components and navigations
-const isOpen = ref(false)
-
 export const useSidebar = () => {
+    // Use Nuxt's useState for SSR-safe global state that persists across navigations
+    const isOpen = useState('sidebar-open', () => false)
+
     const open = () => {
         isOpen.value = true
     }
