@@ -72,13 +72,13 @@ const isActive = (path: string) => route.path === path || route.path.startsWith(
     <!-- Backdrop for mobile -->
     <div 
       v-if="isOpen" 
-      class="fixed inset-0 z-40 bg-background/80 backdrop-blur-sm lg:hidden"
+      class="fixed inset-0 z-[60] bg-background/80 backdrop-blur-sm lg:hidden"
       @click="close"
     />
 
     <aside 
       :class="cn(
-        'fixed left-0 top-0 z-40 flex h-screen w-64 flex-col border-r bg-muted/30 dark:bg-muted/10 transition-transform duration-300 ease-in-out lg:translate-x-0',
+        'fixed left-0 top-0 z-[70] flex h-screen w-64 flex-col border-r bg-muted/30 dark:bg-muted/10 transition-transform duration-300 ease-in-out lg:translate-x-0',
         isOpen ? 'translate-x-0' : '-translate-x-full'
       )"
     >

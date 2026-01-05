@@ -1,7 +1,7 @@
 ---
 title: "5 Gemini 3.0 Updates That Actually Matter for Work"
 date: "2025-12-16"
-excerpt: "Google's latest update brings agents to the forefront. Here is what you need to know about Gemini 3.0 and how it impacts your daily workflow."
+description: "Google's latest AI updates are more than just incremental speed boosts. Here are the five features that genuinely change how we work."
 categories: ["ai", "career", "automotive", "business", "health", "personal", "productivity", "technology", "travel", "writing", "baseer"]
 ---
 

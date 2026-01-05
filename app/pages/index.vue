@@ -1,10 +1,17 @@
 <script setup lang="ts">
-import { ArrowRight } from 'lucide-vue-next'
+import { format, parseISO } from 'date-fns'
+
+const { data: latestArticles } = await useAsyncData('latest-articles', () => 
+  queryCollection('articles')
+    .order('date', 'DESC')
+    .limit(3)
+    .all()
+)
 </script>
 
 <template>
   <div class="mx-auto max-w-4xl px-8 py-16">
-    <div class="flex flex-col gap-8">
+    <div class="flex flex-col gap-12">
       <!-- Intro / Bio -->
       <section class="flex flex-col gap-4">
         <h1 class="font-serif text-5xl font-bold italic tracking-tight lg:text-7xl">
@@ -16,50 +23,34 @@ import { ArrowRight } from 'lucide-vue-next'
           <br /><br />
           We work on AI products with technologies like computer vision, LLM, STT, etc.
         </p>
-        <div class="flex items-center gap-4 pt-4">
-          <NuxtLink
-            to="/articles/ai"
-            class="inline-flex items-center gap-2 rounded-full bg-foreground px-6 py-2 text-sm font-medium text-background transition-opacity hover:opacity-90"
-          >
-            Read Articles
-            <ArrowRight class="h-4 w-4" />
-          </NuxtLink>
-          <NuxtLink
-            to="/about"
-            class="inline-flex items-center gap-2 rounded-full border px-6 py-2 text-sm font-medium transition-colors hover:bg-muted"
-          >
-            About Me
-          </NuxtLink>
-        </div>
       </section>
 
-      <hr class="my-8 border-muted" />
+      <hr class="border-muted" />
 
-      <!-- Featured Section -->
-      <section class="grid gap-8 md:grid-cols-2">
-        <div class="flex flex-col gap-4 rounded-xl border p-6 transition-colors hover:bg-muted/50">
-          <h3 class="text-xl font-bold">Nabeh AI</h3>
-          <p class="text-sm text-muted-foreground">
-            Building the next generation of enterprise AI solutions using State-of-the-Art models.
-          </p>
-          <div class="mt-auto flex flex-col gap-2 pt-4">
-             <a href="https://nabeh.sa" target="_blank" class="text-sm font-medium underline-offset-4 hover:underline">Visit Nabeh →</a>
-          </div>
+      <!-- Latest Articles Section -->
+      <section class="flex flex-col gap-6">
+        <h2 class="text-2xl font-bold font-serif italic">Latest Articles</h2>
+        <div v-if="latestArticles && latestArticles.length > 0" class="flex flex-col gap-4">
+          <NuxtLink
+            v-for="article in latestArticles"
+            :key="article.path"
+            :to="{ path: article.path, query: { c: article.categories?.[0] } }"
+            class="group flex flex-col gap-1 rounded-xl border p-5 transition-all hover:bg-muted/50 hover:border-foreground/20"
+          >
+            <div class="flex items-center justify-between gap-4">
+              <h3 class="font-bold group-hover:underline decoration-muted-foreground/30 underline-offset-4">{{ article.title }}</h3>
+              <span class="shrink-0 text-xs text-muted-foreground">
+                {{ format(parseISO(article.date), "d MMM yyyy") }}
+              </span>
+            </div>
+            <p v-if="article.description" class="text-sm text-muted-foreground line-clamp-2 mt-1">
+              {{ article.description }}
+            </p>
+          </NuxtLink>
         </div>
-
-        <div class="flex flex-col gap-4 rounded-xl border p-6 transition-colors hover:bg-muted/50">
-          <h3 class="text-xl font-bold">Latest Articles</h3>
-          <div class="flex flex-col gap-3">
-            <NuxtLink to="/articles/ai/gemini-3-updates" class="group">
-              <span class="block text-sm font-medium group-hover:underline">5 Gemini 3.0 Updates That Actually Matter</span>
-              <span class="text-xs text-muted-foreground">Dec 16, 2025</span>
-            </NuxtLink>
-            <div class="h-px bg-muted" />
-            <NuxtLink to="/articles/ai" class="text-sm text-muted-foreground hover:text-foreground">
-              View all articles →
-            </NuxtLink>
-          </div>
-        </div>
+        <NuxtLink to="/articles" class="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors self-start">
+          View all articles →
+        </NuxtLink>
       </section>
     </div>
   </div>

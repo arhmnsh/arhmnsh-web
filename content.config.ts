@@ -7,6 +7,7 @@ export default defineContentConfig({
             source: 'articles/**/*.md',
             schema: z.object({
                 date: z.string(),
+                description: z.string().optional(),
                 categories: z.array(z.string()),
                 tags: z.array(z.string()).optional()
             })

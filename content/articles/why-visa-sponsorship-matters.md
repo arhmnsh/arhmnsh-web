@@ -1,7 +1,7 @@
 ---
 title: "Why Visa Sponsorship Matters"
 date: "2025-12-14"
-excerpt: "The importance of visa sponsorship cannot be overstated."
+description: "The importance of visa sponsorship cannot be overstated."
 categories: ["job-search"]
 ---
 
