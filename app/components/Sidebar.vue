@@ -112,14 +112,14 @@ const isActive = (path: string) => route.path === path || route.path.startsWith(
 
     <!-- Navigation Content -->
     <div class="flex-1 overflow-y-auto px-4 py-4">
-      <nav class="flex flex-col gap-8">
+      <nav class="flex flex-col gap-8" @click="close">
         <!-- Main Links -->
         <div class="flex flex-col gap-1">
           <NuxtLink
             to="/"
             :class="cn(
               'flex items-center gap-3 rounded-md px-2 py-1.5 text-sm font-medium transition-colors hover:bg-muted hover:text-foreground',
-              route.path === '/' ? 'bg-muted text-foreground' : 'text-muted-foreground'
+              isActive('/') ? 'bg-muted text-foreground' : 'text-muted-foreground'
             )"
           >
             <Home class="h-4 w-4" />
