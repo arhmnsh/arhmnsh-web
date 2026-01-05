@@ -48,7 +48,7 @@ const breadcrumbs = computed(() => {
 </script>
 
 <template>
-  <nav class="flex items-center gap-1.5 px-4 h-12 border-b bg-background/50 backdrop-blur-md sticky top-0 z-30 lg:hidden overflow-x-auto whitespace-nowrap">
+  <nav class="flex items-center gap-1.5 px-4 h-12 border-b bg-background/50 backdrop-blur-md sticky top-16 z-40 lg:hidden overflow-x-auto whitespace-nowrap">
     <div v-for="(item, index) in breadcrumbs" :key="item.path" class="flex items-center gap-1.5 shrink-0">
       <NuxtLink 
         :to="item.path"

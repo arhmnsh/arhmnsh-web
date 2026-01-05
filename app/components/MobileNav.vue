@@ -4,7 +4,7 @@ const { toggle, isOpen } = useSidebar()
 </script>
 
 <template>
-  <header class="flex h-16 items-center justify-between border-b bg-background px-4 lg:hidden">
+  <header class="sticky top-0 z-50 flex h-16 items-center justify-between border-b bg-background px-4 lg:hidden">
     <NuxtLink to="/" class="font-serif text-xl font-bold italic tracking-wide">
       AbdurRahaman
     </NuxtLink>

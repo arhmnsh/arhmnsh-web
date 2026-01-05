@@ -7,7 +7,8 @@ const { data: articles } = await useAsyncData(`articles-${category.value}`, () =
   queryCollection('articles')
     .where('categories', 'LIKE', `%${category.value}%`)
     .order('date', 'DESC')
-    .all()
+    .all(),
+  { watch: [category] }
 )
 
 /*
