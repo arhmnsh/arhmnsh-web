@@ -20,10 +20,10 @@ import {
 const route = useRoute()
 const { isOpen, close } = useSidebar()
 
-// Close on route change
+// Close on route change (for mobile)
 watch(() => route.fullPath, () => {
   if (isOpen.value) close()
-})
+}, { immediate: true })
 
 // Fetch articles once to extract categories
 const { data: articlesForCategories } = await useAsyncData('sidebar-categories', () => 
