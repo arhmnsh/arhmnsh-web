@@ -8,11 +8,11 @@
 </script>
 
 <template>
-  <div class="flex h-screen overflow-hidden bg-background font-sans text-foreground">
+  <div class="flex min-h-screen bg-background font-sans text-foreground">
     <Sidebar />
-    <div class="flex flex-1 flex-col overflow-hidden lg:ml-64">
+    <div class="flex flex-1 flex-col lg:ml-64">
       <MobileNav />
-      <div class="flex-1 overflow-hidden">
+      <div class="flex-1">
         <slot />
       </div>
     </div>
