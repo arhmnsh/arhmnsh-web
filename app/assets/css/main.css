@@ -69,11 +69,11 @@
   --color-border: hsl(var(--border));
   --color-input: hsl(var(--input));
   --color-ring: hsl(var(--ring));
-  
+
   --radius-lg: var(--radius);
   --radius-md: calc(var(--radius) - 2px);
   --radius-sm: calc(var(--radius) - 4px);
-  
+
   --font-sans: var(--font-sans);
   --font-serif: var(--font-serif);
   --font-mono: var(--font-mono);
@@ -86,7 +86,7 @@ body {
 }
 
 /* Drop Cap - First letter of first paragraph (iA Writer style) */
-.prose > p:first-of-type::first-letter {
+.prose p:first-of-type::first-letter {
   float: left;
   font-size: 3.5rem;
   line-height: 1;
@@ -96,10 +96,14 @@ body {
   font-family: var(--font-serif);
 }
 
-/* Remove underlines from prose headings */
+/* Remove underlines from prose headings and their anchor links */
 .prose h1,
 .prose h2,
 .prose h3,
-.prose h4 {
-  text-decoration: none;
+.prose h4,
+.prose h1 a,
+.prose h2 a,
+.prose h3 a,
+.prose h4 a {
+  text-decoration: none !important;
 }
