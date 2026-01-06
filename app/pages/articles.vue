@@ -28,7 +28,7 @@ const { data: articles } = await useAsyncData(`articles-${category.value}`, () =
   <div class="flex min-h-screen w-full flex-col lg:flex-row">
     <!-- Middle Column: List -->
     <div :class="cn(
-      'min-h-screen w-full lg:w-80 lg:sticky lg:top-0 flex-col border-r bg-background lg:flex',
+      'h-screen w-full lg:w-80 lg:sticky lg:top-0 flex-col border-r bg-background lg:flex',
       route.params.slug ? 'hidden lg:flex' : 'flex'
     )">
       <ArticleList 
