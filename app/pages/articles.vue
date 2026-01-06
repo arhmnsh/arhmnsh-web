@@ -1,38 +1,115 @@
 <script setup lang="ts">
 const route = useRoute()
 const router = useRouter()
-const category = computed(() => (route.query.c as string) || 'ai')
+const category = computed(() => route.query.c as string | undefined)
 
-// Redirect to default category in URL if missing, so Sidebar highlight works
+// Check if we're on mobile (client-side only)
+const isMobile = ref(false)
 onMounted(() => {
-  if (!route.query.c) {
-    router.replace({ query: { ...route.query, c: 'ai' } })
+  isMobile.value = window.innerWidth < 1024
+  const handleResize = () => {
+    isMobile.value = window.innerWidth < 1024
   }
+  window.addEventListener('resize', handleResize)
+  onUnmounted(() => window.removeEventListener('resize', handleResize))
 })
 
-const { data: articles } = await useAsyncData(`articles-${category.value}`, () => 
-  queryCollection('articles')
-    .where('categories', 'LIKE', `%${category.value}%`)
-    .order('date', 'DESC')
-    .all(),
+// Fetch all categories
+const { data: allArticles } = await useAsyncData('all-articles-for-categories', () =>
+  queryCollection('articles').all()
+)
+
+const categories = computed(() => {
+  if (!allArticles.value) return []
+  const cats = new Map<string, number>()
+  allArticles.value.forEach((article: any) => {
+    article.categories?.forEach((cat: string) => {
+      cats.set(cat, (cats.get(cat) || 0) + 1)
+    })
+  })
+  return Array.from(cats.entries())
+    .map(([name, count]) => ({ name, count }))
+    .sort((a, b) => a.name.localeCompare(b.name))
+})
+
+// Fetch articles for selected category
+const { data: articles } = await useAsyncData(
+  `articles-${category.value || 'none'}`, 
+  () => {
+    if (!category.value) return Promise.resolve([])
+    return queryCollection('articles')
+      .where('categories', 'LIKE', `%${category.value}%`)
+      .order('date', 'DESC')
+      .all()
+  },
   { watch: [category] }
 )
 
-/*
-  Nuxt Content returns data with `_path`, `title`, etc.
-  Next.js version had `slug`. Nuxt `_path` is usually `/articles/ai/gemini-3...`
-*/
+// Show categories on mobile when no category selected
+const showCategories = computed(() => {
+  return isMobile.value && !category.value && !route.params.slug
+})
+
+// Show article list when category selected (or always on desktop)
+const showArticleList = computed(() => {
+  if (!isMobile.value) return true
+  return !!category.value && !route.params.slug
+})
+
+// Category icons mapping
+const categoryIcons: Record<string, string> = {
+  ai: '🤖',
+  automotive: '🚗',
+  baseer: '👁️',
+  business: '💼',
+  career: '📈',
+  health: '🏥',
+  'job search': '🔍',
+  personal: '📝',
+  productivity: '⚡',
+  technology: '💻',
+  travel: '✈️',
+  writing: '✍️'
+}
+
+const getCategoryIcon = (cat: string) => {
+  return categoryIcons[cat.toLowerCase()] || '📁'
+}
 </script>
 
 <template>
   <div class="flex min-h-screen w-full flex-col lg:flex-row lg:h-screen lg:overflow-hidden">
-    <!-- Middle Column: List -->
-    <div :class="cn(
-      'w-full lg:w-80 lg:h-full lg:overflow-y-auto flex-col border-r bg-background lg:flex',
-      route.params.slug ? 'hidden lg:flex' : 'flex'
-    )">
+    <!-- Categories List (Mobile only, no category selected) -->
+    <div v-if="showCategories" class="flex-1 bg-background">
+      <div class="p-4">
+        <h1 class="text-2xl font-bold mb-6">Categories</h1>
+        <div class="space-y-2">
+          <NuxtLink
+            v-for="cat in categories"
+            :key="cat.name"
+            :to="`/articles?c=${cat.name}`"
+            class="flex items-center justify-between p-4 rounded-lg border hover:bg-muted transition-colors"
+          >
+            <div class="flex items-center gap-3">
+              <span class="text-2xl">{{ getCategoryIcon(cat.name) }}</span>
+              <span class="font-medium capitalize">{{ cat.name }}</span>
+            </div>
+            <span class="text-muted-foreground text-sm">{{ cat.count }} articles</span>
+          </NuxtLink>
+        </div>
+      </div>
+    </div>
+
+    <!-- Middle Column: Article List -->
+    <div 
+      v-if="showArticleList"
+      :class="cn(
+        'w-full lg:w-80 lg:h-full lg:overflow-y-auto flex-col border-r bg-background',
+        route.params.slug ? 'hidden lg:flex' : 'flex'
+      )"
+    >
       <ArticleList 
-        :category="category" 
+        :category="category || 'ai'" 
         :articles="articles || []" 
       />
     </div>
