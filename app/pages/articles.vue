@@ -1,6 +1,14 @@
 <script setup lang="ts">
 const route = useRoute()
+const router = useRouter()
 const category = computed(() => (route.query.c as string) || 'ai')
+
+// Redirect to default category in URL if missing, so Sidebar highlight works
+onMounted(() => {
+  if (!route.query.c) {
+    router.replace({ query: { ...route.query, c: 'ai' } })
+  }
+})
 
 const { data: articles } = await useAsyncData(`articles-${category.value}`, () => 
   queryCollection('articles')
