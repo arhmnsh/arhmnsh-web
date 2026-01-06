@@ -25,10 +25,10 @@ const { data: articles } = await useAsyncData(`articles-${category.value}`, () =
 </script>
 
 <template>
-  <div class="flex min-h-screen w-full flex-col lg:flex-row">
+  <div class="flex min-h-screen w-full flex-col lg:flex-row lg:h-screen lg:overflow-hidden">
     <!-- Middle Column: List -->
     <div :class="cn(
-      'h-screen w-full lg:w-80 lg:sticky lg:top-0 flex-col border-r bg-background lg:flex',
+      'w-full lg:w-80 lg:h-full lg:overflow-y-auto flex-col border-r bg-background lg:flex',
       route.params.slug ? 'hidden lg:flex' : 'flex'
     )">
       <ArticleList 
@@ -39,7 +39,7 @@ const { data: articles } = await useAsyncData(`articles-${category.value}`, () =
     
     <!-- Right Column: Content -->
     <div :class="cn(
-      'flex-1 bg-background',
+      'flex-1 bg-background lg:h-full lg:overflow-y-auto',
       route.params.slug ? 'flex flex-col' : 'hidden lg:flex lg:flex-col'
     )">
       <div class="flex-1 p-4 lg:p-8">
