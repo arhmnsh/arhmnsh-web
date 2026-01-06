@@ -23,10 +23,12 @@ export default {
                         h1: {
                             fontWeight: '700',
                             letterSpacing: '-0.025em',
+                            textDecoration: 'none',
                         },
                         'h2, h3, h4': {
                             fontWeight: '600',
                             letterSpacing: '-0.025em',
+                            textDecoration: 'none',
                         }
                     }
                 }
