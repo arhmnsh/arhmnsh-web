@@ -60,6 +60,11 @@ const openSearch = () => {
 }
 
 const isActive = (path: string) => route.path === path || route.path.startsWith(path + '/')
+
+const isMac = ref(true) // Default to Mac (cmd) for SSR/Hydration match, update on mount
+onMounted(() => {
+  isMac.value = navigator.platform.toUpperCase().indexOf('MAC') >= 0
+})
 </script>
 
 <template>
@@ -94,9 +99,9 @@ const isActive = (path: string) => route.path === path || route.path.startsWith(
           <Search class="h-4 w-4" />
           <span>Search...</span>
         </div>
-        <div class="flex items-center gap-1 text-xs">
+        <div class="hidden lg:flex items-center gap-1 text-xs">
           <kbd class="rounded border bg-muted px-1.5 font-mono text-[10px] font-medium text-muted-foreground">
-            ⌘
+            {{ isMac ? '⌘' : 'Ctrl' }}
           </kbd>
           <kbd class="rounded border bg-muted px-1.5 font-mono text-[10px] font-medium text-muted-foreground">
             K
