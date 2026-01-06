@@ -30,22 +30,24 @@ const { data: latestArticles } = await useAsyncData('latest-articles', () =>
       <!-- Latest Articles Section -->
       <section class="flex flex-col gap-6">
         <h2 class="text-2xl font-bold font-serif italic">Latest Articles</h2>
-        <div v-if="latestArticles && latestArticles.length > 0" class="flex flex-col gap-4">
+        <div v-if="latestArticles && latestArticles.length > 0" class="flex flex-col">
           <NuxtLink
             v-for="article in latestArticles"
             :key="article.path"
             :to="{ path: article.path, query: { c: article.categories?.[0] } }"
-            class="group flex flex-col gap-1 rounded-xl border p-5 transition-all hover:bg-muted/50 hover:border-foreground/20"
+            class="group flex flex-col gap-2 py-6 border-b border-muted transition-all last:border-0 hover:bg-transparent"
           >
-            <div class="flex items-center justify-between gap-4">
-              <h3 class="font-bold group-hover:underline decoration-muted-foreground/30 underline-offset-4">{{ article.title }}</h3>
-              <span class="shrink-0 text-xs text-muted-foreground">
-                {{ format(parseISO(article.date), "d MMM yyyy") }}
-              </span>
+            <div class="flex flex-col gap-1">
+              <div class="flex items-center justify-between gap-4">
+                <h3 class="font-bold text-lg group-hover:underline decoration-muted-foreground/30 underline-offset-4">{{ article.title }}</h3>
+                <span class="shrink-0 text-xs text-muted-foreground font-mono">
+                  {{ format(parseISO(article.date), "dd MMM yyyy") }}
+                </span>
+              </div>
+              <p v-if="article.description" class="text-sm text-muted-foreground line-clamp-2 leading-relaxed">
+                {{ article.description }}
+              </p>
             </div>
-            <p v-if="article.description" class="text-sm text-muted-foreground line-clamp-2 mt-1">
-              {{ article.description }}
-            </p>
           </NuxtLink>
         </div>
         <NuxtLink to="/articles" class="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors self-start">

@@ -161,33 +161,33 @@ const selectTag = (tag?: string) => {
       </div>
 
       <div class="flex-1">
-        <div class="mx-auto w-full max-w-3xl p-4 lg:p-8">
-          <div class="grid gap-4">
+        <div class="mx-auto w-full max-w-3xl px-4 lg:px-8">
+          <div class="flex flex-col">
           <a
             v-for="(item, idx) in filteredBookmarks"
             :key="idx"
             :href="item.url"
             target="_blank"
-            class="group flex flex-col gap-2 rounded-xl border p-4 lg:p-5 transition-all hover:border-foreground/20 hover:shadow-sm"
+            class="group flex flex-col gap-2 py-6 border-b border-muted hover:bg-transparent last:border-0"
           >
-             <div class="flex items-start justify-between">
-              <h3 class="font-medium text-sm lg:text-base group-hover:underline decoration-muted-foreground/30 underline-offset-4">{{ item.title }}</h3>
-              <ExternalLink class="h-4 w-4 text-muted-foreground opacity-50 shrink-0 lg:opacity-0 transition-opacity lg:group-hover:opacity-100" />
+             <div class="flex items-start justify-between gap-4">
+              <h3 class="font-medium text-base group-hover:underline decoration-muted-foreground/30 underline-offset-4">{{ item.title }}</h3>
+              <ExternalLink class="h-4 w-4 text-muted-foreground opacity-30 shrink-0 group-hover:opacity-100 transition-opacity" />
             </div>
             
-            <p v-if="item.description" class="text-xs lg:text-sm text-muted-foreground line-clamp-2">
+            <p v-if="item.description" class="text-sm text-muted-foreground line-clamp-2 leading-relaxed">
               {{ item.description }}
             </p>
 
-            <div class="flex items-center gap-2">
-              <span class="text-[10px] lg:text-xs text-muted-foreground truncate">{{ item.url }}</span>
+            <div class="flex items-center gap-2 mt-1">
+              <span class="text-xs text-muted-foreground truncate opacity-70">{{ item.url }}</span>
             </div>
 
-            <div class="mt-2 flex flex-wrap gap-2">
+            <div class="mt-3 flex flex-wrap gap-2">
               <span 
                 v-for="t in item.tags" 
                 :key="t"
-                class="rounded-md bg-muted px-2 py-1 text-[10px] font-medium text-muted-foreground"
+                class="rounded-md bg-muted/50 px-2 py-0.5 text-[10px] font-mono font-medium text-muted-foreground"
               >
                 #{{ t }}
               </span>
