@@ -56,7 +56,8 @@ const getCategoryIcon = (cat: string) => {
 const { open } = useCommandMenu()
 
 const openSearch = () => {
-  open()
+  close() // Close mobile sidebar
+  open() // Open command menu
 }
 
 const isActive = (path: string) => route.path === path || route.path.startsWith(path + '/')
