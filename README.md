@@ -1,75 +1,157 @@
-# Nuxt Minimal Starter
+# Nuxt Blog System
 
-Look at the [Nuxt documentation](https://nuxt.com/docs/getting-started/introduction) to learn more.
+A minimal, typography-focused blog system built with Nuxt 4
 
-## Setup
+## Features
 
-Make sure to install dependencies:
+- 📝 **Markdown-based content** via Nuxt Content
+- 🎨 **Clean typography** with Inter and IBM Plex fonts
+- 🌓 **Dark/Light mode** with system preference detection
+- 🔍 **Global search** with `⌘K` / `Ctrl+K` shortcuts
+- 📱 **Responsive design** with mobile-first approach
+- 📑 **Category-based organization** for articles
+- 🔖 **Bookmarks page** with tag filtering
+
+## Quick Start
 
 ```bash
-# npm
+# Clone the repository
+git clone https://github.com/yourusername/your-blog.git
+cd your-blog
+
+# Install dependencies
 npm install
 
-# pnpm
-pnpm install
-
-# yarn
-yarn install
-
-# bun
-bun install
-```
-
-## Development Server
-
-Start the development server on `http://localhost:3000`:
-
-```bash
-# npm
+# Start development server
 npm run dev
-
-# pnpm
-pnpm dev
-
-# yarn
-yarn dev
-
-# bun
-bun run dev
 ```
 
-## Production
+Open [http://localhost:3000](http://localhost:3000) to see your blog.
 
-Build the application for production:
+## Project Structure
 
-```bash
-# npm
-npm run build
-
-# pnpm
-pnpm build
-
-# yarn
-yarn build
-
-# bun
-bun run build
+```
+├── app/
+│   ├── components/       # Vue components
+│   ├── layouts/          # Page layouts
+│   ├── pages/            # Route pages
+│   └── assets/css/       # Global styles
+├── content/
+│   ├── articles/         # Blog posts (markdown)
+│   └── bookmarks.json    # Bookmarks data
+├── public/
+│   └── images/articles/  # Article media
+└── nuxt.config.ts        # Nuxt configuration
 ```
 
-Locally preview production build:
+## Writing Articles
 
-```bash
-# npm
-npm run preview
+Create a new markdown file in `content/articles/`:
 
-# pnpm
-pnpm preview
+```markdown
+---
+title: "Your Article Title"
+date: 2025-01-06
+description: "A brief description for SEO and previews."
+categories:
+  - technology
+---
 
-# yarn
-yarn preview
+Your content here. The first paragraph will have a drop cap.
 
-# bun
-bun run preview
+## Subheading
+
+More content...
 ```
 
-Check out the [deployment documentation](https://nuxt.com/docs/getting-started/deployment) for more information.
+### Adding Images
+
+1. Create a folder for your article's media:
+   ```
+   public/images/articles/your-article-slug/
+   ```
+
+2. Add images to that folder
+
+3. Reference in markdown:
+   ```markdown
+   ![Alt text](/images/articles/your-article-slug/image.png)
+   ```
+
+### Embedding Videos
+
+Use iframe directly in markdown:
+
+```html
+<iframe 
+  width="100%" 
+  height="400" 
+  src="https://www.youtube.com/embed/VIDEO_ID" 
+  title="Video title" 
+  frameborder="0" 
+  allowfullscreen>
+</iframe>
+```
+
+## Adding Categories
+
+Categories are auto-generated from article frontmatter. Add a new category by using it in an article:
+
+```yaml
+categories:
+  - new-category
+```
+
+The sidebar will automatically display the new category.
+
+## Customization
+
+### Typography
+
+Edit `app/assets/css/main.css` to customize:
+- Font families (Inter, IBM Plex Serif, IBM Plex Mono)
+- Color variables for light/dark modes
+- Prose styling for article content
+
+### Fonts
+
+Fonts are loaded via Google Fonts in `nuxt.config.ts`. To change:
+
+```typescript
+// nuxt.config.ts
+app: {
+  head: {
+    link: [
+      { rel: 'stylesheet', href: 'https://fonts.googleapis.com/css2?family=YourFont...' }
+    ]
+  }
+}
+```
+
+## Deployment
+
+### GitHub Pages
+
+1. Generate static files:
+   ```bash
+   npm run generate
+   ```
+
+2. The output will be in `.output/public/`
+
+3. Push to GitHub and enable GitHub Pages in your repository settings, pointing to the generated output.
+
+### Other Platforms
+
+You can also deploy to Netlify, Cloudflare Pages, or any static hosting provider.
+
+## Tech Stack
+
+- [Nuxt 4](https://nuxt.com) - Vue framework
+- [Nuxt Content](https://content.nuxt.com) - Markdown content management
+- [Tailwind CSS](https://tailwindcss.com) - Utility-first CSS
+- [@tailwindcss/typography](https://tailwindcss.com/docs/typography-plugin) - Prose styling
+
+## License
+
+MIT

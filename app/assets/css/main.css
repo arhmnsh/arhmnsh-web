@@ -94,7 +94,7 @@ body {
   font-family: "IBM Plex Serif", ui-serif, Georgia, serif !important;
 }
 
-/* Drop Cap - First letter of first paragraph (iA Writer style) */
+/* Drop Cap - First letter of first paragraph */
 .prose p:first-of-type::first-letter {
   float: left;
   font-size: 3.5rem;
