@@ -1,8 +1,9 @@
 <script setup lang="ts">
-import { Tag, ExternalLink } from 'lucide-vue-next'
+import { Tag, ExternalLink, Filter, X } from 'lucide-vue-next'
 
 const route = useRoute()
 const router = useRouter()
+const showMobileTags = ref(false)
 
 // Fetch bookmarks using Nuxt Content (sync to avoid async component issues)
 const { data: bookmarksData } = useAsyncData('bookmarks', () => 
@@ -16,20 +17,25 @@ const bookmarks = computed(() => {
   return (bookmarksData.value[0]?.meta?.body || []) as any[]
 })
 
-console.log('Bookmarks loaded:', bookmarks.value)
-console.log('Bookmarks length:', bookmarks.value?.length)
-
-// Computed: Extract unique tags
+// Computed: Extract unique tags with counts
 const allTags = computed(() => {
   if (!bookmarks.value) return []
-  const tags = new Set<string>()
+  const counts = new Map<string, number>()
+  
   bookmarks.value.forEach((item: any) => {
     if (item.tags) {
-      item.tags.forEach((t: string) => tags.add(t))
+      item.tags.forEach((t: string) => {
+        counts.set(t, (counts.get(t) || 0) + 1)
+      })
     }
   })
-  return Array.from(tags).sort()
+  
+  return Array.from(counts.entries())
+    .map(([name, count]) => ({ name, count }))
+    .sort((a, b) => a.name.localeCompare(b.name))
 })
+
+const totalBookmarksCount = computed(() => bookmarks.value?.length || 0)
 
 const selectedTag = computed(() => route.query.tag as string | undefined)
 
@@ -40,44 +46,112 @@ const filteredBookmarks = computed(() => {
   return items.filter((item: any) => item.tags?.includes(selectedTag.value))
 })
 
-const selectTag = (tag: string) => {
-  if (selectedTag.value === tag) {
+const selectTag = (tag?: string) => {
+  if (!tag) {
+    router.push('/bookmarks') // Select All
+  } else if (selectedTag.value === tag) {
     router.push('/bookmarks') // Deselect
   } else {
     router.push({ query: { ...route.query, tag } })
   }
+  showMobileTags.value = false
 }
 </script>
 
 <template>
   <div class="flex flex-col lg:flex-row min-h-screen">
-    <!-- Col 2: Tags List -->
-    <div class="flex w-full lg:w-64 lg:flex-col border-r bg-background/50 flex-shrink-0 lg:sticky lg:top-0 lg:h-screen">
-      <div class="flex h-16 min-h-[64px] shrink-0 items-center border-b px-6 lg:flex">
-        <h2 class="text-lg font-semibold lg:block hidden">Tags</h2>
-        <span class="lg:hidden text-sm font-medium text-muted-foreground mr-4 shrink-0">Filter by Tag:</span>
+    <!-- Col 2: Tags List (Desktop Sidebar) -->
+    <div class="hidden lg:flex w-64 flex-col border-r bg-background/50 flex-shrink-0 sticky top-0 h-screen">
+      <div class="flex h-16 min-h-[64px] shrink-0 items-center border-b px-6">
+        <h2 class="text-lg font-semibold">Collections</h2>
       </div>
-      <div class="flex-1 overflow-x-auto lg:overflow-y-auto p-4 flex lg:block items-center scrollbar-hide">
-        <div class="flex lg:flex-col gap-2 lg:gap-1">
+      <div class="flex-1 overflow-y-auto p-4">
+        <div class="flex flex-col gap-1">
+          <!-- All Bookmarks Item -->
           <button
-            v-for="tag in allTags"
-            :key="tag"
-            @click="selectTag(tag)"
+            @click="selectTag()"
             :class="cn(
-              'flex items-center gap-2 rounded-md px-3 py-2 text-sm transition-colors hover:bg-muted whitespace-nowrap',
-               selectedTag === tag ? 'bg-muted font-medium text-foreground' : 'text-muted-foreground'
+              'flex items-center justify-between rounded-md px-3 py-2 text-sm transition-colors hover:bg-muted w-full',
+               !selectedTag ? 'bg-muted font-medium text-foreground' : 'text-muted-foreground'
             )"
           >
-            <Tag class="h-3.5 w-3.5" />
-            <span>{{ tag }}</span>
+            <div class="flex items-center gap-2">
+              <Tag class="h-4 w-4" />
+              <span>All Bookmarks</span>
+            </div>
+            <span class="text-xs opacity-50">{{ totalBookmarksCount }}</span>
+          </button>
+
+          <!-- Tags -->
+          <button
+            v-for="tag in allTags"
+            :key="tag.name"
+            @click="selectTag(tag.name)"
+            :class="cn(
+              'flex items-center justify-between rounded-md px-3 py-2 text-sm transition-colors hover:bg-muted w-full',
+               selectedTag === tag.name ? 'bg-muted font-medium text-foreground' : 'text-muted-foreground'
+            )"
+          >
+             <div class="flex items-center gap-2">
+              <span class="w-4">#</span>
+              <span>{{ tag.name }}</span>
+            </div>
+            <span class="text-xs opacity-50">{{ tag.count }}</span>
           </button>
         </div>
       </div>
     </div>
 
+    <!-- Mobile Header & Tags Popover -->
+    <div class="lg:hidden flex items-center justify-between px-6 py-4 border-b bg-background sticky top-0 z-30">
+        <h1 class="text-xl font-bold font-serif italic">Bookmarks</h1>
+        <button 
+          @click="showMobileTags = !showMobileTags"
+          class="flex items-center gap-2 text-sm font-medium text-muted-foreground hover:text-foreground bg-muted/50 px-3 py-1.5 rounded-full"
+        >
+          <span>{{ selectedTag || 'All' }}</span>
+          <Filter class="h-4 w-4" />
+        </button>
+    </div>
+
+    <!-- Mobile Popover Overlay -->
+    <div v-if="showMobileTags" class="fixed inset-0 z-50 bg-background/80 backdrop-blur-sm lg:hidden" @click="showMobileTags = false">
+      <div class="absolute right-4 top-16 w-64 max-h-[70vh] overflow-y-auto rounded-xl border bg-card p-2 shadow-lg" @click.stop>
+         <div class="flex items-center justify-between px-2 py-2 mb-2 border-b">
+            <span class="font-semibold text-sm">Filter by Tag</span>
+            <button @click="showMobileTags = false"><X class="h-4 w-4" /></button>
+         </div>
+         <div class="flex flex-col gap-1">
+            <button
+              @click="selectTag()"
+              :class="cn(
+                'flex items-center justify-between rounded-md px-3 py-2 text-sm transition-colors hover:bg-muted w-full text-left',
+                !selectedTag ? 'bg-accent text-accent-foreground' : ''
+              )"
+            >
+              <span>All Bookmarks</span>
+              <span class="text-xs opacity-50">{{ totalBookmarksCount }}</span>
+            </button>
+            <button
+              v-for="tag in allTags"
+              :key="tag.name"
+              @click="selectTag(tag.name)"
+               :class="cn(
+                'flex items-center justify-between rounded-md px-3 py-2 text-sm transition-colors hover:bg-muted w-full text-left',
+                selectedTag === tag.name ? 'bg-accent text-accent-foreground' : ''
+              )"
+            >
+              <span>{{ tag.name }}</span>
+              <span class="text-xs opacity-50">{{ tag.count }}</span>
+            </button>
+         </div>
+      </div>
+    </div>
+
     <!-- Col 3: Bookmarks List -->
     <div class="flex flex-1 flex-col bg-background">
-      <div class="flex h-16 min-h-[64px] shrink-0 items-center gap-2 border-b px-6 sticky top-16 z-40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+      <!-- Desktop Header only -->
+      <div class="hidden lg:flex h-16 min-h-[64px] shrink-0 items-center gap-2 border-b px-6 sticky top-0 z-40 bg-background/95 backdrop-blur">
         <h2 class="flex-shrink-0 text-lg font-semibold">
           {{ selectedTag ? `#${selectedTag}` : 'Bookmarks' }}
         </h2>
@@ -96,7 +170,7 @@ const selectTag = (tag: string) => {
             target="_blank"
             class="group flex flex-col gap-2 rounded-xl border p-4 lg:p-5 transition-all hover:border-foreground/20 hover:shadow-sm"
           >
-            <div class="flex items-start justify-between">
+             <div class="flex items-start justify-between">
               <h3 class="font-medium text-sm lg:text-base group-hover:underline decoration-muted-foreground/30 underline-offset-4">{{ item.title }}</h3>
               <ExternalLink class="h-4 w-4 text-muted-foreground opacity-50 shrink-0 lg:opacity-0 transition-opacity lg:group-hover:opacity-100" />
             </div>
