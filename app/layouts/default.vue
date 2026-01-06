@@ -10,9 +10,9 @@
 <template>
   <div class="flex min-h-screen bg-background font-sans text-foreground">
     <Sidebar />
-    <div class="flex flex-1 flex-col lg:ml-64">
+    <div class="flex flex-1 flex-col lg:ml-64 min-w-0 w-full">
       <MobileNav />
-      <div class="flex-1">
+      <div class="flex-1 min-w-0 w-full">
         <slot />
       </div>
     </div>

@@ -52,12 +52,12 @@ const selectTag = (tag: string) => {
 <template>
   <div class="flex flex-col lg:flex-row min-h-screen">
     <!-- Col 2: Tags List -->
-    <div class="flex w-full overflow-x-auto lg:w-64 lg:flex-col border-r bg-background/50 flex-shrink-0 lg:sticky lg:top-0 lg:h-screen">
+    <div class="flex w-full lg:w-64 lg:flex-col border-r bg-background/50 flex-shrink-0 lg:sticky lg:top-0 lg:h-screen">
       <div class="flex h-16 min-h-[64px] shrink-0 items-center border-b px-6 lg:flex">
         <h2 class="text-lg font-semibold lg:block hidden">Tags</h2>
         <span class="lg:hidden text-sm font-medium text-muted-foreground mr-4 shrink-0">Filter by Tag:</span>
       </div>
-      <div class="flex-1 overflow-x-auto lg:overflow-y-auto p-4 flex lg:block items-center">
+      <div class="flex-1 overflow-x-auto lg:overflow-y-auto p-4 flex lg:block items-center scrollbar-hide">
         <div class="flex lg:flex-col gap-2 lg:gap-1">
           <button
             v-for="tag in allTags"
