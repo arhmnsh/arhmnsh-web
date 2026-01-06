@@ -33,7 +33,7 @@ const { data: bookmarksRaw } = await useAsyncData('search-bookmarks', () =>
   queryCollection('bookmarks').all()
 )
 
-const bookmarks = computed(() => bookmarksRaw.value?.[0]?.meta?.body || [])
+const bookmarks = computed(() => (bookmarksRaw.value?.[0]?.meta?.body || []) as any[])
 
 const staticLinks = [
   { label: 'Home', path: '/', type: 'page' },
@@ -93,6 +93,16 @@ function setTheme(theme: string) {
   colorMode.preference = theme
   close()
 }
+const searchInput = ref<HTMLInputElement | null>(null)
+
+watch(isOpen, async (val) => {
+  if (val) {
+    await nextTick()
+    searchInput.value?.focus()
+  } else {
+    query.value = '' // Clear query on close
+  }
+})
 </script>
 
 <template>
@@ -105,10 +115,10 @@ function setTheme(theme: string) {
       <div class="flex items-center border-b px-4">
         <Search class="mr-2 h-4 w-4 text-muted-foreground opacity-50" />
         <input
+          ref="searchInput"
           v-model="query"
           placeholder="Type a command or search..."
           class="flex h-12 w-full rounded-md bg-transparent py-3 text-sm outline-none placeholder:text-muted-foreground"
-          autoFocus
         />
         <button @click="close" class="ml-2 rounded p-1 hover:bg-muted">
           <X class="h-4 w-4 text-muted-foreground" />
