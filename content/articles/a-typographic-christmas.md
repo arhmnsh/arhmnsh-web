@@ -6,11 +6,15 @@ categories:
   - ai
 ---
 
+![A Christmas tree composed of letters](/images/articles/a-typographic-christmas/hero.png)
+
 iA Writer now offers three custom designed writing fonts. The next update of iA Writer does some extreme typographic acrobacy. It comes with three variable fonts which give us 1000s of grades. This allows us to adjust the weight of the font depending on size, device and background color. Additionally, we adjust the line height and spacing depending on column width and type size. The crazy part is that you probably won't see any of this. But you might feel it.
 
 ## Three Variable fonts
 
 iA Writer started off with one font. The classic Nitti, designed by Bold Monday. Last year we added iA Writer Duo, a two-spaced typeface that gives a bit more room to W's and M's, based on IBM Plex. This year, we add a third font with four character sizes, called iA Writer Quattro and unify the designs.
+
+![Font Comparison: Mono, Duo, and Quattro](/images/articles/a-typographic-christmas/font-comparison.png)
 
 Quattro shares similarities with a proportional typeface. At the same time, it retains a lot of the technical virtues of the classic typewriter fonts using wider gaps between the words and giving each letter more room than a classic, fully proportional face.
 
@@ -18,11 +22,15 @@ We kept large word spacing and monospaced punctuation. Quattro saves space on sm
 
 The fonts have all been redesigned. iA Writer Mono, Duo and Quattro were built upon IBM Plex. In the latest iteration, we have eliminated the IBM brand-typical features and made look more like the classic iA Writer font. Using square dots instead of round ones, adjusting the swirls and curves on a, j, f, l, t, y, Q, and lots of non-latin characters, we unified mono, Duo, and Quattro under a common look. This was a lot of work.
 
+<iframe width="100%" height="400" src="https://www.youtube.com/embed/8u1MtDG_OVE" title="iA Writer Variable Fonts" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+
 ## Optical Weights
 
 The three new type families come as so-called variable fonts. While traditional fonts offer a limited number of weights, variable fonts offer an infinite scale between the weights and features.
 
 One of the advantages is that variable fonts allow us to use different optical weights for different sizes, screens and backgrounds.
+
+![Optical Weights - Century Expanded example](/images/articles/a-typographic-christmas/optical-weights.png)
 
 Optical weights have been used in printing for a long time. To make sure fonts are readable at different sizes, the shape needs to slightly adjust. Generally speaking, the smaller the font, the bolder and wider it should become.
 
