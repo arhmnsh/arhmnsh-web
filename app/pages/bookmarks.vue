@@ -4,8 +4,8 @@ import { Tag, ExternalLink } from 'lucide-vue-next'
 const route = useRoute()
 const router = useRouter()
 
-// Fetch bookmarks using Nuxt Content
-const { data: bookmarksData } = await useAsyncData('bookmarks', () => 
+// Fetch bookmarks using Nuxt Content (sync to avoid async component issues)
+const { data: bookmarksData } = useAsyncData('bookmarks', () => 
   queryCollection('bookmarks').all()
 )
 
@@ -13,7 +13,7 @@ const { data: bookmarksData } = await useAsyncData('bookmarks', () =>
 const bookmarks = computed(() => {
   if (!bookmarksData.value || bookmarksData.value.length === 0) return []
   // Nuxt Content v3 stores JSON arrays in meta.body
-  return bookmarksData.value[0]?.meta?.body || []
+  return (bookmarksData.value[0]?.meta?.body || []) as any[]
 })
 
 console.log('Bookmarks loaded:', bookmarks.value)
@@ -50,9 +50,9 @@ const selectTag = (tag: string) => {
 </script>
 
 <template>
-  <div class="flex h-full flex-col lg:flex-row overflow-hidden">
+  <div class="flex flex-col lg:flex-row min-h-screen">
     <!-- Col 2: Tags List -->
-    <div class="flex w-full overflow-x-auto lg:w-64 lg:flex-col border-r bg-background/50 flex-shrink-0">
+    <div class="flex w-full overflow-x-auto lg:w-64 lg:flex-col border-r bg-background/50 flex-shrink-0 lg:sticky lg:top-0 lg:h-screen">
       <div class="flex h-16 min-h-[64px] shrink-0 items-center border-b px-6 lg:flex">
         <h2 class="text-lg font-semibold lg:block hidden">Tags</h2>
         <span class="lg:hidden text-sm font-medium text-muted-foreground mr-4 shrink-0">Filter by Tag:</span>
@@ -76,8 +76,8 @@ const selectTag = (tag: string) => {
     </div>
 
     <!-- Col 3: Bookmarks List -->
-    <div class="flex flex-1 flex-col bg-background overflow-hidden">
-      <div class="flex h-16 min-h-[64px] shrink-0 items-center gap-2 border-b px-6">
+    <div class="flex flex-1 flex-col bg-background">
+      <div class="flex h-16 min-h-[64px] shrink-0 items-center gap-2 border-b px-6 sticky top-16 z-40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
         <h2 class="flex-shrink-0 text-lg font-semibold">
           {{ selectedTag ? `#${selectedTag}` : 'Bookmarks' }}
         </h2>
@@ -86,7 +86,7 @@ const selectTag = (tag: string) => {
         </span>
       </div>
 
-      <div class="flex-1 overflow-y-auto">
+      <div class="flex-1">
         <div class="mx-auto w-full max-w-3xl p-4 lg:p-8">
           <div class="grid gap-4">
           <a
