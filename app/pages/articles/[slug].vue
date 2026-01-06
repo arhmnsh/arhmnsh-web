@@ -38,7 +38,7 @@ const readingTime = computed(() => {
     </header>
 
     <!-- Content -->
-    <article class="prose prose-lg prose-neutral dark:prose-invert max-w-none font-serif leading-loose prose-headings:font-sans prose-headings:font-bold prose-headings:uppercase prose-headings:tracking-tight hover:prose-a:text-primary">
+    <article class="prose prose-lg prose-neutral dark:prose-invert max-w-none font-serif leading-loose prose-headings:font-sans prose-headings:font-bold prose-headings:tracking-tight prose-h2:text-center prose-h3:text-center prose-h2:mt-12 prose-h2:mb-6">
       <ContentRenderer :value="article" />
     </article>
   </div>

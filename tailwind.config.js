@@ -11,7 +11,7 @@ export default {
     theme: {
         extend: {
             fontFamily: {
-                sans: ['"IBM Plex Sans"', 'sans-serif'],
+                sans: ['"Inter"', 'sans-serif'],
                 serif: ['"IBM Plex Serif"', 'serif'],
                 mono: ['"IBM Plex Mono"', 'monospace'],
             },
