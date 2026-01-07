@@ -80,15 +80,15 @@ const getCategoryIcon = (cat: string) => {
 <template>
   <div class="flex min-h-screen w-full flex-col lg:flex-row lg:h-screen lg:overflow-hidden">
     <!-- Categories List (Mobile only, no category selected) -->
-    <div v-if="showCategories" class="flex-1 bg-background">
-      <div class="p-4">
+    <div v-if="showCategories" class="w-full bg-background">
+      <div class="px-4 py-6">
         <h1 class="text-2xl font-bold mb-6">Categories</h1>
-        <div class="space-y-2">
+        <div class="space-y-3">
           <NuxtLink
             v-for="cat in categories"
             :key="cat.name"
             :to="`/articles?c=${cat.name}`"
-            class="flex items-center justify-between p-4 rounded-lg border hover:bg-muted transition-colors"
+            class="flex items-center justify-between p-4 rounded-lg border hover:bg-muted transition-colors w-full"
           >
             <div class="flex items-center gap-3">
               <span class="text-2xl">{{ getCategoryIcon(cat.name) }}</span>
@@ -104,7 +104,7 @@ const getCategoryIcon = (cat: string) => {
     <div 
       v-if="showArticleList"
       :class="cn(
-        'w-full lg:w-80 lg:h-full lg:overflow-y-auto flex-col border-r bg-background',
+        'w-full lg:w-80 lg:flex-shrink-0 lg:h-full lg:overflow-y-auto flex-col border-r bg-background',
         route.params.slug ? 'hidden lg:flex' : 'flex'
       )"
     >
@@ -116,10 +116,10 @@ const getCategoryIcon = (cat: string) => {
     
     <!-- Right Column: Content -->
     <div :class="cn(
-      'flex-1 bg-background lg:h-full lg:overflow-y-auto',
+      'flex-1 min-w-0 bg-background lg:h-full lg:overflow-y-auto',
       route.params.slug ? 'flex flex-col' : 'hidden lg:flex lg:flex-col'
     )">
-      <div class="flex-1 p-4 lg:p-8">
+      <div class="flex-1 w-full">
         <NuxtPage />
       </div>
     </div>

@@ -29,7 +29,7 @@ const goBack = () => {
 </script>
 
 <template>
-  <div v-if="article" class="mx-auto max-w-3xl px-6 py-8 lg:py-20">
+  <div v-if="article" class="w-full max-w-3xl mx-auto px-4 sm:px-6 py-8 lg:py-16">
     <!-- Mobile Back Button -->
     <button 
       @click="goBack"
