@@ -69,7 +69,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <div>
+  <div class="contents">
     <!-- Backdrop for mobile -->
     <div 
       v-if="isOpen" 
