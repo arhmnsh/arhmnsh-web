@@ -63,7 +63,7 @@ const selectTag = (tag?: string) => {
     <!-- Col 2: Tags List (Desktop Sidebar) -->
     <div class="hidden lg:flex w-64 flex-col border-r border-muted bg-background flex-shrink-0 sticky top-0 h-screen">
       <div class="flex h-16 min-h-[64px] shrink-0 items-center px-6">
-        <h2 class="text-lg font-semibold uppercase tracking-wider text-muted-foreground">Collections</h2>
+        <h2 class="text-lg font-semibold uppercase tracking-wider text-muted-foreground">Bookmarks</h2>
       </div>
       <div class="flex-1 overflow-y-auto px-4 py-4">
         <div class="flex flex-col gap-0.5">
@@ -151,9 +151,9 @@ const selectTag = (tag?: string) => {
     <!-- Col 3: Bookmarks List -->
     <div class="flex flex-1 flex-col bg-background">
       <!-- Desktop Header only -->
-      <div class="hidden lg:flex h-16 min-h-[64px] shrink-0 items-center gap-2 border-b px-6 sticky top-0 z-40 bg-background">
+      <div class="hidden lg:flex h-16 min-h-[64px] shrink-0 items-center gap-2 border-b border-muted px-6 sticky top-0 z-40 bg-background">
         <h2 class="flex-shrink-0 text-lg font-semibold uppercase tracking-wider text-muted-foreground">
-          {{ selectedTag ? `#${selectedTag}` : 'Bookmarks' }}
+          {{ selectedTag ? `#${selectedTag}` : 'All' }}
         </h2>
         <span class="flex-shrink-0 text-xs text-muted-foreground font-mono">
           {{ filteredBookmarks.length }}
