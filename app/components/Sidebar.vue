@@ -69,8 +69,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <div class="contents">
-    <!-- Backdrop for mobile -->
+  <!-- Backdrop for mobile -->
     <div 
       v-if="isOpen" 
       class="fixed inset-0 z-[60] bg-background/80 backdrop-blur-sm lg:hidden"
@@ -173,5 +172,4 @@ onMounted(() => {
       </div>
     </div>
   </aside>
-  </div>
 </template>
