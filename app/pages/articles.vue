@@ -129,7 +129,7 @@ const getCategoryIcon = (cat: string) => {
     <div 
       v-if="showArticleList"
       :class="cn(
-        'w-full lg:w-80 lg:flex-shrink-0 lg:h-full lg:overflow-y-auto flex-col border-r bg-background',
+        'w-full lg:w-80 lg:flex-shrink-0 lg:h-full lg:overflow-y-auto flex-col border-r border-border/20 bg-background',
         route.params.slug ? 'hidden lg:flex' : 'flex'
       )"
     >
