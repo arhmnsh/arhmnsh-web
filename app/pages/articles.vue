@@ -107,7 +107,7 @@ const getCategoryIcon = (cat: string) => {
     <!-- Categories List (Mobile only, no category selected) -->
     <div v-if="showCategories" class="w-full bg-background">
       <div class="px-4 py-6">
-        <h1 class="font-serif text-2xl font-bold italic mb-8">Categories</h1>
+        <h1 class="text-lg font-semibold uppercase tracking-wider text-muted-foreground mb-6">Categories</h1>
         <div class="space-y-1">
           <NuxtLink
             v-for="cat in categories"

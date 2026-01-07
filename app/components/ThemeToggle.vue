@@ -10,12 +10,12 @@ function setTheme(theme: string) {
 
 <template>
   <ClientOnly>
-    <div class="flex items-center gap-1 rounded-full border bg-background p-1 shadow-sm">
+    <div class="flex items-center gap-1">
       <button
         @click="setTheme('light')"
         :class="cn(
-          'rounded-full p-1.5 transition-colors hover:bg-muted hover:text-foreground',
-          colorMode.preference === 'light' ? 'bg-muted text-foreground ring-1 ring-border shadow-sm' : 'text-muted-foreground'
+          'p-1.5 transition-colors hover:text-foreground',
+          colorMode.preference === 'light' ? 'text-foreground' : 'text-muted-foreground/60'
         )"
         title="Light Mode"
       >
@@ -25,8 +25,8 @@ function setTheme(theme: string) {
       <button
         @click="setTheme('dark')"
         :class="cn(
-          'rounded-full p-1.5 transition-colors hover:bg-muted hover:text-foreground',
-          colorMode.preference === 'dark' ? 'bg-muted text-foreground ring-1 ring-border shadow-sm' : 'text-muted-foreground'
+          'p-1.5 transition-colors hover:text-foreground',
+          colorMode.preference === 'dark' ? 'text-foreground' : 'text-muted-foreground/60'
         )"
         title="Dark Mode"
       >
@@ -36,8 +36,8 @@ function setTheme(theme: string) {
       <button
         @click="setTheme('system')"
         :class="cn(
-          'rounded-full p-1.5 transition-colors hover:bg-muted hover:text-foreground',
-          colorMode.preference === 'system' ? 'bg-muted text-foreground ring-1 ring-border shadow-sm' : 'text-muted-foreground'
+          'p-1.5 transition-colors hover:text-foreground',
+          colorMode.preference === 'system' ? 'text-foreground' : 'text-muted-foreground/60'
         )"
         title="System Mode"
       >

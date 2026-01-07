@@ -63,7 +63,7 @@ const selectTag = (tag?: string) => {
     <!-- Col 2: Tags List (Desktop Sidebar) -->
     <div class="hidden lg:flex w-64 flex-col border-r bg-background flex-shrink-0 sticky top-0 h-screen">
       <div class="flex h-16 min-h-[64px] shrink-0 items-center px-6">
-        <h2 class="font-serif text-lg font-bold italic">Collections</h2>
+        <h2 class="text-lg font-semibold uppercase tracking-wider text-muted-foreground">Collections</h2>
       </div>
       <div class="flex-1 overflow-y-auto px-4 py-4">
         <div class="flex flex-col gap-0.5">
@@ -104,7 +104,7 @@ const selectTag = (tag?: string) => {
 
     <!-- Mobile Header & Tags Popover -->
     <div class="lg:hidden flex items-center justify-between px-4 py-4 border-b bg-background sticky top-14 z-30">
-        <h1 class="font-serif text-xl font-bold italic">Bookmarks</h1>
+        <h1 class="text-lg font-semibold uppercase tracking-wider text-muted-foreground">Bookmarks</h1>
         <button 
           @click="showMobileTags = !showMobileTags"
           class="flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground"
@@ -152,7 +152,7 @@ const selectTag = (tag?: string) => {
     <div class="flex flex-1 flex-col bg-background">
       <!-- Desktop Header only -->
       <div class="hidden lg:flex h-16 min-h-[64px] shrink-0 items-center gap-2 border-b px-6 sticky top-0 z-40 bg-background">
-        <h2 class="flex-shrink-0 font-serif text-lg font-bold italic">
+        <h2 class="flex-shrink-0 text-lg font-semibold uppercase tracking-wider text-muted-foreground">
           {{ selectedTag ? `#${selectedTag}` : 'Bookmarks' }}
         </h2>
         <span class="flex-shrink-0 text-xs text-muted-foreground font-mono">

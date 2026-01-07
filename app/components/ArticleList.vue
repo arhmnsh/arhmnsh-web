@@ -22,7 +22,7 @@ const isArticleActive = (articlePath: string) => {
 <template>
   <div class="flex h-full flex-col">
     <div class="flex h-16 items-center border-b px-6">
-      <h2 class="font-serif text-lg font-bold italic capitalize">{{ category.replace("-", " ") }}</h2>
+      <h2 class="text-lg font-semibold uppercase tracking-wider text-muted-foreground capitalize">{{ category.replace("-", " ") }}</h2>
     </div>
     <div class="flex-1 overflow-y-auto">
       <div v-if="articles.length === 0" class="p-6 text-sm text-muted-foreground">

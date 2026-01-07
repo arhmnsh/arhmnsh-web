@@ -10,37 +10,43 @@ const { data: latestArticles } = await useAsyncData('latest-articles', () =>
 </script>
 
 <template>
-  <div class="mx-auto max-w-4xl px-8 py-16">
+  <div class="mx-auto max-w-3xl px-6 py-12 lg:py-20">
     <div class="flex flex-col gap-12">
       <!-- Intro / Bio -->
-      <section class="flex flex-col gap-4">
-        <h1 class="font-serif text-5xl font-bold italic tracking-tight lg:text-7xl">
+      <section class="flex flex-col gap-6">
+        <h1 class="font-serif text-4xl font-bold italic tracking-tight lg:text-6xl">
           AbdurRahaman Shah
         </h1>
-        <p class="max-w-xl text-xl leading-relaxed text-muted-foreground">
-          CTO at <a href="https://nabeh.sa" target="_blank" class="font-medium text-foreground underline decoration-muted-foreground/30 underline-offset-4 hover:decoration-muted-foreground">Nabeh</a>, 
-          a subsidiary of <a href="https://master-works.sa" target="_blank" class="font-medium text-foreground underline decoration-muted-foreground/30 underline-offset-4 hover:decoration-muted-foreground">Master Works</a>. 
-          <br /><br />
-          We work on AI products with technologies like computer vision, LLM, STT, etc.
+        <p class="max-w-xl text-lg leading-relaxed text-muted-foreground">
+          Engineer · Ex-Google · Ex-Meta · Entrepreneur
         </p>
+        <p class="max-w-xl text-base leading-relaxed text-muted-foreground">
+          Building AI products in computer vision, LLM, and speech technologies. 
+          Currently CTO at <a href="https://nabeh.sa" target="_blank" class="text-foreground underline decoration-muted-foreground/30 underline-offset-4 hover:decoration-muted-foreground">Nabeh</a>.
+        </p>
+        <a 
+          href="https://x.com/arhmnsh" 
+          target="_blank" 
+          class="text-sm text-muted-foreground hover:text-foreground transition-colors self-start"
+        >
+          @arhmnsh →
+        </a>
       </section>
-
-      <hr class="border-muted" />
 
       <!-- Latest Articles Section -->
       <section class="flex flex-col gap-6">
-        <h2 class="text-2xl font-bold font-serif italic">Latest Articles</h2>
+        <h2 class="text-lg font-semibold uppercase tracking-wider text-muted-foreground">Latest Articles</h2>
         <div v-if="latestArticles && latestArticles.length > 0" class="flex flex-col">
           <NuxtLink
             v-for="article in latestArticles"
             :key="article.path"
             :to="{ path: article.path, query: { c: article.categories?.[0] } }"
-            class="group flex flex-col gap-2 py-6 border-b border-muted transition-all last:border-0 hover:bg-transparent"
+            class="group flex flex-col gap-2 py-5 border-b border-muted/50 transition-all last:border-0 hover:bg-transparent"
           >
             <div class="flex flex-col gap-1">
               <div class="flex items-center justify-between gap-4">
-                <h3 class="font-bold text-lg group-hover:underline decoration-muted-foreground/30 underline-offset-4">{{ article.title }}</h3>
-                <span class="shrink-0 text-xs text-muted-foreground font-mono">
+                <h3 class="font-medium text-base group-hover:underline decoration-muted-foreground/30 underline-offset-4">{{ article.title }}</h3>
+                <span class="shrink-0 text-xs text-muted-foreground/60 font-mono">
                   {{ format(parseISO(article.date), "dd MMM yyyy") }}
                 </span>
               </div>
@@ -50,7 +56,7 @@ const { data: latestArticles } = await useAsyncData('latest-articles', () =>
             </div>
           </NuxtLink>
         </div>
-        <NuxtLink to="/articles" class="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors self-start">
+        <NuxtLink to="/articles" class="text-sm text-muted-foreground hover:text-foreground transition-colors self-start">
           View all articles →
         </NuxtLink>
       </section>

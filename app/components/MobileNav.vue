@@ -1,7 +1,8 @@
 <script setup lang="ts">
-import { Sun, Moon } from 'lucide-vue-next'
+import { Sun, Moon, Search } from 'lucide-vue-next'
 
 const colorMode = useColorMode()
+const { open } = useCommandMenu()
 
 const toggleTheme = () => {
   colorMode.preference = colorMode.value === 'dark' ? 'light' : 'dark'
@@ -37,7 +38,7 @@ onMounted(() => {
 <template>
   <header 
     :class="[
-      'sticky top-0 z-50 flex h-14 items-center justify-between border-b bg-background px-4 lg:hidden transition-transform duration-300',
+      'sticky top-0 z-50 flex h-14 items-center justify-between border-b border-border/50 bg-background px-4 lg:hidden transition-transform duration-300',
       isVisible ? 'translate-y-0' : '-translate-y-full'
     ]"
   >
@@ -45,13 +46,22 @@ onMounted(() => {
       AbdurRahaman Shah
     </NuxtLink>
     
-    <button 
-      @click="toggleTheme"
-      class="rounded-md p-2 hover:bg-muted text-muted-foreground"
-      aria-label="Toggle Theme"
-    >
-      <Sun v-if="colorMode.value === 'dark'" class="h-5 w-5" />
-      <Moon v-else class="h-5 w-5" />
-    </button>
+    <div class="flex items-center gap-1">
+      <button 
+        @click="open"
+        class="p-2 text-muted-foreground hover:text-foreground transition-colors"
+        aria-label="Search"
+      >
+        <Search class="h-5 w-5" />
+      </button>
+      <button 
+        @click="toggleTheme"
+        class="p-2 text-muted-foreground hover:text-foreground transition-colors"
+        aria-label="Toggle Theme"
+      >
+        <Sun v-if="colorMode.value === 'dark'" class="h-5 w-5" />
+        <Moon v-else class="h-5 w-5" />
+      </button>
+    </div>
   </header>
 </template>
