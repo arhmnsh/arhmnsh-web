@@ -18,11 +18,13 @@ const { data: latestArticles } = await useAsyncData('latest-articles', () =>
           AbdurRahaman Shah
         </h1>
         <p class="max-w-xl text-lg leading-relaxed text-muted-foreground">
-          Engineer · Ex-Google · Ex-Meta · Entrepreneur
+          CTO & AI Engineer building intelligent products at <a href="https://nabeh.sa" target="_blank" class="text-foreground underline decoration-muted-foreground/30 underline-offset-4 hover:decoration-muted-foreground">Nabeh</a>.
         </p>
         <p class="max-w-xl text-base leading-relaxed text-muted-foreground">
-          Building AI products in computer vision, LLM, and speech technologies. 
-          Currently CTO at <a href="https://nabeh.sa" target="_blank" class="text-foreground underline decoration-muted-foreground/30 underline-offset-4 hover:decoration-muted-foreground">Nabeh</a>.
+          Working on AI products with computer vision, LLMs, and speech technologies. Passionate about building tools that make a difference.
+        </p>
+        <p class="max-w-xl text-sm leading-relaxed text-muted-foreground/70">
+          When not coding: cars, motorcycles, travel, painting, and stargazing.
         </p>
         <a 
           href="https://x.com/arhmnsh" 
