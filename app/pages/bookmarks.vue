@@ -62,7 +62,7 @@ const selectTag = (tag?: string) => {
   <div class="flex flex-col lg:flex-row min-h-screen">
     <!-- Col 2: Tags List (Desktop Sidebar) -->
     <div class="hidden lg:flex w-64 flex-col border-r border-muted bg-background flex-shrink-0 sticky top-0 h-screen">
-      <div class="flex h-16 min-h-[64px] shrink-0 items-center px-6">
+      <div class="flex h-16 min-h-[64px] shrink-0 items-center border-b border-muted px-6">
         <h2 class="text-lg font-semibold uppercase tracking-wider text-muted-foreground">Bookmarks</h2>
       </div>
       <div class="flex-1 overflow-y-auto px-4 py-4">
