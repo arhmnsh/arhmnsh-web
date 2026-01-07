@@ -1,10 +1,6 @@
 <script setup lang="ts">
 import { format, parseISO } from 'date-fns'
 
-/*
-  We expect articles to be passed as props, or we can fetch them here if we want isolation.
-  Following the React logic, it was passed as props.
-*/
 const props = defineProps<{
   category: string
   articles: Array<{
@@ -26,24 +22,24 @@ const isArticleActive = (articlePath: string) => {
 <template>
   <div class="flex h-full flex-col">
     <div class="flex h-16 items-center border-b px-6">
-      <h2 class="text-lg font-semibold capitalize">{{ category.replace("-", " ") }}</h2>
+      <h2 class="font-serif text-lg font-bold italic capitalize">{{ category.replace("-", " ") }}</h2>
     </div>
-    <div class="flex-1 overflow-y-auto p-3">
-      <div v-if="articles.length === 0" class="p-4 text-sm text-muted-foreground">
+    <div class="flex-1 overflow-y-auto">
+      <div v-if="articles.length === 0" class="p-6 text-sm text-muted-foreground">
         No articles found.
       </div>
-      <div v-else class="flex flex-col gap-2">
+      <div v-else class="flex flex-col">
         <NuxtLink
           v-for="article in articles"
           :key="article.path"
           :to="{ path: article.path, query: { c: category } }"
           :class="cn(
-            'flex flex-col gap-1 rounded-lg border p-3 text-sm transition-colors hover:bg-muted/50',
-            isArticleActive(article.path) ? 'border-foreground/10 bg-muted' : 'border-transparent'
+            'flex flex-col gap-1 px-6 py-4 text-sm transition-colors border-b border-muted hover:bg-muted/30',
+            isArticleActive(article.path) ? 'bg-muted/50' : ''
           )"
         >
-          <span class="font-semibold leading-tight line-clamp-2">{{ article.title }}</span>
-          <span class="text-xs text-muted-foreground">
+          <span class="font-medium leading-tight line-clamp-2">{{ article.title }}</span>
+          <span class="text-xs text-muted-foreground font-mono">
             {{ format(parseISO(article.date), "d MMM yyyy") }}
           </span>
         </NuxtLink>

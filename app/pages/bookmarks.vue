@@ -61,25 +61,25 @@ const selectTag = (tag?: string) => {
 <template>
   <div class="flex flex-col lg:flex-row min-h-screen">
     <!-- Col 2: Tags List (Desktop Sidebar) -->
-    <div class="hidden lg:flex w-64 flex-col border-r bg-background/50 flex-shrink-0 sticky top-0 h-screen">
-      <div class="flex h-16 min-h-[64px] shrink-0 items-center border-b px-6">
-        <h2 class="text-lg font-semibold">Collections</h2>
+    <div class="hidden lg:flex w-64 flex-col border-r bg-background flex-shrink-0 sticky top-0 h-screen">
+      <div class="flex h-16 min-h-[64px] shrink-0 items-center px-6">
+        <h2 class="font-serif text-lg font-bold italic">Collections</h2>
       </div>
-      <div class="flex-1 overflow-y-auto p-4">
-        <div class="flex flex-col gap-1">
+      <div class="flex-1 overflow-y-auto px-4 py-4">
+        <div class="flex flex-col gap-0.5">
           <!-- All Bookmarks Item -->
           <button
             @click="selectTag()"
             :class="cn(
-              'flex items-center justify-between rounded-md px-3 py-2 text-sm transition-colors hover:bg-muted w-full',
-               !selectedTag ? 'bg-muted font-medium text-foreground' : 'text-muted-foreground'
+              'flex items-center justify-between px-2 py-2 text-sm transition-colors hover:text-foreground w-full',
+               !selectedTag ? 'text-foreground font-medium' : 'text-muted-foreground'
             )"
           >
             <div class="flex items-center gap-2">
               <Tag class="h-4 w-4" />
               <span>All Bookmarks</span>
             </div>
-            <span class="text-xs opacity-50">{{ totalBookmarksCount }}</span>
+            <span class="text-xs text-muted-foreground/60 font-mono">{{ totalBookmarksCount }}</span>
           </button>
 
           <!-- Tags -->
@@ -88,26 +88,26 @@ const selectTag = (tag?: string) => {
             :key="tag.name"
             @click="selectTag(tag.name)"
             :class="cn(
-              'flex items-center justify-between rounded-md px-3 py-2 text-sm transition-colors hover:bg-muted w-full',
-               selectedTag === tag.name ? 'bg-muted font-medium text-foreground' : 'text-muted-foreground'
+              'flex items-center justify-between px-2 py-2 text-sm transition-colors hover:text-foreground w-full',
+               selectedTag === tag.name ? 'text-foreground font-medium' : 'text-muted-foreground'
             )"
           >
              <div class="flex items-center gap-2">
-              <span class="w-4">#</span>
+              <span class="w-4 text-center">#</span>
               <span>{{ tag.name }}</span>
             </div>
-            <span class="text-xs opacity-50">{{ tag.count }}</span>
+            <span class="text-xs text-muted-foreground/60 font-mono">{{ tag.count }}</span>
           </button>
         </div>
       </div>
     </div>
 
     <!-- Mobile Header & Tags Popover -->
-    <div class="lg:hidden flex items-center justify-between px-6 py-4 border-b bg-background sticky top-0 z-30">
-        <h1 class="text-xl font-bold font-serif italic">Bookmarks</h1>
+    <div class="lg:hidden flex items-center justify-between px-4 py-4 border-b bg-background sticky top-14 z-30">
+        <h1 class="font-serif text-xl font-bold italic">Bookmarks</h1>
         <button 
           @click="showMobileTags = !showMobileTags"
-          class="flex items-center gap-2 text-sm font-medium text-muted-foreground hover:text-foreground bg-muted/50 px-3 py-1.5 rounded-full"
+          class="flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground"
         >
           <span>{{ selectedTag || 'All' }}</span>
           <Filter class="h-4 w-4" />
@@ -116,33 +116,33 @@ const selectTag = (tag?: string) => {
 
     <!-- Mobile Popover Overlay -->
     <div v-if="showMobileTags" class="fixed inset-0 z-50 bg-background/80 backdrop-blur-sm lg:hidden" @click="showMobileTags = false">
-      <div class="absolute right-4 top-16 w-64 max-h-[70vh] overflow-y-auto rounded-xl border bg-card p-2 shadow-lg" @click.stop>
-         <div class="flex items-center justify-between px-2 py-2 mb-2 border-b">
-            <span class="font-semibold text-sm">Filter by Tag</span>
-            <button @click="showMobileTags = false"><X class="h-4 w-4" /></button>
+      <div class="absolute right-4 top-32 w-64 max-h-[60vh] overflow-y-auto rounded-lg border bg-card p-4 shadow-lg" @click.stop>
+         <div class="flex items-center justify-between mb-4">
+            <span class="font-medium text-sm">Filter by Tag</span>
+            <button @click="showMobileTags = false" class="text-muted-foreground hover:text-foreground"><X class="h-4 w-4" /></button>
          </div>
          <div class="flex flex-col gap-1">
             <button
               @click="selectTag()"
               :class="cn(
-                'flex items-center justify-between rounded-md px-3 py-2 text-sm transition-colors hover:bg-muted w-full text-left',
-                !selectedTag ? 'bg-accent text-accent-foreground' : ''
+                'flex items-center justify-between py-2 text-sm transition-colors hover:text-foreground w-full text-left',
+                !selectedTag ? 'text-foreground font-medium' : 'text-muted-foreground'
               )"
             >
               <span>All Bookmarks</span>
-              <span class="text-xs opacity-50">{{ totalBookmarksCount }}</span>
+              <span class="text-xs text-muted-foreground/60 font-mono">{{ totalBookmarksCount }}</span>
             </button>
             <button
               v-for="tag in allTags"
               :key="tag.name"
               @click="selectTag(tag.name)"
                :class="cn(
-                'flex items-center justify-between rounded-md px-3 py-2 text-sm transition-colors hover:bg-muted w-full text-left',
-                selectedTag === tag.name ? 'bg-accent text-accent-foreground' : ''
+                'flex items-center justify-between py-2 text-sm transition-colors hover:text-foreground w-full text-left',
+                selectedTag === tag.name ? 'text-foreground font-medium' : 'text-muted-foreground'
               )"
             >
               <span>{{ tag.name }}</span>
-              <span class="text-xs opacity-50">{{ tag.count }}</span>
+              <span class="text-xs text-muted-foreground/60 font-mono">{{ tag.count }}</span>
             </button>
          </div>
       </div>
@@ -151,17 +151,17 @@ const selectTag = (tag?: string) => {
     <!-- Col 3: Bookmarks List -->
     <div class="flex flex-1 flex-col bg-background">
       <!-- Desktop Header only -->
-      <div class="hidden lg:flex h-16 min-h-[64px] shrink-0 items-center gap-2 border-b px-6 sticky top-0 z-40 bg-background/95 backdrop-blur">
-        <h2 class="flex-shrink-0 text-lg font-semibold">
+      <div class="hidden lg:flex h-16 min-h-[64px] shrink-0 items-center gap-2 border-b px-6 sticky top-0 z-40 bg-background">
+        <h2 class="flex-shrink-0 font-serif text-lg font-bold italic">
           {{ selectedTag ? `#${selectedTag}` : 'Bookmarks' }}
         </h2>
-        <span class="flex-shrink-0 rounded-full bg-muted px-2 py-0.5 text-xs text-muted-foreground">
+        <span class="flex-shrink-0 text-xs text-muted-foreground font-mono">
           {{ filteredBookmarks.length }}
         </span>
       </div>
 
       <div class="flex-1">
-        <div class="mx-auto w-full max-w-3xl px-4 lg:px-8">
+        <div class="mx-auto w-full max-w-3xl px-4 lg:px-8 py-4">
           <div class="flex flex-col">
           <a
             v-for="(item, idx) in filteredBookmarks"
@@ -172,7 +172,7 @@ const selectTag = (tag?: string) => {
           >
              <div class="flex items-start justify-between gap-4">
               <h3 class="font-medium text-base group-hover:underline decoration-muted-foreground/30 underline-offset-4">{{ item.title }}</h3>
-              <ExternalLink class="h-4 w-4 text-muted-foreground opacity-30 shrink-0 group-hover:opacity-100 transition-opacity" />
+              <ExternalLink class="h-4 w-4 text-muted-foreground opacity-0 shrink-0 group-hover:opacity-100 transition-opacity" />
             </div>
             
             <p v-if="item.description" class="text-sm text-muted-foreground line-clamp-2 leading-relaxed">
@@ -180,14 +180,14 @@ const selectTag = (tag?: string) => {
             </p>
 
             <div class="flex items-center gap-2 mt-1">
-              <span class="text-xs text-muted-foreground truncate opacity-70">{{ item.url }}</span>
+              <span class="text-xs text-muted-foreground/60 truncate font-mono">{{ item.url.replace(/^https?:\/\//, '').split('/')[0] }}</span>
             </div>
 
-            <div class="mt-3 flex flex-wrap gap-2">
+            <div v-if="item.tags && item.tags.length > 0" class="mt-2 flex flex-wrap gap-2">
               <span 
                 v-for="t in item.tags" 
                 :key="t"
-                class="rounded-md bg-muted/50 px-2 py-0.5 text-[10px] font-mono font-medium text-muted-foreground"
+                class="text-[11px] text-muted-foreground"
               >
                 #{{ t }}
               </span>

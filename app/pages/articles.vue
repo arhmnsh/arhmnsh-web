@@ -1,4 +1,20 @@
 <script setup lang="ts">
+import {
+  Bot,
+  Car,
+  Building2,
+  HeartPulse,
+  User,
+  Cpu,
+  Plane,
+  PenTool,
+  Briefcase,
+  ChartNoAxesColumn,
+  CodeXml,
+  Newspaper,
+  Eye
+} from 'lucide-vue-next'
+
 const route = useRoute()
 const router = useRouter()
 const category = computed(() => route.query.c as string | undefined)
@@ -66,24 +82,23 @@ const showArticleList = computed(() => {
   return !!category.value && !route.params.slug
 })
 
-// Category icons mapping
-const categoryIcons: Record<string, string> = {
-  ai: '🤖',
-  automotive: '🚗',
-  baseer: '👁️',
-  business: '💼',
-  career: '📈',
-  health: '🏥',
-  'job search': '🔍',
-  personal: '📝',
-  productivity: '⚡',
-  technology: '💻',
-  travel: '✈️',
-  writing: '✍️'
-}
-
+// Category icons mapping (same as Sidebar)
 const getCategoryIcon = (cat: string) => {
-  return categoryIcons[cat.toLowerCase()] || '📁'
+  switch (cat.toLowerCase()) {
+    case 'ai': return Bot
+    case 'productivity': return ChartNoAxesColumn
+    case 'job-search': return Briefcase
+    case 'career': return CodeXml
+    case 'automotive': return Car
+    case 'business': return Building2
+    case 'health': return HeartPulse
+    case 'personal': return User
+    case 'technology': return Cpu
+    case 'travel': return Plane
+    case 'writing': return PenTool
+    case 'baseer': return Eye
+    default: return Newspaper
+  }
 }
 </script>
 
@@ -92,19 +107,19 @@ const getCategoryIcon = (cat: string) => {
     <!-- Categories List (Mobile only, no category selected) -->
     <div v-if="showCategories" class="w-full bg-background">
       <div class="px-4 py-6">
-        <h1 class="text-2xl font-bold mb-6">Categories</h1>
-        <div class="space-y-3">
+        <h1 class="font-serif text-2xl font-bold italic mb-8">Categories</h1>
+        <div class="space-y-1">
           <NuxtLink
             v-for="cat in categories"
             :key="cat.name"
             :to="`/articles?c=${cat.name}`"
-            class="flex items-center justify-between p-4 rounded-lg border hover:bg-muted transition-colors w-full"
+            class="flex items-center justify-between py-4 border-b border-muted hover:bg-transparent transition-colors w-full group"
           >
             <div class="flex items-center gap-3">
-              <span class="text-2xl">{{ getCategoryIcon(cat.name) }}</span>
-              <span class="font-medium capitalize">{{ cat.name }}</span>
+              <component :is="getCategoryIcon(cat.name)" class="h-5 w-5 text-muted-foreground" />
+              <span class="font-medium capitalize group-hover:underline decoration-muted-foreground/30 underline-offset-4">{{ cat.name.replace('-', ' ') }}</span>
             </div>
-            <span class="text-muted-foreground text-sm">{{ cat.count }} articles</span>
+            <span class="text-muted-foreground text-sm font-mono">{{ cat.count }}</span>
           </NuxtLink>
         </div>
       </div>

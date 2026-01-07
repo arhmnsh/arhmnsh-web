@@ -14,7 +14,8 @@ import {
   User,
   Cpu,
   Plane,
-  PenTool
+  PenTool,
+  Eye
 } from 'lucide-vue-next'
 
 const route = useRoute()
@@ -49,6 +50,7 @@ const getCategoryIcon = (cat: string) => {
     case 'technology': return Cpu
     case 'travel': return Plane
     case 'writing': return PenTool
+    case 'baseer': return Eye
     default: return Newspaper
   }
 }
@@ -78,7 +80,7 @@ onMounted(() => {
 
     <aside 
       :class="[
-        'fixed left-0 top-0 z-[70] flex h-screen w-64 flex-col border-r bg-muted/30 dark:bg-muted/10 transition-transform duration-300 ease-in-out lg:translate-x-0',
+        'fixed left-0 top-0 z-[70] flex h-screen w-64 flex-col border-r bg-background transition-transform duration-300 ease-in-out lg:translate-x-0',
         isOpen ? 'translate-x-0' : '-translate-x-full'
       ]"
     >
@@ -89,21 +91,21 @@ onMounted(() => {
         </NuxtLink>
       </div>
 
-    <!-- Search Bar -->
+    <!-- Search Bar (minimal) -->
     <div class="px-4 py-2">
       <button
-        class="flex w-full items-center justify-between rounded-md border bg-background px-3 py-2 text-sm text-muted-foreground shadow-sm transition-colors hover:bg-muted/50 hover:text-foreground"
+        class="flex w-full items-center justify-between px-2 py-2 text-sm text-muted-foreground transition-colors hover:text-foreground"
         @click="openSearch"
       >
         <div class="flex items-center gap-2">
           <Search class="h-4 w-4" />
           <span>Search...</span>
         </div>
-        <div class="hidden lg:flex items-center gap-1 text-xs">
-          <kbd class="rounded border bg-muted px-1.5 font-mono text-[10px] font-medium text-muted-foreground">
+        <div class="hidden lg:flex items-center gap-1 text-xs text-muted-foreground/60">
+          <kbd class="font-mono text-[10px]">
             {{ isMac ? '⌘' : 'Ctrl' }}
           </kbd>
-          <kbd class="rounded border bg-muted px-1.5 font-mono text-[10px] font-medium text-muted-foreground">
+          <kbd class="font-mono text-[10px]">
             K
           </kbd>
         </div>
@@ -112,30 +114,26 @@ onMounted(() => {
 
     <!-- Navigation Content -->
     <div class="flex-1 overflow-y-auto px-4 py-4">
-      <nav class="flex flex-col gap-8">
+      <nav class="flex flex-col gap-6">
         <!-- Main Links -->
-        <div class="flex flex-col gap-1">
+        <div class="flex flex-col gap-0.5">
           <NuxtLink
             to="/"
             @click="close"
             :class="cn(
-              'flex items-center gap-3 rounded-md px-2 py-1.5 text-sm font-medium transition-colors hover:bg-muted hover:text-foreground',
-              isActive('/') ? 'bg-muted text-foreground' : 'text-muted-foreground'
+              'flex items-center gap-3 px-2 py-2 text-sm transition-colors hover:text-foreground',
+              isActive('/') ? 'text-foreground font-medium' : 'text-muted-foreground'
             )"
           >
             <Home class="h-4 w-4" />
             <span>Home</span>
           </NuxtLink>
-        </div>
-
-        <!-- Resources (Only Bookmarks now) -->
-        <div class="flex flex-col gap-1">
           <NuxtLink
             to="/bookmarks"
             @click="close"
             :class="cn(
-              'flex items-center gap-3 rounded-md px-2 py-1.5 text-sm font-medium transition-colors hover:bg-muted hover:text-foreground',
-              isActive('/bookmarks') ? 'bg-muted text-foreground' : 'text-muted-foreground'
+              'flex items-center gap-3 px-2 py-2 text-sm transition-colors hover:text-foreground',
+              isActive('/bookmarks') ? 'text-foreground font-medium' : 'text-muted-foreground'
             )"
           >
             <Bookmark class="h-4 w-4" />
@@ -144,8 +142,8 @@ onMounted(() => {
         </div>
 
         <!-- Articles -->
-        <div class="flex flex-col gap-1">
-          <div class="px-2 py-1 text-xs font-semibold uppercase text-muted-foreground">
+        <div class="flex flex-col gap-0.5">
+          <div class="px-2 py-1 text-xs font-medium uppercase tracking-wider text-muted-foreground/60">
             Articles
           </div>
           <NuxtLink
@@ -154,8 +152,8 @@ onMounted(() => {
             :to="{ path: '/articles', query: { c: cat } }"
             @click="close"
             :class="cn(
-              'flex items-center gap-3 rounded-md px-2 py-1.5 text-sm font-medium transition-colors hover:bg-muted hover:text-foreground',
-              route.query.c === cat ? 'bg-muted text-foreground' : 'text-muted-foreground'
+              'flex items-center gap-3 px-2 py-2 text-sm transition-colors hover:text-foreground',
+              route.query.c === cat ? 'text-foreground font-medium' : 'text-muted-foreground'
             )"
           >
             <component :is="getCategoryIcon(cat)" class="h-4 w-4" />
@@ -166,10 +164,8 @@ onMounted(() => {
     </div>
 
     <!-- Footer / Theme Toggle -->
-    <div class="border-t p-4">
-      <div class="flex items-center justify-between">
-        <ThemeToggle />
-      </div>
+    <div class="border-t border-muted p-4">
+      <ThemeToggle />
     </div>
   </aside>
 </template>
