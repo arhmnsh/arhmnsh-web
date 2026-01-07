@@ -1,4 +1,5 @@
 ---
+readTime: 1
 title: "Advanced Burnout Strategies"
 date: "2025-12-13"
 excerpt: "Take your burnout skills to the next level."

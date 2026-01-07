@@ -1,4 +1,5 @@
 ---
+readTime: 1
 title: "Advanced Cover Letters Strategies"
 date: "2025-12-08"
 excerpt: "Take your cover letters skills to the next level."

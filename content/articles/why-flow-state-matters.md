@@ -1,4 +1,5 @@
 ---
+readTime: 1
 title: "Why Flow State Matters"
 date: "2025-12-04"
 excerpt: "The importance of flow state cannot be overstated."

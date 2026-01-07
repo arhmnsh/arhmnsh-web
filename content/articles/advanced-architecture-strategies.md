@@ -1,4 +1,5 @@
 ---
+readTime: 1
 title: "Advanced Architecture Strategies"
 date: "2025-12-08"
 excerpt: "Take your architecture skills to the next level."

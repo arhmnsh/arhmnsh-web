@@ -1,4 +1,5 @@
 ---
+readTime: 1
 title: "Understanding LLMs"
 date: "2025-11-30"
 excerpt: "A comprehensive guide to understanding llms in the modern era."

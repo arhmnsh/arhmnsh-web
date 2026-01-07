@@ -1,4 +1,5 @@
 ---
+readTime: 1
 title: "Advanced Raycast Strategies"
 date: "2025-12-13"
 excerpt: "Take your raycast skills to the next level."

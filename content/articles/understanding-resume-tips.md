@@ -1,4 +1,5 @@
 ---
+readTime: 1
 title: "Understanding Resume Tips"
 date: "2025-11-30"
 excerpt: "A comprehensive guide to understanding resume tips in the modern era."

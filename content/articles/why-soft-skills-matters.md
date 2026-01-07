@@ -1,4 +1,5 @@
 ---
+readTime: 1
 title: "Why Soft Skills Matters"
 date: "2025-12-04"
 excerpt: "The importance of soft skills cannot be overstated."

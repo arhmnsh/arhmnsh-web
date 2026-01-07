@@ -1,4 +1,5 @@
 ---
+readTime: 1
 title: "Personal Branding for Beginners"
 date: "2025-12-07"
 excerpt: "Starting your journey in personal branding? Read this first."

@@ -1,4 +1,5 @@
 ---
+readTime: 1
 title: "Why Code Review Matters"
 date: "2025-12-09"
 excerpt: "The importance of code review cannot be overstated."

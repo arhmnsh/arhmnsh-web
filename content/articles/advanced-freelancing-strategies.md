@@ -1,4 +1,5 @@
 ---
+readTime: 1
 title: "Advanced Freelancing Strategies"
 date: "2025-12-13"
 excerpt: "Take your freelancing skills to the next level."

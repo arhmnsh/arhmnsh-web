@@ -1,4 +1,5 @@
 ---
+readTime: 1
 title: "Deep Work: How to Focus in a Distracted World"
 date: "2025-12-20"
 excerpt: "In an age of constant connectivity, the ability to focus without distraction is a superpower. Here is how to cultivate deep work."

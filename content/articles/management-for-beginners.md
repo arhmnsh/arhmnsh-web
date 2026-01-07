@@ -1,4 +1,5 @@
 ---
+readTime: 1
 title: "Management for Beginners"
 date: "2025-12-02"
 excerpt: "Starting your journey in management? Read this first."

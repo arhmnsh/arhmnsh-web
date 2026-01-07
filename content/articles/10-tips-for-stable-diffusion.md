@@ -1,4 +1,5 @@
 ---
+readTime: 1
 title: "10 Tips for Stable Diffusion"
 date: "2025-12-06"
 excerpt: "Here are the top 10 tips you need to know about stable diffusion."

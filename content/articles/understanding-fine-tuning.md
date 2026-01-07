@@ -1,4 +1,5 @@
 ---
+readTime: 1
 title: "Understanding Fine Tuning"
 date: "2025-12-10"
 excerpt: "A comprehensive guide to understanding fine tuning in the modern era."

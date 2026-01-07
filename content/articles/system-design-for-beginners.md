@@ -1,4 +1,5 @@
 ---
+readTime: 1
 title: "System Design for Beginners"
 date: "2025-12-07"
 excerpt: "Starting your journey in system design? Read this first."

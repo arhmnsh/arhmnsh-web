@@ -1,4 +1,5 @@
 ---
+readTime: 1
 title: "Networking for Beginners"
 date: "2025-12-02"
 excerpt: "Starting your journey in networking? Read this first."

@@ -1,4 +1,5 @@
 ---
+readTime: 1
 title: "Why Visa Sponsorship Matters"
 date: "2025-12-14"
 description: "The importance of visa sponsorship cannot be overstated."

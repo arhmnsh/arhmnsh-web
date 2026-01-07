@@ -1,4 +1,5 @@
 ---
+readTime: 1
 title: "Automation for Beginners"
 date: "2025-12-12"
 excerpt: "Starting your journey in automation? Read this first."

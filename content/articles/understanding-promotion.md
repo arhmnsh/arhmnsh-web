@@ -1,4 +1,5 @@
 ---
+readTime: 1
 title: "Understanding Promotion"
 date: "2025-11-30"
 excerpt: "A comprehensive guide to understanding promotion in the modern era."

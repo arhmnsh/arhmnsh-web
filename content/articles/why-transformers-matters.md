@@ -1,4 +1,5 @@
 ---
+readTime: 1
 title: "Why Transformers Matters"
 date: "2025-12-04"
 excerpt: "The importance of transformers cannot be overstated."

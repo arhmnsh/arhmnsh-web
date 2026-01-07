@@ -1,4 +1,5 @@
 ---
+readTime: 1
 title: "Why Career Path Matters"
 date: "2025-12-14"
 excerpt: "The importance of career path cannot be overstated."

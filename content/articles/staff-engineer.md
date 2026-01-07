@@ -1,4 +1,5 @@
 ---
+readTime: 1
 title: "Moving from Senior Engineer to Staff Engineer"
 date: "2025-12-10"
 excerpt: "The jump from Senior to Staff is not just about writing better code. It's about influence, strategy, and solving organizational problems."

@@ -1,4 +1,5 @@
 ---
+readTime: 1
 title: "Understanding Minimalism"
 date: "2025-12-10"
 excerpt: "A comprehensive guide to understanding minimalism in the modern era."

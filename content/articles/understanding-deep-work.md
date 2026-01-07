@@ -1,4 +1,5 @@
 ---
+readTime: 1
 title: "Understanding Deep Work"
 date: "2025-11-30"
 excerpt: "A comprehensive guide to understanding deep work in the modern era."

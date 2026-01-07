@@ -1,4 +1,5 @@
 ---
+readTime: 5
 title: "5 Gemini 3.0 Updates That Actually Matter for Work"
 date: "2025-12-16"
 description: "Google's latest AI updates are more than just incremental speed boosts. Here are the five features that genuinely change how we work."

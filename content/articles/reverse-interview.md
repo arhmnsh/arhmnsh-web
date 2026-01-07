@@ -1,4 +1,5 @@
 ---
+readTime: 1
 title: "The Reverse Interview: How to Vet Your Future Employer"
 date: "2025-12-18"
 excerpt: "An interview is a two-way street. Asking the right questions can save you from a toxic workplace and impress hiring managers."

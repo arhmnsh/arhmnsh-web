@@ -1,4 +1,5 @@
 ---
+readTime: 1
 title: "GTD for Beginners"
 date: "2025-12-07"
 excerpt: "Starting your journey in gtd? Read this first."

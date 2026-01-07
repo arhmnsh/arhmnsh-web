@@ -1,4 +1,5 @@
 ---
+readTime: 1
 title: "Advanced RAG Strategies"
 date: "2025-12-03"
 excerpt: "Take your rag skills to the next level."

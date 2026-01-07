@@ -1,4 +1,5 @@
 ---
+readTime: 1
 title: "Why Local Models Matters"
 date: "2025-12-09"
 excerpt: "The importance of local models cannot be overstated."

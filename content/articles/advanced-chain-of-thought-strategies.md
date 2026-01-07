@@ -1,4 +1,5 @@
 ---
+readTime: 1
 title: "Advanced Chain of Thought Strategies"
 date: "2025-12-13"
 excerpt: "Take your chain of thought skills to the next level."

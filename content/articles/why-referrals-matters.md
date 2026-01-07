@@ -1,4 +1,5 @@
 ---
+readTime: 1
 title: "Why Referrals Matters"
 date: "2025-12-09"
 excerpt: "The importance of referrals cannot be overstated."

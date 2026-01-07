@@ -1,4 +1,5 @@
 ---
+readTime: 1
 title: "Embeddings for Beginners"
 date: "2025-12-12"
 excerpt: "Starting your journey in embeddings? Read this first."

@@ -1,4 +1,5 @@
 ---
+readTime: 1
 title: "OpenAI for Beginners"
 date: "2025-12-07"
 excerpt: "Starting your journey in openai? Read this first."

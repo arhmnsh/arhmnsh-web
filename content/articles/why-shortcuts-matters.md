@@ -1,4 +1,5 @@
 ---
+readTime: 1
 title: "Why Shortcuts Matters"
 date: "2025-12-14"
 excerpt: "The importance of shortcuts cannot be overstated."

@@ -1,4 +1,5 @@
 ---
+readTime: 1
 title: "Advanced Habit Building Strategies"
 date: "2025-12-08"
 excerpt: "Take your habit building skills to the next level."
