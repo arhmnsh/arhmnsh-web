@@ -32,17 +32,27 @@ const categories = computed(() => {
     .sort((a, b) => a.name.localeCompare(b.name))
 })
 
+// Effective category - use first category on desktop if none selected
+const effectiveCategory = computed(() => {
+  if (category.value) return category.value
+  // On desktop, default to first category if available
+  if (!isMobile.value && categories.value.length > 0) {
+    return categories.value[0].name
+  }
+  return undefined
+})
+
 // Fetch articles for selected category
 const { data: articles } = await useAsyncData(
-  `articles-${category.value || 'none'}`, 
+  `articles-${effectiveCategory.value || 'none'}`, 
   () => {
-    if (!category.value) return Promise.resolve([])
+    if (!effectiveCategory.value) return Promise.resolve([])
     return queryCollection('articles')
-      .where('categories', 'LIKE', `%${category.value}%`)
+      .where('categories', 'LIKE', `%${effectiveCategory.value}%`)
       .order('date', 'DESC')
       .all()
   },
-  { watch: [category] }
+  { watch: [effectiveCategory] }
 )
 
 // Show categories on mobile when no category selected
@@ -109,7 +119,7 @@ const getCategoryIcon = (cat: string) => {
       )"
     >
       <ArticleList 
-        :category="category || 'ai'" 
+        :category="effectiveCategory || 'ai'" 
         :articles="articles || []" 
       />
     </div>

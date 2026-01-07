@@ -42,7 +42,7 @@ onMounted(() => {
     ]"
   >
     <NuxtLink to="/" class="font-serif text-lg font-bold italic tracking-wide">
-      AbdurRahaman
+      AbdurRahaman Shah
     </NuxtLink>
     
     <button 

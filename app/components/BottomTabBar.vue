@@ -13,10 +13,43 @@ const isActive = (path: string) => {
   }
   return route.path.startsWith(path)
 }
+
+// Hide-on-scroll logic (same as MobileNav but inverted direction)
+const isVisible = ref(true)
+const lastScrollY = ref(0)
+
+onMounted(() => {
+  const handleScroll = () => {
+    const currentScrollY = window.scrollY
+    
+    if (currentScrollY < 10) {
+      isVisible.value = true
+    } else if (currentScrollY < lastScrollY.value) {
+      // Scrolling up - show
+      isVisible.value = true
+    } else if (currentScrollY > lastScrollY.value) {
+      // Scrolling down - hide
+      isVisible.value = false
+    }
+    
+    lastScrollY.value = currentScrollY
+  }
+  
+  window.addEventListener('scroll', handleScroll, { passive: true })
+  
+  onUnmounted(() => {
+    window.removeEventListener('scroll', handleScroll)
+  })
+})
 </script>
 
 <template>
-  <nav class="fixed bottom-0 left-0 right-0 z-50 lg:hidden bg-background border-t border-border">
+  <nav 
+    :class="[
+      'fixed bottom-0 left-0 right-0 z-50 lg:hidden bg-background border-t border-border transition-transform duration-300',
+      isVisible ? 'translate-y-0' : 'translate-y-full'
+    ]"
+  >
     <div class="flex items-center justify-around h-14">
       <NuxtLink
         v-for="tab in tabs"

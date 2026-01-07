@@ -30,15 +30,6 @@ const goBack = () => {
 
 <template>
   <div v-if="article" class="w-full max-w-3xl mx-auto px-4 sm:px-6 py-8 lg:py-16">
-    <!-- Mobile Back Button -->
-    <button 
-      @click="goBack"
-      class="lg:hidden flex items-center gap-2 text-muted-foreground hover:text-foreground mb-6 -ml-1"
-    >
-      <ArrowLeft class="h-4 w-4" />
-      <span class="text-sm">Back</span>
-    </button>
-
     <!-- Header Area -->
     <header class="mb-16 flex flex-col items-center text-center">
       <!-- Meta Row (Date & Read Time & Theme Toggle) -->
