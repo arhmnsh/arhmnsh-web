@@ -115,6 +115,7 @@ body {
 .prose h3 a,
 .prose h4 a {
   text-decoration: none !important;
+  text-align: left !important;
 }
 
 /* Fix prose text color for better contrast */
