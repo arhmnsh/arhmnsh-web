@@ -61,7 +61,7 @@ const selectTag = (tag?: string) => {
 <template>
   <div class="flex flex-col lg:flex-row min-h-screen">
     <!-- Col 2: Tags List (Desktop Sidebar) -->
-    <div class="hidden lg:flex w-64 flex-col border-r bg-background flex-shrink-0 sticky top-0 h-screen">
+    <div class="hidden lg:flex w-64 flex-col border-r border-muted bg-background flex-shrink-0 sticky top-0 h-screen">
       <div class="flex h-16 min-h-[64px] shrink-0 items-center px-6">
         <h2 class="text-lg font-semibold uppercase tracking-wider text-muted-foreground">Collections</h2>
       </div>

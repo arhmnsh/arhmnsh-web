@@ -80,7 +80,7 @@ onMounted(() => {
 
     <aside 
       :class="[
-        'fixed left-0 top-0 z-[70] flex h-screen w-64 flex-col border-r border-border/20 bg-background transition-transform duration-300 ease-in-out lg:translate-x-0',
+        'fixed left-0 top-0 z-[70] flex h-screen w-64 flex-col border-r border-muted bg-background transition-transform duration-300 ease-in-out lg:translate-x-0',
         isOpen ? 'translate-x-0' : '-translate-x-full'
       ]"
     >
