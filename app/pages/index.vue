@@ -26,13 +26,32 @@ const { data: latestArticles } = await useAsyncData('latest-articles', () =>
         <p class="max-w-xl text-sm leading-relaxed text-muted-foreground/70">
           When not coding: cars, motorcycles, travel, painting, and stargazing.
         </p>
-        <a 
-          href="https://x.com/arhmnsh" 
-          target="_blank" 
-          class="text-sm text-muted-foreground hover:text-foreground transition-colors self-start"
-        >
-          @arhmnsh →
-        </a>
+        <div class="flex items-center gap-4">
+          <a 
+            href="https://x.com/arhmnsh" 
+            target="_blank" 
+            class="text-sm text-muted-foreground hover:text-foreground transition-colors"
+            title="Twitter / X"
+          >
+            𝕏
+          </a>
+          <a 
+            href="https://instagram.com/harleynkd" 
+            target="_blank" 
+            class="text-sm text-muted-foreground hover:text-foreground transition-colors"
+            title="Instagram"
+          >
+            Instagram
+          </a>
+          <a 
+            href="https://youtube.com/@harleynkd" 
+            target="_blank" 
+            class="text-sm text-muted-foreground hover:text-foreground transition-colors"
+            title="YouTube"
+          >
+            YouTube
+          </a>
+        </div>
       </section>
 
       <!-- Latest Articles Section -->
