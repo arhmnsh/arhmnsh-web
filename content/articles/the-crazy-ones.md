@@ -5,7 +5,9 @@ date: "2026-01-10"
 categories: ["personal", "career", "philosophy"]
 ---
 
-<iframe class="w-full aspect-video rounded-lg mb-8" src="https://www.youtube.com/embed/UF8uR6Z6KLc" title="Here's to the Crazy Ones" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+<div class="relative w-full aspect-video rounded-lg overflow-hidden mb-8">
+  <iframe class="absolute top-0 left-0 w-full h-full" src="https://www.youtube.com/embed/UF8uR6Z6KLc" title="Here's to the Crazy Ones" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+</div>
 
 I still remember watching this for the first time in my room. I was surrounded by textbooks, assignments, and the overwhelming pressure to follow the "standard path", to get good grades, get a safe job, settle down.
 
