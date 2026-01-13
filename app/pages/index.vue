@@ -42,7 +42,7 @@ const { data: latestArticles } = await useAsyncData('latest-articles', () =>
               </li>
             </ul>
             <p class="text-base text-muted-foreground/80 pt-2">
-              When not coding: cars, motorcycles, travel, painting, and stargazing.
+              When not coding: cars, motorcycles, travel, photography, painting, and astronomy.
             </p>
           </div>
 
