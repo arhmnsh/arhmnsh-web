@@ -10,47 +10,68 @@ const { data: latestArticles } = await useAsyncData('latest-articles', () =>
 </script>
 
 <template>
-  <div class="mx-auto max-w-3xl px-6 py-12 lg:py-20">
+  <div class="mx-auto max-w-4xl px-6 py-12 lg:py-24">
     <div class="flex flex-col gap-12">
       <!-- Intro / Bio -->
-      <section class="flex flex-col gap-6">
-        <h1 class="font-serif text-4xl font-bold italic tracking-tight lg:text-6xl">
-          AbdurRahaman Shah
-        </h1>
-        <p class="max-w-xl text-lg leading-relaxed text-muted-foreground">
-          CTO & Engineer building AI products at <a href="https://nabeh.sa" target="_blank" class="text-foreground underline decoration-muted-foreground/30 underline-offset-4 hover:decoration-muted-foreground">Nabeh</a>, a subsidiary of <a href="https://master-works.sa" target="_blank" class="text-foreground underline decoration-muted-foreground/30 underline-offset-4 hover:decoration-muted-foreground">Master Works</a> .
-        </p>
-        <p class="max-w-xl text-base leading-relaxed text-muted-foreground">
-          Working on AI products with computer vision, LLMs, and speech technologies. Passionate about building tools that make a difference.
-        </p>
-        <p class="max-w-xl text-sm leading-relaxed text-muted-foreground/70">
-          When not coding: cars, motorcycles, travel, painting, and stargazing.
-        </p>
-        <div class="flex items-center gap-6 pt-2">
-          <a 
-            href="https://x.com/arhmnsh" 
-            target="_blank" 
-            class="group flex items-center gap-2 text-muted-foreground hover:text-foreground transition-colors"
-          >
-            <svg class="h-4 w-4" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
-            <span class="text-sm">arhmnsh</span>
-          </a>
-          <a 
-            href="https://instagram.com/harleynkd" 
-            target="_blank" 
-            class="group flex items-center gap-2 text-muted-foreground hover:text-foreground transition-colors"
-          >
-            <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="20" x="2" y="2" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" x2="17.51" y1="6.5" y2="6.5"/></svg>
-            <span class="text-sm">harleynkd</span>
-          </a>
-          <a 
-            href="https://youtube.com/@harleynkd" 
-            target="_blank" 
-            class="group flex items-center gap-2 text-muted-foreground hover:text-foreground transition-colors"
-          >
-            <svg class="h-4 w-4" viewBox="0 0 24 24" fill="currentColor"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
-            <span class="text-sm">harleynkd</span>
-          </a>
+      <!-- Intro / Bio -->
+      <section class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+        <!-- Left: Text Content -->
+        <div class="flex flex-col gap-8 order-2 lg:order-1">
+          <div class="flex flex-col gap-5 text-lg leading-relaxed text-muted-foreground/90 font-serif">
+            <p>
+              <strong class="text-foreground font-sans">AbdurRahaman Shah</strong> is an entrepreneur and interface designer based in Riyadh, Saudi Arabia. He currently serves as the CTO at <a href="https://nabeh.sa" target="_blank" class="text-foreground underline decoration-muted-foreground/30 underline-offset-4 hover:decoration-muted-foreground">Nabeh</a>.
+            </p>
+            <p>
+              His work includes building impactful AI products such as:
+            </p>
+            <ul class="list-none space-y-2 pl-1 text-base">
+              <li>
+                — <strong class="font-sans text-foreground/80">Baseer TMS</strong> (Turnaround Management System), the first AI TMS deployment in the Middle East at Riyadh Airport. It automates turnaround events with real-time timestamps and predictive analytics.
+              </li>
+              <li>
+                — <strong class="font-sans text-foreground/80">Baseer Builder</strong>, a no-code/low-code platform for building AI use cases, deployed in Eastern Province Municipality (Dammam).
+              </li>
+              <li>
+                — <strong class="font-sans text-foreground/80">Baseer GPT</strong>, an in-house built LLM platform with RAGops, maintaining context and offering semantic search.
+              </li>
+              <li>
+                — <strong class="font-sans text-foreground/80">Baseer STT</strong>, an in-house STT model trained on local Arabic dialects, capable of distinguishing multiple speakers and analyzing sentiment.
+              </li>
+              <li>
+                — <strong class="font-sans text-foreground/80">Passenger Journey Analytics</strong> for Altanfeethi, a VIP terminal in Saudi airports, optimizing the passenger experience.
+              </li>
+            </ul>
+            <p class="text-base text-muted-foreground/80 pt-2">
+              You can get more details of the products from <a href="https://nabeh.sa/#products" target="_blank" class="text-foreground underline decoration-muted-foreground/30 underline-offset-4 hover:decoration-muted-foreground">nabeh.sa</a>.
+            </p>
+          </div>
+
+          <!-- Social Links (List Style with Icons) -->
+          <div class="flex flex-col gap-3 pt-2 text-base font-sans font-medium text-muted-foreground/60">
+            <a href="mailto:ar@arhmn.sh" class="flex items-center gap-3 hover:text-foreground transition-colors w-fit group">
+              <svg class="h-4 w-4 opacity-70 group-hover:opacity-100 transition-opacity" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+              <span>Email</span>
+            </a>
+            <a href="https://x.com/arhmnsh" target="_blank" class="flex items-center gap-3 hover:text-foreground transition-colors w-fit group">
+              <svg class="h-4 w-4 opacity-70 group-hover:opacity-100 transition-opacity" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+              <span>Twitter</span>
+            </a>
+            <a href="https://instagram.com/harleynkd" target="_blank" class="flex items-center gap-3 hover:text-foreground transition-colors w-fit group">
+              <svg class="h-4 w-4 opacity-70 group-hover:opacity-100 transition-opacity" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="20" x="2" y="2" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" x2="17.51" y1="6.5" y2="6.5"/></svg>
+              <span>Instagram</span>
+            </a>
+            <a href="https://youtube.com/@harleynkd" target="_blank" class="flex items-center gap-3 hover:text-foreground transition-colors w-fit group">
+              <svg class="h-4 w-4 opacity-70 group-hover:opacity-100 transition-opacity" viewBox="0 0 24 24" fill="currentColor"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
+              <span>YouTube</span>
+            </a>
+          </div>
+        </div>
+
+        <!-- Right: Image -->
+        <div class="order-1 lg:order-2">
+          <div class="relative w-full aspect-square rounded-xl overflow-hidden bg-muted/20">
+            <img src="/images/me.png" alt="AbdurRahaman Shah" class="w-full h-full object-cover grayscale opacity-90 mix-blend-multiply dark:mix-blend-normal transform transition-transform duration-700 hover:scale-[1.02]" />
+          </div>
         </div>
       </section>
 
