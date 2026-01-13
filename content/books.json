@@ -1,0 +1,170 @@
+[
+    {
+        "id": "sealed-nectar",
+        "title": "The Sealed Nectar",
+        "author": "Safiur Rahman Mubarakpuri",
+        "cover": "/images/books/sealed-nectar.jpg",
+        "review": "The definitive biography of the Prophet Mohammad (PBUH). Meticulously researched, deeply moving.",
+        "purchaseUrl": "https://www.amazon.in/Sealed-Nectar-Biography-Prophet-Colour/dp/6035001106"
+    },
+    {
+        "id": "wings-of-fire",
+        "title": "Wings of Fire",
+        "author": "APJ Abdul Kalam",
+        "cover": "/images/books/wings-of-fire.jpg",
+        "review": "From humble beginnings to missile man. A story of dreams and persistence.",
+        "purchaseUrl": "https://www.amazon.in/Wings-Fire-Autobiography-Arun-Tiwari/dp/8173711461"
+    },
+    {
+        "id": "steve-jobs",
+        "title": "Steve Jobs",
+        "author": "Walter Isaacson",
+        "cover": "/images/books/steve-jobs.jpg",
+        "review": "The definitive biography. Genius and madness in equal measure.",
+        "purchaseUrl": "https://www.amazon.in/STEVE-JOBS-EXCLUSIVE-BIOGRAPHY-Paperback/dp/034914043X"
+    },
+    {
+        "id": "elon-musk-isaacson",
+        "title": "Elon Musk (Isaacson)",
+        "author": "Walter Isaacson",
+        "cover": "/images/books/elon-isaacson.jpg",
+        "review": "The updated picture. Darker, more complex. Essential for understanding the man.",
+        "purchaseUrl": "https://www.amazon.in/dp/1398527491"
+    },
+    {
+        "id": "einstein",
+        "title": "Einstein: His Life and Universe",
+        "author": "Walter Isaacson",
+        "cover": "/images/books/einstein.jpg",
+        "review": "Physics made human. Isaacson's best work on a singular genius.",
+        "purchaseUrl": "https://www.amazon.in/Einstein-Life-Universe-Walter-Isaacson/dp/1847390544"
+    },
+    {
+        "id": "code-petzold",
+        "title": "Code",
+        "author": "Charles Petzold",
+        "cover": "/images/books/code.jpg",
+        "review": "From flashlights to CPUs. The best explanation of how computers actually work.",
+        "purchaseUrl": "https://www.amazon.in/Code-Language-Computer-Hardware-Software/dp/0137909101"
+    },
+    {
+        "id": "making-prince-persia",
+        "title": "The Making of Prince of Persia",
+        "author": "Jordan Mechner",
+        "cover": "/images/books/prince-persia.jpg",
+        "review": "A game developer's journal from the 80s. Raw, honest, and inspiring for any creator.",
+        "purchaseUrl": "https://www.amazon.in/Making-Prince-Persia-Journals-1985-1993-Illustrated/dp/0578627310"
+    },
+    {
+        "id": "kunan-poshpora",
+        "title": "Do You Remember Kunan Poshpora?",
+        "author": "Zubaan",
+        "cover": "/images/books/kunan-poshpora.jpg",
+        "review": "A haunting account of violence and impunity. Difficult but necessary reading.",
+        "purchaseUrl": "https://www.amazon.in/Remember-Kunan-Poshpora-Zubaan-Violence-Impunity/dp/9384757667"
+    },
+    {
+        "id": "enjoy-your-life",
+        "title": "Enjoy Your Life",
+        "author": "Dr. Muhammad Al-Arifi",
+        "cover": "/images/books/enjoy-life.jpg",
+        "review": "Timeless wisdom on human relationships. Changed how I interact with people.",
+        "purchaseUrl": "https://www.amazon.in/Enjoy-Deduced-Prophets-English-Language/dp/B09M7NC61S"
+    },
+    {
+        "id": "gems-jewels",
+        "title": "Gems and Jewels",
+        "author": "Abdul Malik Mujahid",
+        "cover": "/images/books/gems-jewels.jpg",
+        "review": "Short stories with profound lessons. Perfect for moments of reflection.",
+        "purchaseUrl": "https://www.amazon.in/Gems-Jewels-Abdul-Malik-Mujahid/dp/9960897591"
+    },
+    {
+        "id": "heavens-on-sale",
+        "title": "When the Heavens Went on Sale",
+        "author": "Ashlee Vance",
+        "cover": "/images/books/heavens-sale.jpg",
+        "review": "The new space race told through the mavericks making it happen. Thrilling.",
+        "purchaseUrl": "https://www.amazon.in/dp/0753557762"
+    },
+    {
+        "id": "elon-musk-vance",
+        "title": "Elon Musk (Vance)",
+        "author": "Ashlee Vance",
+        "cover": "/images/books/elon-vance.jpg",
+        "review": "The first proper Musk biography. Captures the early Tesla and SpaceX chaos.",
+        "purchaseUrl": "https://www.amazon.in/Elon-Musk-Billionaire-SpaceX-Shaping-ebook/dp/B00SIDCSWY"
+    },
+    {
+        "id": "zero-to-one",
+        "title": "Zero to One",
+        "author": "Peter Thiel",
+        "cover": "/images/books/zero-to-one.jpg",
+        "review": "A masterclass on building monopolies. Changed how I think about startups.",
+        "purchaseUrl": "https://www.amazon.in/dp/0753555190"
+    },
+    {
+        "id": "worlds-i-see",
+        "title": "The Worlds I See",
+        "author": "Fei-Fei Li",
+        "cover": "/images/books/worlds-i-see.jpg",
+        "review": "The godmother of AI tells her story. Vision, both literal and metaphorical.",
+        "purchaseUrl": "https://www.amazon.in/dp/1250389895"
+    },
+    {
+        "id": "stop-worrying",
+        "title": "How to Stop Worrying and Start Living",
+        "author": "Dale Carnegie",
+        "cover": "/images/books/stop-worrying.jpg",
+        "review": "Practical wisdom for anxious minds. Timeless advice that actually works.",
+        "purchaseUrl": "https://www.amazon.in/How-Stop-Worrying-Start-Living/dp/9390441927"
+    },
+    {
+        "id": "project-hail-mary",
+        "title": "Project Hail Mary",
+        "author": "Andy Weir",
+        "cover": "/images/books/hail-mary.jpg",
+        "review": "Science fiction at its finest. Gripping, funny, and unexpectedly moving.",
+        "purchaseUrl": "https://www.amazon.in/dp/1529157463"
+    },
+    {
+        "id": "guarding-tongue",
+        "title": "Guarding the Tongue",
+        "author": "Imam al-Nawawi",
+        "cover": "/images/books/guarding-tongue.jpg",
+        "review": "The power of words and silence. A guide to mindful speech.",
+        "purchaseUrl": "https://www.amazon.in/Guarding-Tongue-Golden-Advice-Book-ebook/dp/B00DRHK2XI"
+    },
+    {
+        "id": "user-friendly",
+        "title": "User Friendly",
+        "author": "Cliff Kuang",
+        "cover": "/images/books/user-friendly.jpg",
+        "review": "How design shapes behavior. Essential reading for product builders.",
+        "purchaseUrl": "https://www.amazon.in/User-Friendly-Hidden-Design-Changing-ebook/dp/B01HR5DVAQ"
+    },
+    {
+        "id": "design-everyday-things",
+        "title": "The Design of Everyday Things",
+        "author": "Don Norman",
+        "cover": "/images/books/design-everyday.jpg",
+        "review": "Why doors confuse us. The foundational text on human-centered design.",
+        "purchaseUrl": "https://www.amazon.in/Design-Everyday-Things-English-Paperback/dp/B0GD8VFB9M"
+    },
+    {
+        "id": "atomic-habits",
+        "title": "Atomic Habits",
+        "author": "James Clear",
+        "cover": "/images/books/atomic-habits.jpg",
+        "review": "Small changes, remarkable results. The systems approach to improvement.",
+        "purchaseUrl": "https://www.amazon.in/dp/1847941834"
+    },
+    {
+        "id": "calvin-hobbes",
+        "title": "Calvin and Hobbes",
+        "author": "Bill Watterson",
+        "cover": "/images/books/calvin-hobbes.jpg",
+        "review": "Childhood wonder preserved in comic form. Pure joy on every page.",
+        "purchaseUrl": "https://www.amazon.in/CALVIN-HOBBES-THEREBY-HANGS-TALE/dp/0751505080"
+    }
+]
