@@ -41,6 +41,9 @@ const { data: latestArticles } = await useAsyncData('latest-articles', () =>
                 — <strong class="font-sans text-foreground/80">Passenger Journey Analytics</strong> for Altanfeethi, a VIP terminal in Saudi airports, optimizing the passenger experience.
               </li>
             </ul>
+            <p class="text-base text-muted-foreground/80 pt-2">
+              When not coding: cars, motorcycles, travel, painting, and stargazing.
+            </p>
           </div>
 
           <!-- Social Links (List Style with Icons) -->
