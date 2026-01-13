@@ -37,14 +37,17 @@ const goBack = () => {
         <span>{{ new Date(article.date).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' }) }}</span>
         <div class="flex items-center gap-4">
           <span>{{ readingTime }}</span>
-          <button 
-            @click="toggleTheme"
-            class="p-1 hover:text-foreground transition-colors hidden lg:block"
-            aria-label="Toggle Theme"
-          >
-            <Sun v-if="colorMode.value === 'dark'" class="h-4 w-4" />
-            <Moon v-else class="h-4 w-4" />
-          </button>
+          <ClientOnly>
+            <button 
+              @click="toggleTheme"
+              class="p-1 transition-colors hidden lg:block rounded-md"
+              :class="colorMode.value === 'dark' ? 'text-neutral-400 hover:text-white' : 'text-neutral-600 hover:text-black'"
+              aria-label="Toggle Theme"
+            >
+              <Sun v-if="colorMode.value === 'dark'" class="h-4 w-4" />
+              <Moon v-else class="h-4 w-4" />
+            </button>
+          </ClientOnly>
         </div>
       </div>
 

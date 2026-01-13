@@ -12,7 +12,8 @@ const toggleTheme = () => {
   <ClientOnly>
     <button 
       @click="toggleTheme"
-      class="p-2 text-muted-foreground hover:text-foreground transition-colors"
+      class="p-2 transition-colors hover:bg-muted/50 rounded-md"
+      :class="colorMode.value === 'dark' ? 'text-neutral-400 hover:text-white' : 'text-neutral-600 hover:text-black'"
       aria-label="Toggle Theme"
     >
       <Sun v-if="colorMode.value === 'dark'" class="h-4 w-4" />

@@ -13,7 +13,7 @@ I still remember watching this for the first time in my room. I was surrounded b
 
 But something about this resonated deeply.
 
-> "The people who are crazy enough to think they can change the world, are the ones who do."
+> The people who are crazy enough to think they can change the world, are the ones who do.
 
 It wasn't just a marketing slogan to me; it was validation. Validation to be different. Validation to care more about *building* things than memorizing them.
 

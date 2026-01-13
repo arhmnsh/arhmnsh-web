@@ -56,7 +56,8 @@ onMounted(() => {
       </button>
       <button 
         @click="toggleTheme"
-        class="p-2 text-muted-foreground hover:text-foreground transition-colors"
+        class="p-2 transition-colors"
+        :class="colorMode.value === 'dark' ? 'text-neutral-400 hover:text-white' : 'text-neutral-600 hover:text-black'"
         aria-label="Toggle Theme"
       >
         <Sun v-if="colorMode.value === 'dark'" class="h-5 w-5" />

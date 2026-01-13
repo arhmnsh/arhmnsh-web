@@ -9,7 +9,7 @@ The software landscape is undergoing a seismic shift. The advent of scalable, ca
 
 In Antirez’s recent essay ["Don’t fall into the anti-AI hype"](https://antirez.com/news/158), he pinpoints a trend that every tech leader, engineer, and innovator should internalize:
 
-> "LLMs are going to help us to write better software, faster, and will allow small teams to have a chance to compete with bigger companies. The same thing open source software did in the 90s."
+> LLMs are going to help us to write better software, faster, and will allow small teams to have a chance to compete with bigger companies. The same thing open source software did in the 90s.
 
 This is exactly the shift we are witnessing. LLMs compress development cycles, raise the baseline quality of code, and give small, focused teams leverage that was previously reserved for large organizations.
 
