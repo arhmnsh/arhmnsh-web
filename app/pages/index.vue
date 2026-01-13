@@ -19,7 +19,7 @@ const { data: latestArticles } = await useAsyncData('latest-articles', () =>
         <div class="flex flex-col gap-8 order-2 lg:order-1">
           <div class="flex flex-col gap-5 text-lg leading-relaxed text-muted-foreground/90 font-serif">
             <p>
-              <strong class="text-foreground font-sans">AbdurRahaman Shah</strong> is an engineer and designer based in Riyadh, Saudi Arabia. He currently serves as the CTO at <a href="https://nabeh.sa" target="_blank" class="text-foreground underline decoration-muted-foreground/30 underline-offset-4 hover:decoration-muted-foreground">Nabeh</a>.
+              <strong class="text-foreground font-sans">AbdurRahaman Shah</strong> is an engineer and designer based in Riyadh, Saudi Arabia. He currently serves as the CTO at <a href="https://nabeh.sa" target="_blank" class="text-foreground underline decoration-muted-foreground/30 underline-offset-4 hover:decoration-muted-foreground">Nabeh</a>, a subsidiary of <a href="https://masterworks.sa" target="_blank" class="text-foreground underline decoration-muted-foreground/30 underline-offset-4 hover:decoration-muted-foreground">Master Works</a>.
             </p>
             <p>
               His work includes building impactful AI products such as:
@@ -43,15 +43,15 @@ const { data: latestArticles } = await useAsyncData('latest-articles', () =>
             </ul>
           </div>
 
-          <!-- Social Links (Horizontal List with Icons) -->
-          <div class="flex flex-wrap items-center gap-6 pt-2 text-base font-sans font-medium text-muted-foreground/60">
+          <!-- Social Links (List Style with Icons) -->
+          <div class="flex flex-col gap-3 pt-2 text-base font-sans font-medium text-muted-foreground/60">
             <a href="mailto:ar@arhmn.sh" class="flex items-center gap-3 hover:text-foreground transition-colors w-fit group">
               <svg class="h-4 w-4 opacity-70 group-hover:opacity-100 transition-opacity" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
               <span>Email</span>
             </a>
             <a href="https://x.com/arhmnsh" target="_blank" class="flex items-center gap-3 hover:text-foreground transition-colors w-fit group">
               <svg class="h-4 w-4 opacity-70 group-hover:opacity-100 transition-opacity" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
-              <span>Twitter</span>
+              <span>X/arhmnsh</span>
             </a>
             <a href="https://instagram.com/harleynkd" target="_blank" class="flex items-center gap-3 hover:text-foreground transition-colors w-fit group">
               <svg class="h-4 w-4 opacity-70 group-hover:opacity-100 transition-opacity" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="20" x="2" y="2" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" x2="17.51" y1="6.5" y2="6.5"/></svg>
