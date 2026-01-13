@@ -25,5 +25,11 @@ export default defineNuxtConfig({
     plugins: {
       '@tailwindcss/postcss': {}
     }
+  },
+  runtimeConfig: {
+    public: {
+      posthogPublicKey: '',
+      posthogHost: ''
+    }
   }
 })

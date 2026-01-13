@@ -8,6 +8,7 @@ import {
   Briefcase,
   CodeXml,
   Bookmark,
+  BookOpen,
   Car,
   Building2,
   HeartPulse,
@@ -127,6 +128,17 @@ onMounted(() => {
           >
             <Home class="h-4 w-4" />
             <span>Home</span>
+          </NuxtLink>
+          <NuxtLink
+            to="/books"
+            @click="close"
+            :class="cn(
+              'flex items-center gap-3 px-2 py-2 text-sm transition-colors hover:text-foreground',
+              isActive('/books') ? 'text-foreground font-medium' : 'text-muted-foreground'
+            )"
+          >
+            <BookOpen class="h-4 w-4" />
+            <span>Books</span>
           </NuxtLink>
           <NuxtLink
             to="/bookmarks"

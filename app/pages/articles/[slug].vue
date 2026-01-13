@@ -54,9 +54,7 @@ const goBack = () => {
       </h1>
 
       <!-- Description / Subtitle -->
-      <p v-if="article.description" class="font-serif text-xl leading-relaxed text-muted-foreground lg:text-2xl">
-        {{ article.description }}
-      </p>
+
     </header>
 
     <!-- Content -->

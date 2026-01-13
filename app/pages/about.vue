@@ -6,7 +6,7 @@
     <h1 class="mb-8 font-serif text-4xl font-bold">About Me</h1>
     <div class="prose prose-zinc dark:prose-invert">
       <p>
-        Hi, I'm <strong>AbdurRahaman Shah</strong>, the CTO at <a href="https://nabeh.sa">Nabeh</a>.
+        Hi, I'm <strong>AbdurRahaman Shah</strong>, the CTO at <a href="https://nabeh.sa">Nabeh</a>, a subsidiary of <a href="https://master-works.sa">Master Works</a>.
       </p>
       <p>
         I specialize in building AI-driven products using advanced technologies like Computer Vision, Large Language Models (LLMs), and Speech-to-Text (STT) systems.

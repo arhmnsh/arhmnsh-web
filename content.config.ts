@@ -21,6 +21,18 @@ export default defineContentConfig({
                 description: z.string().optional(),
                 tags: z.array(z.string())
             })
+        }),
+        books: defineCollection({
+            type: 'data',
+            source: 'books.json',
+            schema: z.object({
+                id: z.string(),
+                title: z.string(),
+                author: z.string(),
+                cover: z.string(),
+                review: z.string(),
+                purchaseUrl: z.string()
+            })
         })
     }
 })
