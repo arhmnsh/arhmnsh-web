@@ -3,6 +3,7 @@ readTime: 2
 title: "The Crazy Ones"
 date: "2026-01-10"
 categories: ["personal", "career", "philosophy"]
+description: "I still remember watching this for the first time in my room. I was surrounded by textbooks, assignments, and the overwhelming pressure to follow the \"standard path\"."
 ---
 
 <div class="relative w-full aspect-video rounded-lg overflow-hidden mb-8">
