@@ -19,7 +19,7 @@ const { data: latestArticles } = await useAsyncData('latest-articles', () =>
         <div class="flex flex-col gap-8 order-2 lg:order-1">
           <div class="flex flex-col gap-5 text-lg leading-relaxed text-muted-foreground/90 font-serif">
             <p>
-              <strong class="text-foreground font-sans">AbdurRahaman Shah</strong> is an entrepreneur and interface designer based in Riyadh, Saudi Arabia. He currently serves as the CTO at <a href="https://nabeh.sa" target="_blank" class="text-foreground underline decoration-muted-foreground/30 underline-offset-4 hover:decoration-muted-foreground">Nabeh</a>.
+              <strong class="text-foreground font-sans">AbdurRahaman Shah</strong> is an engineer and designer based in Riyadh, Saudi Arabia. He currently serves as the CTO at <a href="https://nabeh.sa" target="_blank" class="text-foreground underline decoration-muted-foreground/30 underline-offset-4 hover:decoration-muted-foreground">Nabeh</a>.
             </p>
             <p>
               His work includes building impactful AI products such as:
@@ -41,13 +41,10 @@ const { data: latestArticles } = await useAsyncData('latest-articles', () =>
                 — <strong class="font-sans text-foreground/80">Passenger Journey Analytics</strong> for Altanfeethi, a VIP terminal in Saudi airports, optimizing the passenger experience.
               </li>
             </ul>
-            <p class="text-base text-muted-foreground/80 pt-2">
-              You can get more details of the products from <a href="https://nabeh.sa/#products" target="_blank" class="text-foreground underline decoration-muted-foreground/30 underline-offset-4 hover:decoration-muted-foreground">nabeh.sa</a>.
-            </p>
           </div>
 
-          <!-- Social Links (List Style with Icons) -->
-          <div class="flex flex-col gap-3 pt-2 text-base font-sans font-medium text-muted-foreground/60">
+          <!-- Social Links (Horizontal List with Icons) -->
+          <div class="flex flex-wrap items-center gap-6 pt-2 text-base font-sans font-medium text-muted-foreground/60">
             <a href="mailto:ar@arhmn.sh" class="flex items-center gap-3 hover:text-foreground transition-colors w-fit group">
               <svg class="h-4 w-4 opacity-70 group-hover:opacity-100 transition-opacity" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
               <span>Email</span>
