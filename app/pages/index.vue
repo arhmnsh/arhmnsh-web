@@ -68,7 +68,7 @@ const { data: latestArticles } = await useAsyncData('latest-articles', () =>
         
         <!-- Right: Image -->
         <div class="order-1 lg:order-2">
-          <div class="relative w-full aspect-square rounded-xl overflow-hidden bg-muted/20">
+          <div class="relative w-full rounded-xl overflow-hidden bg-muted/20">
             <img src="/images/me.jpg" alt="AbdurRahaman Shah" class="w-full h-full object-cover lg:grayscale transform-gpu transition-all duration-500 ease-out hover:scale-[1.02] lg:hover:grayscale-0 will-change-transform" />
           </div>
         </div>
