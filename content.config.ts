@@ -33,6 +33,20 @@ export default defineContentConfig({
                 review: z.string(),
                 purchaseUrl: z.string()
             })
+        }),
+        gallery: defineCollection({
+            type: 'data',
+            source: 'gallery.json',
+            schema: z.object({
+                id: z.string(),
+                type: z.enum(['image', 'video']),
+                platform: z.enum(['instagram', 'youtube']),
+                embedUrl: z.string(),
+                externalUrl: z.string(),
+                thumbnail: z.string(),
+                title: z.string(),
+                aspectRatio: z.enum(['portrait', 'landscape', 'square'])
+            })
         })
     }
 })

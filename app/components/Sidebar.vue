@@ -16,7 +16,8 @@ import {
   Cpu,
   Plane,
   PenTool,
-  Eye
+  Eye,
+  Image
 } from 'lucide-vue-next'
 
 const route = useRoute()
@@ -150,6 +151,17 @@ onMounted(() => {
           >
             <Bookmark class="h-4 w-4" />
             <span>Bookmarks</span>
+          </NuxtLink>
+          <NuxtLink
+            to="/gallery"
+            @click="close"
+            :class="cn(
+              'flex items-center gap-3 px-2 py-2 text-sm transition-colors hover:text-foreground',
+              isActive('/gallery') ? 'text-foreground font-medium' : 'text-muted-foreground'
+            )"
+          >
+            <Image class="h-4 w-4" />
+            <span>Gallery</span>
           </NuxtLink>
         </div>
 
