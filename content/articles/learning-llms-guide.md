@@ -1,4 +1,5 @@
 ---
+readTime: 4
 title: "A Practical Guide to Learning LLMs: From Foundations to Agents"
 date: "2026-02-09"
 description: "A comprehensive technical guide for engineering students to master large language models - from transformer architecture to building production-ready agents."
