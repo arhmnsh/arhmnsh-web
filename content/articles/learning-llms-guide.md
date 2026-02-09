@@ -3,7 +3,7 @@ readTime: 4
 title: "A Practical Guide to Learning LLMs: From Foundations to Agents"
 date: "2026-02-09"
 description: "A comprehensive technical guide for engineering students to master large language models - from transformer architecture to building production-ready agents."
-categories: ["AI", "Career", "Engineering", "Learning"]
+categories: ["AI", "Career", "Learning"]
 ---
 
 If you're an engineering student wanting to understand large language models beyond just using ChatGPT, this guide will help you build real technical depth. This isn't about prompt engineering tricks - it's about understanding how these systems actually work and how to build with them.
