@@ -39,12 +39,24 @@ const dynamicCategories = computed(() => {
   return Array.from(cats).sort()
 })
 
+// Format category for display - preserve all-caps (AI, LLM), otherwise sentence case
+const formatCategory = (cat: string) => {
+  // If all uppercase, keep as-is (e.g., AI, LLM)
+  if (cat === cat.toUpperCase()) {
+    return cat
+  }
+  // Otherwise apply proper sentence case
+  return cat.charAt(0).toUpperCase() + cat.slice(1).toLowerCase()
+}
+
 const getCategoryIcon = (cat: string) => {
   switch (cat.toLowerCase()) {
     case 'ai': return Bot
+    case 'llm': return Bot
     case 'productivity': return ChartNoAxesColumn
     case 'job-search': return Briefcase
     case 'career': return CodeXml
+    case 'engineering': return CodeXml
     case 'automotive': return Car
     case 'business': return Building2
     case 'health': return HeartPulse
@@ -52,6 +64,8 @@ const getCategoryIcon = (cat: string) => {
     case 'technology': return Cpu
     case 'travel': return Plane
     case 'writing': return PenTool
+    case 'learning': return BookOpen
+    case 'philosophy': return Eye
     case 'baseer': return Eye
     default: return Newspaper
   }
@@ -181,7 +195,7 @@ onMounted(() => {
             )"
           >
             <component :is="getCategoryIcon(cat)" class="h-4 w-4" />
-            <span class="capitalize">{{ cat.replace('-', ' ') }}</span>
+            <span>{{ formatCategory(cat.replace('-', ' ')) }}</span>
           </NuxtLink>
         </div>
       </nav>
