@@ -2,7 +2,7 @@
 readTime: 1
 title: "Why LLMs Will Redefine How We Build Software"
 date: "2026-01-12"
-categories: ["ai", "engineering", "llm"]
+categories: ["AI", "Engineering", "LLM"]
 ---
 
 The software landscape is undergoing a seismic shift. The advent of scalable, capable Large Language Models (LLMs) is not just another step in tooling evolution; it is reshaping the fundamentals of how software gets conceived, designed, and delivered.

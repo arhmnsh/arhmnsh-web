@@ -1,10 +1,12 @@
-# Nuxt Blog System
+# Personal Website Template
 
-A minimal, typography-focused blog system built with Nuxt 4
+A minimal, typography-focused personal website with blog, bookmarks, book reviews, and photo/video gallery. Built with Nuxt 4, Nuxt Content, and Tailwind CSS.
 
 ## Features
 
 - 📝 **Markdown-based content** via Nuxt Content
+- 📚 **Book reviews** with cover images and purchase links
+- 📸 **Photo/Video gallery** with Instagram and YouTube integration
 - 🎨 **Clean typography** with Inter and IBM Plex fonts
 - 🌓 **Dark/Light mode** with system preference detection
 - 🔍 **Global search** with `⌘K` / `Ctrl+K` shortcuts
@@ -15,9 +17,13 @@ A minimal, typography-focused blog system built with Nuxt 4
 ## Quick Start
 
 ```bash
-# Clone the repository
-git clone https://github.com/yourusername/your-blog.git
-cd your-blog
+# Option 1: Fork this repository on GitHub, then clone your fork
+git clone https://github.com/arhmnsh/arhmnsh-web.git
+cd arhmnsh-web
+
+# Option 2: Use this as a template (click "Use this template" on GitHub), then clone
+git clone https://github.com/arhmnsh/arhmnsh-web.git
+cd arhmnsh-web
 
 # Install dependencies
 npm install
@@ -38,9 +44,14 @@ Open [http://localhost:3000](http://localhost:3000) to see your blog.
 │   └── assets/css/       # Global styles
 ├── content/
 │   ├── articles/         # Blog posts (markdown)
-│   └── bookmarks.json    # Bookmarks data
+│   ├── bookmarks.json    # Bookmarks data
+│   ├── books.json        # Book reviews data
+│   └── gallery.json      # Gallery media items
 ├── public/
-│   └── images/articles/  # Article media
+│   └── images/
+│       ├── articles/     # Article media
+│       ├── books/        # Book covers
+│       └── gallery/      # Gallery thumbnails
 └── nuxt.config.ts        # Nuxt configuration
 ```
 
