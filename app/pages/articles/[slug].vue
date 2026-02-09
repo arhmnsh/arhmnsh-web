@@ -14,12 +14,19 @@ const { data: article } = await useAsyncData(`article-${slug.value}`, () =>
   queryCollection('articles').path(route.path).first()
 )
 const readingTime = computed(() => {
+  // Use frontmatter readTime if available
+  if (article.value?.readTime) {
+    const minutes = article.value.readTime
+    return `${minutes} MIN READ`
+  }
+  
+  // Otherwise calculate from body
   const body = article.value?.body as any
   if (!body?.children) return '1 MIN READ'
   const text = JSON.stringify(body)
   const estWords = text.length / 10 
   const min = Math.ceil(estWords / 200)
-  return `${min} MINUTE READ`
+  return `${min} MIN READ`
 })
 
 const goBack = () => {
