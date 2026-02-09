@@ -166,6 +166,7 @@ onMounted(() => {
             <Bookmark class="h-4 w-4" />
             <span>Bookmarks</span>
           </NuxtLink>
+          <!-- Gallery hidden until finalized
           <NuxtLink
             to="/gallery"
             @click="close"
@@ -177,6 +178,7 @@ onMounted(() => {
             <Image class="h-4 w-4" />
             <span>Gallery</span>
           </NuxtLink>
+          -->
         </div>
 
         <!-- Articles -->
