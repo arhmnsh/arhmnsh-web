@@ -12,6 +12,17 @@ If you're an engineering student wanting to understand large language models bey
 
 LLMs are becoming infrastructure. Whether you're building products, working on AI systems, or just want to stay relevant in tech, understanding how these models work under the hood is crucial. You need to know the architecture, the training process, and how to integrate them into real systems.
 
+### Prerequisites (Be Honest With Yourself)
+
+Before starting, you'll need:
+- **Solid Python skills**: Not beginner level - comfortable with classes, decorators, async/await
+- **Math foundations**: Linear algebra (matrix operations, dot products), calculus (derivatives, chain rule), basic probability
+- **Deep learning basics**: Understanding of neural networks, gradient descent, backpropagation
+
+Don't have these yet? That's fine. Start with:
+- **3Blue1Brown's Linear Algebra series**: https://www.youtube.com/playlist?list=PLZHQObOWTQDPD3MizzM2xVFitgF8hE_ab
+- **Fast.ai Part 1 (covers DL fundamentals)**: https://course.fast.ai/
+
 ## The Learning Path
 
 ### 1. Start with Python Fundamentals
@@ -38,19 +49,40 @@ Theory alone won't cut it. You need to implement these concepts.
 - "Let's build GPT: from scratch, in code, spelled out" (YouTube): https://www.youtube.com/watch?v=kCc8FmEb1nY
 - "Intro to Large Language Models" (YouTube): https://www.youtube.com/watch?v=zjkBMFhNj_g
 
-### 4. Learn Retrieval Augmented Generation (RAG)
+
+### 4. Learn Evaluation and Testing
+
+Critical but often skipped: You need to know if your LLM system actually works.
+
+**Key concepts:**
+- Metrics: BLEU, ROUGE, perplexity, BERTScore
+- Human evaluation vs. automated metrics
+- Testing for hallucinations and factual accuracy
+- A/B testing LLM outputs
+- When metrics mislead you
+
+**Resources:**
+- **DeepLearning.AI - Building and Evaluating Advanced RAG**: https://www.deeplearning.ai/short-courses/building-evaluating-advanced-rag/
+- **LangSmith for evaluation**: https://docs.smith.langchain.com/
+- **OpenAI's guide on evals**: https://cookbook.openai.com/examples/evaluation/how_to_eval_abstractive_summarization
+
+### 5. Learn Retrieval Augmented Generation (RAG)
 
 Most production LLM systems use RAG - combining LLMs with external knowledge retrieval.
 
-**DeepLearning.AI - Building and Evaluating Advanced RAG**: https://www.deeplearning.ai/short-courses/building-evaluating-advanced-rag/
+**Resources:**
+- **DeepLearning.AI - Building and Evaluating Advanced RAG**: https://www.deeplearning.ai/short-courses/building-evaluating-advanced-rag/
+- **Greg Kamradt's chunking strategies:** https://github.com/FullStackRetrieval-com/RetrievalTutorials
 
 Key concepts to master:
 - Vector embeddings and similarity search
 - Chunking strategies for documents
 - Hybrid search approaches
 - Evaluation metrics for retrieval quality
+- Re-ranking and query rewriting
+- Handling document updates and cache invalidation
 
-### 5. Build LLM Agents
+### 6. Build LLM Agents
 
 Agents are LLMs that can use tools, make decisions, and execute multi-step tasks.
 
