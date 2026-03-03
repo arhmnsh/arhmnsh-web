@@ -45,8 +45,17 @@ const { data: latestArticles } = await useAsyncData('latest-articles', () =>
             </p>
           </div>
 
-          <!-- Social Links (List Style with Icons) -->
-          <div class="flex flex-col gap-3 pt-2 text-base font-sans font-medium text-muted-foreground/60">
+          <!-- Project Links -->
+          <div class="flex flex-col gap-3 pt-2">
+            <p class="text-xs font-sans font-semibold uppercase tracking-[0.2em] text-muted-foreground/45">Projects</p>
+            <a href="https://salafsayings.arhmn.sh" target="_blank" rel="noopener noreferrer" class="flex items-center gap-3 text-base font-sans font-medium text-muted-foreground/70 hover:text-foreground transition-colors w-fit group">
+              <svg class="h-4 w-4 opacity-70 group-hover:opacity-100 transition-opacity" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 14 21 3"/><path d="M21 3h-7"/><path d="M21 3v7"/><path d="M14 10v11H3V10h11"/></svg>
+              <span>Salaf Sayings</span>
+            </a>
+          </div>
+
+          <!-- Contact Links -->
+          <div class="flex flex-col gap-3 text-base font-sans font-medium text-muted-foreground/60">
             <a href="mailto:hi@arhmn.sh" class="flex items-center gap-3 hover:text-foreground transition-colors w-fit group">
               <svg class="h-4 w-4 opacity-70 group-hover:opacity-100 transition-opacity" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
               <span>hi@arhmn.sh</span>
