@@ -52,6 +52,10 @@ const { data: latestArticles } = await useAsyncData('latest-articles', () =>
               <svg class="h-4 w-4 opacity-70 group-hover:opacity-100 transition-opacity" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 14 21 3"/><path d="M21 3h-7"/><path d="M21 3v7"/><path d="M14 10v11H3V10h11"/></svg>
               <span>Salaf Sayings</span>
             </a>
+            <a href="https://athkar.arhmn.sh" target="_blank" rel="noopener noreferrer" class="flex items-center gap-3 text-base font-sans font-medium text-muted-foreground/70 hover:text-foreground transition-colors w-fit group">
+              <svg class="h-4 w-4 opacity-70 group-hover:opacity-100 transition-opacity" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 14 21 3"/><path d="M21 3h-7"/><path d="M21 3v7"/><path d="M14 10v11H3V10h11"/></svg>
+              <span>Athkar</span>
+            </a>
           </div>
 
           <!-- Contact Links -->
