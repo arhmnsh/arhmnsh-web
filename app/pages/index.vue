@@ -1,6 +1,32 @@
 <script setup lang="ts">
 import { format, parseISO } from 'date-fns'
 
+const siteUrl = 'https://arhmn.sh'
+const socialImage = `${siteUrl}/images/me.jpg`
+const pageTitle = 'AbdurRahaman Shah'
+const pageDescription = 'Engineer and designer building AI products. Personal website, writing, and projects.'
+
+useSeoMeta({
+  title: pageTitle,
+  description: pageDescription,
+  ogTitle: pageTitle,
+  ogDescription: pageDescription,
+  ogType: 'website',
+  ogUrl: siteUrl,
+  ogImage: socialImage,
+  ogImageAlt: 'AbdurRahaman Shah',
+  twitterCard: 'summary_large_image',
+  twitterTitle: pageTitle,
+  twitterDescription: pageDescription,
+  twitterImage: socialImage
+})
+
+useHead({
+  link: [
+    { rel: 'canonical', href: siteUrl }
+  ]
+})
+
 const { data: latestArticles } = await useAsyncData('latest-articles', () => 
   queryCollection('articles')
     .order('date', 'DESC')
