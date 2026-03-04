@@ -22,6 +22,13 @@ useSeoMeta({
 })
 
 useHead({
+  meta: [
+    { property: 'og:image:secure_url', content: socialImage },
+    { property: 'og:image:type', content: 'image/jpeg' },
+    { property: 'og:image:width', content: '2576' },
+    { property: 'og:image:height', content: '1552' },
+    { name: 'twitter:image:alt', content: 'AbdurRahaman Shah' }
+  ],
   link: [
     { rel: 'canonical', href: siteUrl }
   ]
