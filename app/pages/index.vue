@@ -2,7 +2,7 @@
 import { format, parseISO } from 'date-fns'
 
 const siteUrl = 'https://arhmn.sh'
-const socialImage = `${siteUrl}/images/me.jpg`
+const socialImage = `${siteUrl}/images/og-arhmn.jpg`
 const pageTitle = 'AbdurRahaman Shah'
 const pageDescription = 'Engineer and designer building AI products. Personal website, writing, and projects.'
 
@@ -25,8 +25,8 @@ useHead({
   meta: [
     { property: 'og:image:secure_url', content: socialImage },
     { property: 'og:image:type', content: 'image/jpeg' },
-    { property: 'og:image:width', content: '2576' },
-    { property: 'og:image:height', content: '1552' },
+    { property: 'og:image:width', content: '1200' },
+    { property: 'og:image:height', content: '630' },
     { name: 'twitter:image:alt', content: 'AbdurRahaman Shah' }
   ],
   link: [
