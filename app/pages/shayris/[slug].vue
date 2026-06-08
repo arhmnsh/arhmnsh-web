@@ -1,9 +1,8 @@
 <script setup lang="ts">
-import { ArrowLeft, ArrowLeftIcon, ArrowRightIcon, Heart, Moon, Shuffle, Sun, Volume2, X } from 'lucide-vue-next'
+import { ArrowLeftIcon, ArrowRightIcon, Compass, Heart, Moon, Shuffle, Sun, Volume2, X } from 'lucide-vue-next'
 import { shayriGlossary, type ShayriGlossaryEntry } from '~/data/shayriGlossary'
 
 const route = useRoute()
-const router = useRouter()
 const slug = computed(() => route.params.slug as string)
 const activeGlossary = ref<(ShayriGlossaryEntry & { top: number, left: number, width: number, height: number }) | null>(null)
 
@@ -217,65 +216,49 @@ onMounted(() => {
     window.removeEventListener('resize', closeGlossary)
   })
 })
-
-const goBack = () => {
-  if (route.query.a) {
-    router.push({ path: '/shayris', query: { a: route.query.a as string } })
-    return
-  }
-  if (route.query.t) {
-    router.push({ path: '/shayris', query: { t: route.query.t as string } })
-    return
-  }
-  router.push('/shayris')
-}
 </script>
 
 <template>
   <div v-if="shayri" class="w-full max-w-3xl mx-auto px-4 sm:px-6 py-8 lg:py-16" @click.self="closeGlossary">
     <header class="mb-12 flex flex-col items-center text-center">
-      <div class="mb-6 flex w-full items-center justify-between gap-4 font-sans text-xs font-bold tracking-widest text-muted-foreground uppercase">
-        <button
-          @click="goBack"
-          class="flex items-center gap-2 transition-colors hover:text-foreground"
-          aria-label="Back to shayris"
-        >
-          <ArrowLeft class="h-4 w-4" />
-          <span>Back</span>
-        </button>
-        <div class="flex items-center gap-4">
-          <span>{{ new Date(shayri.date).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' }) }}</span>
-          <ClientOnly>
-            <button
-              @click="toggleTheme"
-              class="hidden rounded-md p-1 transition-colors lg:block"
-              :class="colorMode.value === 'dark' ? 'text-neutral-400 hover:text-white' : 'text-neutral-600 hover:text-black'"
-              aria-label="Toggle Theme"
-            >
-              <Sun v-if="colorMode.value === 'dark'" class="h-4 w-4" />
-              <Moon v-else class="h-4 w-4" />
-            </button>
-          </ClientOnly>
-        </div>
+      <div class="mb-8 flex w-full justify-end">
+        <ClientOnly>
+          <button
+            @click="toggleTheme"
+            class="hidden rounded-md p-1 transition-colors lg:block"
+            :class="colorMode.value === 'dark' ? 'text-neutral-400 hover:text-white' : 'text-neutral-600 hover:text-black'"
+            aria-label="Toggle Theme"
+          >
+            <Sun v-if="colorMode.value === 'dark'" class="h-4 w-4" />
+            <Moon v-else class="h-4 w-4" />
+          </button>
+        </ClientOnly>
       </div>
 
-      <h1 class="mb-4 font-sans text-4xl font-bold uppercase tracking-tight lg:text-5xl lg:leading-[1.1]">
+      <h1 class="shayri-title mb-4 text-5xl leading-[0.95] sm:text-6xl lg:text-7xl">
         {{ shayri.title }}
       </h1>
 
       <NuxtLink
         :to="{ path: '/shayris', query: { a: shayri.author } }"
-        class="text-sm font-sans uppercase tracking-[0.2em] text-muted-foreground/80 transition-colors hover:text-foreground"
+        class="shayri-author text-xl text-muted-foreground/80 transition-colors hover:text-foreground"
       >
         {{ shayri.author }}
       </NuxtLink>
+
+      <time
+        :datetime="shayri.date"
+        class="mt-3 font-sans text-[11px] font-semibold uppercase tracking-[0.22em] text-muted-foreground/50"
+      >
+        {{ new Date(shayri.date).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' }) }}
+      </time>
     </header>
 
-    <article class="shayri-text max-w-none font-serif">
+    <article class="shayri-text max-w-none">
       <p
         v-for="(block, blockIndex) in poemBlocks"
         :key="`${blockIndex}-${block}`"
-        class="mb-7 text-xl leading-loose text-foreground sm:text-2xl sm:leading-loose"
+        class="mb-8 leading-[1.75] text-foreground"
       >
         <template
           v-for="(segment, segmentIndex) in annotateText(block)"
@@ -397,6 +380,16 @@ const goBack = () => {
           class="rounded-full border border-muted px-3 py-1 text-[11px] font-medium uppercase tracking-[0.18em] text-muted-foreground transition-colors hover:text-foreground"
         >
           {{ tag }}
+        </NuxtLink>
+      </div>
+
+      <div class="mb-8 flex justify-center">
+        <NuxtLink
+          to="/shayris/explore"
+          class="inline-flex items-center gap-2 rounded-full border border-muted px-4 py-2 text-xs font-semibold uppercase tracking-[0.18em] text-muted-foreground transition-colors hover:bg-muted/40 hover:text-foreground"
+        >
+          <Compass class="h-4 w-4" />
+          <span>Explore tags & authors</span>
         </NuxtLink>
       </div>
 
