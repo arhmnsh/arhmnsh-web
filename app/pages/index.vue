@@ -57,7 +57,7 @@ const { data: latestShayris } = await useAsyncData('latest-shayris', () =>
         <div class="flex flex-col gap-8 order-2 lg:order-1">
           <div class="flex flex-col gap-5 text-lg leading-relaxed text-muted-foreground/90 font-serif">
             <p>
-              <strong class="text-foreground font-sans">AbdurRahaman Shah</strong> is an engineer and designer based in Riyadh, Saudi Arabia. He currently serves as the CTO at <a href="https://nabeh.sa" target="_blank" class="text-foreground underline decoration-muted-foreground/30 underline-offset-4 hover:decoration-muted-foreground">Nabeh</a>, a subsidiary of <a href="https://masterworks.sa" target="_blank" class="text-foreground underline decoration-muted-foreground/30 underline-offset-4 hover:decoration-muted-foreground">Master Works</a>.
+              <strong class="text-foreground font-sans">AbdurRahaman Shah</strong> is an engineer and designer based in Riyadh, Saudi Arabia.
             </p>
             <p>
               His work includes building impactful AI products such as:
