@@ -40,6 +40,12 @@ const { data: latestArticles } = await useAsyncData('latest-articles', () =>
     .limit(3)
     .all()
 )
+const { data: latestShayris } = await useAsyncData('latest-shayris', () =>
+  queryCollection('shayris')
+    .order('date', 'DESC')
+    .limit(3)
+    .all()
+)
 </script>
 
 <template>
@@ -141,6 +147,36 @@ const { data: latestArticles } = await useAsyncData('latest-articles', () =>
         </div>
         <NuxtLink to="/articles" class="text-sm text-muted-foreground hover:text-foreground transition-colors self-start">
           View all articles →
+        </NuxtLink>
+      </section>
+
+      <section class="flex flex-col gap-6">
+        <h2 class="text-lg font-semibold uppercase tracking-wider text-muted-foreground">Latest Shayris</h2>
+        <div v-if="latestShayris && latestShayris.length > 0" class="flex flex-col">
+          <NuxtLink
+            v-for="shayri in latestShayris"
+            :key="shayri.path"
+            :to="{ path: shayri.path, query: { t: shayri.tags?.[0] } }"
+            class="group flex flex-col gap-2 py-5 border-b border-muted/50 transition-all last:border-0 hover:bg-transparent"
+          >
+            <div class="flex flex-col gap-2">
+              <div class="flex items-center justify-between gap-4">
+                <h3 class="font-medium text-base group-hover:underline decoration-muted-foreground/30 underline-offset-4">{{ shayri.title }}</h3>
+                <span class="shrink-0 text-xs text-muted-foreground/60 font-mono">
+                  {{ format(parseISO(shayri.date), "dd MMM yyyy") }}
+                </span>
+              </div>
+              <p class="text-xs uppercase tracking-[0.16em] text-muted-foreground/70">
+                {{ shayri.author }}
+              </p>
+              <p v-if="shayri.description" class="text-sm text-muted-foreground line-clamp-2 leading-relaxed">
+                {{ shayri.description }}
+              </p>
+            </div>
+          </NuxtLink>
+        </div>
+        <NuxtLink to="/shayris" class="text-sm text-muted-foreground hover:text-foreground transition-colors self-start">
+          View all shayris →
         </NuxtLink>
       </section>
     </div>

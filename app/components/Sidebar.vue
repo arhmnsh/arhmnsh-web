@@ -27,6 +27,9 @@ const { isOpen, close } = useSidebar()
 const { data: articlesForCategories } = useAsyncData('sidebar-categories', () => 
   queryCollection('articles').all()
 )
+const { data: shayrisForTags } = useAsyncData('sidebar-shayri-tags', () =>
+  queryCollection('shayris').all()
+)
 
 const dynamicCategories = computed(() => {
   if (!articlesForCategories.value) return []
@@ -37,6 +40,17 @@ const dynamicCategories = computed(() => {
     }
   })
   return Array.from(cats).sort()
+})
+
+const dynamicShayriTags = computed(() => {
+  if (!shayrisForTags.value) return []
+  const tags = new Set<string>()
+  shayrisForTags.value.forEach(shayri => {
+    if (shayri.tags) {
+      shayri.tags.forEach(tag => tags.add(tag))
+    }
+  })
+  return Array.from(tags).sort()
 })
 
 // Format category for display - preserve all-caps (AI, LLM), otherwise sentence case
@@ -102,7 +116,7 @@ onMounted(() => {
     >
       <!-- Header / Logo -->
       <div class="flex h-16 items-center px-6">
-        <NuxtLink to="/" class="font-serif text-xl font-bold italic tracking-wide">
+        <NuxtLink to="/" class="font-serif text-xl font-bold italic tracking-wide" @click="close">
           AbdurRahaman
         </NuxtLink>
       </div>
@@ -166,6 +180,17 @@ onMounted(() => {
             <Bookmark class="h-4 w-4" />
             <span>Bookmarks</span>
           </NuxtLink>
+          <NuxtLink
+            to="/shayris"
+            @click="close"
+            :class="cn(
+              'flex items-center gap-3 px-2 py-2 text-sm transition-colors hover:text-foreground',
+              isActive('/shayris') ? 'text-foreground font-medium' : 'text-muted-foreground'
+            )"
+          >
+            <PenTool class="h-4 w-4" />
+            <span>Shayris</span>
+          </NuxtLink>
           <!-- Gallery hidden until finalized
           <NuxtLink
             to="/gallery"
@@ -198,6 +223,25 @@ onMounted(() => {
           >
             <component :is="getCategoryIcon(cat)" class="h-4 w-4" />
             <span>{{ formatCategory(cat.replace('-', ' ')) }}</span>
+          </NuxtLink>
+        </div>
+
+        <div class="flex flex-col gap-0.5">
+          <div class="px-2 py-1 text-xs font-medium uppercase tracking-wider text-muted-foreground/60">
+            Shayris
+          </div>
+          <NuxtLink
+            v-for="tag in dynamicShayriTags"
+            :key="tag"
+            :to="{ path: '/shayris', query: { t: tag } }"
+            @click="close"
+            :class="cn(
+              'flex items-center gap-3 px-2 py-2 text-sm transition-colors hover:text-foreground',
+              route.path.startsWith('/shayris') && route.query.t === tag ? 'text-foreground font-medium' : 'text-muted-foreground'
+            )"
+          >
+            <PenTool class="h-4 w-4" />
+            <span>{{ formatCategory(tag) }}</span>
           </NuxtLink>
         </div>
       </nav>

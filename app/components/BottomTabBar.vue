@@ -4,6 +4,7 @@ const route = useRoute()
 const tabs = [
   { name: 'Home', path: '/', icon: 'home' },
   { name: 'Articles', path: '/articles', icon: 'file-text' },
+  { name: 'Shayris', path: '/shayris', icon: 'pen-tool' },
   { name: 'Books', path: '/books', icon: 'book' },
   { name: 'Bookmarks', path: '/bookmarks', icon: 'bookmark' }
 ]
@@ -71,6 +72,15 @@ onMounted(() => {
           <path d="M10 9H8"/>
           <path d="M16 13H8"/>
           <path d="M16 17H8"/>
+        </svg>
+        <!-- Pen Tool Icon -->
+        <svg v-else-if="tab.icon === 'pen-tool'" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="m12 19 7-7 3 3-7 7-3 1z"/>
+          <path d="m18 13-1.5-1.5"/>
+          <path d="M2 22l7-7"/>
+          <path d="m14 4 6 6"/>
+          <path d="m5 14 5-5"/>
+          <path d="m8 17 5-5"/>
         </svg>
         <!-- Book Icon -->
         <svg v-else-if="tab.icon === 'book'" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">

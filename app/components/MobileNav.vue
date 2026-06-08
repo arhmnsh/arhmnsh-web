@@ -1,8 +1,9 @@
 <script setup lang="ts">
-import { Sun, Moon, Search } from 'lucide-vue-next'
+import { Menu, Sun, Moon, Search } from 'lucide-vue-next'
 
 const colorMode = useColorMode()
 const { open } = useCommandMenu()
+const { open: openSidebar } = useSidebar()
 
 const toggleTheme = () => {
   colorMode.preference = colorMode.value === 'dark' ? 'light' : 'dark'
@@ -42,9 +43,18 @@ onMounted(() => {
       isVisible ? 'translate-y-0' : '-translate-y-full'
     ]"
   >
-    <NuxtLink to="/" class="font-serif text-lg font-bold italic tracking-wide">
-      AbdurRahaman Shah
-    </NuxtLink>
+    <div class="flex items-center gap-2 min-w-0">
+      <button
+        @click="openSidebar"
+        class="p-2 text-muted-foreground hover:text-foreground transition-colors"
+        aria-label="Open menu"
+      >
+        <Menu class="h-5 w-5" />
+      </button>
+      <NuxtLink to="/" class="truncate font-serif text-lg font-bold italic tracking-wide">
+        AbdurRahaman Shah
+      </NuxtLink>
+    </div>
     
     <div class="flex items-center gap-1">
       <button 

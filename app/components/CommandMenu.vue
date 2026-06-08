@@ -1,8 +1,9 @@
 <script setup lang="ts">
-import { Search, X, FileText, Link as LinkIcon } from 'lucide-vue-next'
+import { Search, X, FileText, Link as LinkIcon, PenTool } from 'lucide-vue-next'
 
 const { isOpen, close } = useCommandMenu()
 const router = useRouter()
+const route = useRoute()
 
 // Close on route change
 router.afterEach(() => {
@@ -23,10 +24,15 @@ onMounted(() => {
 })
 
 const query = ref('')
+const isShayriContext = computed(() => route.path.startsWith('/shayris'))
+const placeholder = computed(() => isShayriContext.value ? 'Search shayris...' : 'Search articles...')
 
 // Fetch dynamic content
 const { data: articles } = await useAsyncData('search-articles', () => 
   queryCollection('articles').select('path', 'title', 'categories').all()
+)
+const { data: shayris } = await useAsyncData('search-shayris', () =>
+  queryCollection('shayris').select('path', 'title', 'author', 'tags', 'body').all()
 )
 const { data: bookmarksRaw } = await useAsyncData('search-bookmarks', () => 
   queryCollection('bookmarks').all()
@@ -34,11 +40,17 @@ const { data: bookmarksRaw } = await useAsyncData('search-bookmarks', () =>
 
 const bookmarks = computed(() => (bookmarksRaw.value?.[0]?.meta?.body || []) as any[])
 
+const searchableText = (value: unknown) => {
+  if (!value) return ''
+  return JSON.stringify(value).toLowerCase()
+}
+
 const searchResults = computed(() => {
   const q = query.value.toLowerCase().trim()
   
   const results = {
     articles: [] as any[],
+    shayris: [] as any[],
     bookmarks: [] as any[]
   }
 
@@ -46,7 +58,7 @@ const searchResults = computed(() => {
   if (!q) return results
 
   // Filter Articles
-  if (articles.value) {
+  if (!isShayriContext.value && articles.value) {
     results.articles = articles.value
       .filter(a => 
         a.title.toLowerCase().includes(q) || 
@@ -55,27 +67,42 @@ const searchResults = computed(() => {
       .slice(0, 8)
   }
 
+  if (shayris.value) {
+    results.shayris = shayris.value
+      .filter(s =>
+        s.title.toLowerCase().includes(q) ||
+        s.author.toLowerCase().includes(q) ||
+        s.tags?.some((tag: string) => tag.toLowerCase().includes(q)) ||
+        searchableText(s.body).includes(q)
+      )
+      .slice(0, 8)
+  }
+
   // Filter Bookmarks
-  results.bookmarks = bookmarks.value
-    .filter((b: any) => 
-      b.title.toLowerCase().includes(q) || 
-      b.url.toLowerCase().includes(q) ||
-      b.tags?.some((t: string) => t.toLowerCase().includes(q))
-    )
-    .slice(0, 5)
+  if (!isShayriContext.value) {
+    results.bookmarks = bookmarks.value
+      .filter((b: any) => 
+        b.title.toLowerCase().includes(q) || 
+        b.url.toLowerCase().includes(q) ||
+        b.tags?.some((t: string) => t.toLowerCase().includes(q))
+      )
+      .slice(0, 5)
+  }
 
   return results
 })
 
 const hasResults = computed(() => {
   return searchResults.value.articles.length > 0 || 
+         searchResults.value.shayris.length > 0 ||
          searchResults.value.bookmarks.length > 0
 })
 
 const hasQuery = computed(() => query.value.trim().length > 0)
 
-function navigate(path: string, category?: string) {
-  const url = category ? { path, query: { c: category } } : path
+function navigate(path: string, filter?: string) {
+  const queryKey = path.startsWith('/shayris/') ? 't' : 'c'
+  const url = filter ? { path, query: { [queryKey]: filter } } : path
   router.push(url as any)
   close()
 }
@@ -104,7 +131,7 @@ watch(isOpen, async (val) => {
         <input
           ref="searchInput"
           v-model="query"
-          placeholder="Search articles..."
+          :placeholder="placeholder"
           class="flex h-12 w-full bg-transparent py-3 text-sm outline-none placeholder:text-muted-foreground/50"
         />
         <button @click="close" class="ml-2 p-1 text-muted-foreground hover:text-foreground">
@@ -141,6 +168,26 @@ watch(isOpen, async (val) => {
                 <div class="flex flex-col">
                   <span class="font-medium text-foreground">{{ article.title }}</span>
                   <span class="text-xs text-muted-foreground/60 capitalize">{{ article.categories?.join(', ') }}</span>
+                </div>
+              </button>
+            </div>
+          </div>
+
+          <div v-if="searchResults.shayris.length > 0" class="mt-2">
+            <div class="px-2 py-1.5 text-xs font-medium uppercase tracking-wider text-muted-foreground/60">
+              Shayris
+            </div>
+            <div class="flex flex-col">
+              <button
+                v-for="shayri in searchResults.shayris"
+                :key="shayri.path"
+                @click="navigate(shayri.path, shayri.tags?.[0])"
+                class="flex w-full items-center gap-3 px-2 py-2 text-sm outline-none hover:bg-muted/50 hover:text-foreground text-left text-muted-foreground"
+              >
+                <PenTool class="h-4 w-4 opacity-50" />
+                <div class="flex flex-col">
+                  <span class="font-medium text-foreground">{{ shayri.title }}</span>
+                  <span class="text-xs text-muted-foreground/60">{{ shayri.author }} - {{ shayri.tags?.join(', ') }}</span>
                 </div>
               </button>
             </div>
