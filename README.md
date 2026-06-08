@@ -1,10 +1,11 @@
 # Personal Website Template
 
-A minimal, typography-focused personal website with blog, bookmarks, book reviews, and photo/video gallery. Built with Nuxt 4, Nuxt Content, and Tailwind CSS.
+A minimal, typography-focused personal website with blog, shayris, bookmarks, book reviews, and photo/video gallery. Built with Nuxt 4, Nuxt Content, and Tailwind CSS.
 
 ## Features
 
 - 📝 **Markdown-based content** via Nuxt Content
+- ✒️ **Shayri collection** with author, tags, markdown formatting, and YouTube embeds
 - 📚 **Book reviews** with cover images and purchase links
 - 📸 **Photo/Video gallery** with Instagram and YouTube integration
 - 🎨 **Clean typography** with Inter and IBM Plex fonts
@@ -44,6 +45,7 @@ Open [http://localhost:3000](http://localhost:3000) to see your blog.
 │   └── assets/css/       # Global styles
 ├── content/
 │   ├── articles/         # Blog posts (markdown)
+│   ├── shayris/          # Shayri entries (markdown)
 │   ├── bookmarks.json    # Bookmarks data
 │   ├── books.json        # Book reviews data
 │   └── gallery.json      # Gallery media items
@@ -114,6 +116,26 @@ categories:
 ```
 
 The sidebar will automatically display the new category.
+
+## Writing Shayris
+
+Create a new markdown file in `content/shayris/`:
+
+```markdown
+---
+title: "Tera Naam"
+date: 2026-04-20
+author: "Ahmed Faraz"
+tags:
+  - ishq
+  - ghazal
+youtubeUrl: "https://www.youtube.com/watch?v=VIDEO_ID"
+---
+
+_Tum mere paas raho_
+
+**Har** misra markdown formatting support karta hai.
+```
 
 ## Customization
 

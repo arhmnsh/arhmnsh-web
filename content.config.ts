@@ -13,6 +13,18 @@ export default defineContentConfig({
                 tags: z.array(z.string()).optional()
             })
         }),
+        shayris: defineCollection({
+            type: 'page',
+            source: 'shayris/**/*.md',
+            schema: z.object({
+                title: z.string(),
+                date: z.string(),
+                author: z.string(),
+                tags: z.array(z.string()),
+                description: z.string().optional(),
+                youtubeUrl: z.string().url().optional()
+            })
+        }),
         bookmarks: defineCollection({
             type: 'data',
             source: 'bookmarks.json',

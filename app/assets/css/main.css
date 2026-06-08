@@ -156,3 +156,18 @@ body {
   --tw-prose-th-borders: hsl(240 3.7% 15.9%);
   --tw-prose-td-borders: hsl(240 3.7% 15.9%);
 }
+
+.shayri-text p:first-of-type::first-letter {
+  float: left;
+  font-size: 4.25rem;
+  line-height: 0.9;
+  font-weight: 400;
+  margin-right: 0.6rem;
+  margin-top: 0.25rem;
+  font-family: "IBM Plex Serif", ui-serif, Georgia, serif;
+}
+
+.shayri-text p {
+  white-space: pre-line;
+  text-align: left;
+}
