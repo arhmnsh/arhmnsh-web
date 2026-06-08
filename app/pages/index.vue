@@ -46,6 +46,38 @@ const { data: latestShayris } = await useAsyncData('latest-shayris', () =>
     .limit(3)
     .all()
 )
+
+const skydiveClickCount = ref(0)
+let skydiveClickTimer: ReturnType<typeof setTimeout> | undefined
+
+const handleSkydiveImageClick = () => {
+  skydiveClickCount.value += 1
+
+  if (skydiveClickTimer) {
+    clearTimeout(skydiveClickTimer)
+  }
+
+  skydiveClickTimer = setTimeout(() => {
+    skydiveClickCount.value = 0
+  }, 2500)
+
+  if (skydiveClickCount.value < 4) {
+    return
+  }
+
+  skydiveClickCount.value = 0
+  if (skydiveClickTimer) {
+    clearTimeout(skydiveClickTimer)
+  }
+
+  window.open('https://youtu.be/DK1E-9Fj7RE', '_blank', 'noopener,noreferrer')
+}
+
+onUnmounted(() => {
+  if (skydiveClickTimer) {
+    clearTimeout(skydiveClickTimer)
+  }
+})
 </script>
 
 <template>
@@ -117,7 +149,14 @@ const { data: latestShayris } = await useAsyncData('latest-shayris', () =>
         <!-- Right: Image -->
         <div class="order-1 lg:order-2">
           <div class="relative w-full rounded-xl overflow-hidden bg-muted/20">
-            <img src="/images/me.jpg" alt="AbdurRahaman Shah" class="w-full h-full object-cover lg:grayscale transform-gpu transition-all duration-500 ease-out hover:scale-[1.02] lg:hover:grayscale-0 will-change-transform" />
+            <button
+              type="button"
+              class="block w-full cursor-default overflow-hidden text-left focus:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background"
+              aria-label="AbdurRahaman Shah portrait"
+              @click="handleSkydiveImageClick"
+            >
+              <img src="/images/me.jpg" alt="AbdurRahaman Shah" class="w-full h-full object-cover lg:grayscale transform-gpu transition-all duration-500 ease-out hover:scale-[1.02] lg:hover:grayscale-0 will-change-transform" />
+            </button>
           </div>
         </div>
       </section>
