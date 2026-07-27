@@ -72,7 +72,7 @@ const showShayriList = computed(() => {
 
     <div :class="cn(
       'flex-1 min-w-0 bg-background lg:h-full lg:overflow-y-auto',
-      route.params.slug || isExplorePage ? 'flex flex-col' : 'hidden'
+      route.params.slug || isExplorePage || isIndexPage ? 'flex flex-col' : 'hidden'
     )">
       <div class="flex-1 w-full">
         <NuxtPage />

@@ -27,7 +27,15 @@ if (latest.value) {
 </script>
 
 <template>
-  <div class="flex h-full items-center justify-center text-muted-foreground">
-    <p>Opening latest shayri...</p>
+  <div class="flex min-h-[60vh] items-center justify-center px-6 text-center">
+    <div v-if="latest" class="text-muted-foreground">
+      <p>Opening latest shayri...</p>
+    </div>
+    <div v-else class="max-w-md">
+      <p class="font-serif text-3xl text-foreground">No shayris yet.</p>
+      <p class="mt-3 text-sm leading-relaxed text-muted-foreground">
+        New shayris will appear here soon.
+      </p>
+    </div>
   </div>
 </template>
