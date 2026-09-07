@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { Play, X, ExternalLink, Instagram, Youtube } from 'lucide-vue-next'
+import { Play, ExternalLink, ChevronLeft, ChevronRight, ImageOff } from 'lucide-vue-next'
 
 interface GalleryItem {
   id: string
@@ -9,200 +9,215 @@ interface GalleryItem {
   externalUrl: string
   thumbnail: string
   title: string
+  alt?: string
+  width?: number
+  height?: number
   aspectRatio: 'portrait' | 'landscape' | 'square'
 }
 
-// Fetch gallery data
-const { data: galleryData } = await useAsyncData('gallery', () => 
-  queryCollection('gallery').all()
-)
-
-// Extract the actual gallery array from meta.body
-const items = computed(() => {
-  if (!galleryData.value || galleryData.value.length === 0) return []
-  return (galleryData.value[0]?.meta?.body || []) as GalleryItem[]
+usePageSeo({
+  title: 'Gallery',
+  description: 'Photographs and videos from my travels, rides, and everyday moments.'
 })
 
-// Modal state
-const selectedItem = ref<GalleryItem | null>(null)
-const isModalOpen = computed(() => selectedItem.value !== null)
+const { data: galleryData } = await useAsyncData('gallery', () => queryCollection('gallery').all())
+const items = computed(() => (galleryData.value?.[0]?.meta?.body || []) as GalleryItem[])
+const route = useRoute()
+const router = useRouter()
+const selectedIndex = ref(-1)
+const isOpen = ref(false)
+const selectedItem = computed(() => items.value[selectedIndex.value])
+const failedThumbnails = ref(new Set<string>())
 
-const openModal = (item: GalleryItem) => {
-  selectedItem.value = item
-  document.body.style.overflow = 'hidden'
+function markImageFailed(id: string) {
+  failedThumbnails.value = new Set([...failedThumbnails.value, id])
 }
 
-const closeModal = () => {
-  selectedItem.value = null
-  document.body.style.overflow = ''
+function showItem(index: number) {
+  const item = items.value[index]
+  if (!item) return
+  if (!isOpen.value) document.getElementById(`media-${item.id}`)?.focus({ preventScroll: true })
+  selectedIndex.value = index
+  isOpen.value = true
 }
 
-// Close on escape key
-onMounted(() => {
-  const handleEscape = (e: KeyboardEvent) => {
-    if (e.key === 'Escape') closeModal()
+function selectItem(index: number) {
+  const item = items.value[index]
+  if (!item) return
+  showItem(index)
+  router.replace({ query: { ...route.query, media: item.id } })
+}
+
+function syncMediaFromQuery() {
+  const index = items.value.findIndex(item => item.id === route.query.media)
+  if (index >= 0) showItem(index)
+  else isOpen.value = false
+}
+
+function moveSelection(direction: number) {
+  if (items.value.length < 2) return
+  selectItem((selectedIndex.value + direction + items.value.length) % items.value.length)
+}
+
+function onViewerKeydown(event: KeyboardEvent) {
+  if (event.altKey || event.ctrlKey || event.metaKey || event.shiftKey) return
+  if (event.target instanceof HTMLElement && event.target.closest('input, textarea, select, [contenteditable="true"]')) return
+  if (event.key === 'ArrowLeft' || event.key === 'ArrowRight') {
+    event.preventDefault()
+    moveSelection(event.key === 'ArrowLeft' ? -1 : 1)
   }
-  window.addEventListener('keydown', handleEscape)
-  onUnmounted(() => window.removeEventListener('keydown', handleEscape))
+}
+
+// Derive a single valid player URL from the public video link.
+const youtubeEmbedUrl = computed(() => {
+  if (selectedItem.value?.platform !== 'youtube') return null
+  try {
+    const url = new URL(selectedItem.value.externalUrl)
+    if (!['youtube.com', 'www.youtube.com', 'youtu.be'].includes(url.hostname)) return null
+    const videoId = url.hostname === 'youtu.be'
+      ? url.pathname.slice(1)
+      : url.searchParams.get('v') || url.pathname.match(/^\/(?:shorts|embed)\/([^/]+)/)?.[1]
+    return videoId && /^[a-zA-Z0-9_-]{11}$/.test(videoId)
+      ? `https://www.youtube-nocookie.com/embed/${videoId}?rel=0`
+      : null
+  } catch {
+    return null
+  }
 })
 
-// Get aspect ratio class for masonry
-const getAspectClass = (ratio: string) => {
-  switch (ratio) {
-    case 'portrait': return 'row-span-2'
-    case 'landscape': return 'col-span-2'
-    default: return ''
+onMounted(syncMediaFromQuery)
+watch(() => route.query.media, syncMediaFromQuery)
+watch(isOpen, (open) => {
+  if (!open && route.query.media) {
+    const { media, ...query } = route.query
+    router.replace({ query })
   }
-}
+})
 </script>
 
 <template>
   <div class="flex h-full">
-    <!-- Main Content -->
-    <div class="flex-1 overflow-y-auto">
-      <div class="max-w-[1800px] mx-auto px-4 sm:px-6 py-8 lg:py-12">
-        <!-- Header -->
+    <div class="min-w-0 flex-1 overflow-y-auto">
+      <div class="mx-auto max-w-[1800px] px-4 py-8 sm:px-6 lg:py-12">
         <header class="mb-8">
-          <h1 class="font-sans text-3xl font-bold uppercase tracking-tight mb-2">
-            Gallery
-          </h1>
-          <p class="font-serif text-muted-foreground text-lg">
-            Moments I've captured.
-          </p>
+          <h1 class="mb-2 font-sans text-3xl font-bold uppercase tracking-tight">Gallery</h1>
+          <p class="font-serif text-lg text-muted-foreground">Moments I've captured, on the road and along the way.</p>
         </header>
 
-        <!-- Masonry Grid -->
-        <div class="columns-2 md:columns-3 lg:columns-4 gap-3 space-y-3">
-          <div
-            v-for="item in items"
+        <div class="columns-2 gap-4 md:columns-3 lg:columns-4">
+          <button
+            v-for="(item, index) in items"
+            :id="`media-${item.id}`"
             :key="item.id"
-            @click="openModal(item)"
-            class="break-inside-avoid group relative overflow-hidden rounded-lg cursor-pointer bg-muted/20"
+            type="button"
+            class="gallery-card group mb-4 block w-full break-inside-avoid overflow-hidden rounded-lg border border-border bg-background text-left"
+            :aria-label="`Open ${item.type === 'video' ? 'video' : 'photo'}: ${item.title}`"
+            aria-haspopup="dialog"
+            @click="selectItem(index)"
           >
-            <!-- Thumbnail -->
-            <img
-              :src="item.thumbnail"
-              :alt="item.title"
-              class="w-full h-auto object-cover transition-transform duration-500 ease-out group-hover:scale-105"
-              loading="lazy"
-            />
-            
-            <!-- Video Indicator -->
-            <div
-              v-if="item.type === 'video'"
-              class="absolute inset-0 flex items-center justify-center pointer-events-none"
-            >
-              <div class="w-12 h-12 rounded-full bg-black/60 flex items-center justify-center backdrop-blur-sm transition-transform duration-300 group-hover:scale-110">
-                <Play class="w-5 h-5 text-white fill-white ml-0.5" />
-              </div>
-            </div>
-
-            <!-- Hover Overlay -->
-            <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-              <div class="absolute bottom-0 left-0 right-0 p-3">
-                <div class="flex items-center gap-2 text-white/90 text-sm">
-                  <Instagram v-if="item.platform === 'instagram'" class="w-4 h-4" />
-                  <Youtube v-else class="w-4 h-4" />
-                  <span class="truncate">{{ item.title }}</span>
-                </div>
-              </div>
-            </div>
-          </div>
+            <span class="relative block overflow-hidden bg-muted">
+              <img
+                v-if="!failedThumbnails.has(item.id)"
+                :src="item.thumbnail"
+                :alt="item.alt || item.title"
+                :width="item.width || 1280"
+                :height="item.height || 720"
+                class="gallery-thumbnail h-auto w-full object-cover"
+                loading="lazy"
+                decoding="async"
+                @error="markImageFailed(item.id)"
+              />
+              <span v-else class="flex aspect-video items-center justify-center p-4 text-center text-xs text-muted-foreground">
+                <ImageOff class="mr-2 h-5 w-5 shrink-0" aria-hidden="true" />
+                Preview unavailable
+              </span>
+              <span v-if="item.type === 'video'" class="absolute inset-0 flex items-center justify-center" aria-hidden="true">
+                <span class="flex h-11 w-11 items-center justify-center rounded-full bg-black/70 text-white backdrop-blur-sm">
+                  <Play class="ml-0.5 h-5 w-5 fill-white" />
+                </span>
+              </span>
+            </span>
+          </button>
         </div>
 
-        <!-- Empty state -->
-        <div v-if="items.length === 0" class="text-center py-20">
-          <div class="w-12 h-12 text-muted-foreground mx-auto mb-4 rounded-lg border-2 border-dashed border-muted-foreground/30 flex items-center justify-center">
-            <Play class="w-6 h-6" />
-          </div>
-          <p class="font-serif text-muted-foreground">No media added yet.</p>
+        <div v-if="items.length === 0" class="py-20 text-center">
+          <p class="font-serif text-muted-foreground">Photographs and videos will appear here soon.</p>
+          <NuxtLink to="/articles" class="mt-4 inline-block underline underline-offset-4">Explore the articles</NuxtLink>
         </div>
       </div>
     </div>
 
-    <!-- Modal - Near full screen -->
-    <Teleport to="body">
-      <Transition
-        enter-active-class="transition-opacity duration-200"
-        enter-from-class="opacity-0"
-        enter-to-class="opacity-100"
-        leave-active-class="transition-opacity duration-200"
-        leave-from-class="opacity-100"
-        leave-to-class="opacity-0"
-      >
-        <div
-          v-if="isModalOpen"
-          class="fixed inset-0 z-50 flex items-center justify-center p-2 sm:p-3 bg-black/95"
-          @click.self="closeModal"
-        >
-          <!-- Close Button -->
-          <button
-            @click="closeModal"
-            class="absolute top-2 right-2 sm:top-3 sm:right-3 p-2 rounded-full bg-white/10 hover:bg-white/20 transition-colors z-50"
-          >
-            <X class="w-5 h-5 sm:w-6 sm:h-6 text-white" />
-          </button>
+    <AccessibleDialog
+      v-model:open="isOpen"
+      :title="selectedItem?.title || 'Gallery viewer'"
+      close-label="Close gallery viewer"
+      size="wide"
+      @keydown="onViewerKeydown"
+    >
+      <div v-if="selectedItem && isOpen" class="space-y-4">
+        <div class="gallery-media">
+          <iframe
+            v-if="selectedItem.type === 'video' && youtubeEmbedUrl"
+            :key="selectedItem.id"
+            :src="youtubeEmbedUrl"
+            :title="`${selectedItem.title} — YouTube video player`"
+            class="gallery-video"
+            :class="{ 'gallery-video--portrait': selectedItem.aspectRatio === 'portrait' }"
+            allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+            referrerpolicy="strict-origin-when-cross-origin"
+            allowfullscreen
+          />
+          <img
+            v-else-if="!failedThumbnails.has(selectedItem.id)"
+            :key="selectedItem.id"
+            :src="selectedItem.thumbnail"
+            :alt="selectedItem.alt || selectedItem.title"
+            :width="selectedItem.width || 1280"
+            :height="selectedItem.height || 720"
+            class="gallery-photo"
+            @error="markImageFailed(selectedItem.id)"
+          />
+          <p v-else class="p-8 text-center text-sm text-white/80">The preview is unavailable. Open the original using the link below.</p>
+        </div>
 
-          <!-- External Link Button -->
+        <p v-if="selectedItem.type === 'video' && selectedItem.platform === 'instagram'" class="text-sm text-muted-foreground">Watch the full reel on Instagram.</p>
+        <div class="flex flex-wrap items-center justify-between gap-x-6 gap-y-3">
           <a
-            v-if="selectedItem"
             :href="selectedItem.externalUrl"
             target="_blank"
-            class="absolute top-2 right-12 sm:top-3 sm:right-14 p-2 rounded-full bg-white/10 hover:bg-white/20 transition-colors z-50 flex items-center gap-2"
+            rel="noopener noreferrer"
+            class="inline-flex min-h-11 items-center gap-2 rounded text-sm font-medium underline underline-offset-4"
           >
-            <ExternalLink class="w-4 h-4 sm:w-5 sm:h-5 text-white" />
-            <span class="text-white text-sm hidden md:inline">Open in {{ selectedItem.platform === 'instagram' ? 'Instagram' : 'YouTube' }}</span>
+            {{ selectedItem.type === 'video' ? 'Watch' : 'View original' }} on {{ selectedItem.platform === 'instagram' ? 'Instagram' : 'YouTube' }}
+            <ExternalLink class="h-4 w-4" aria-hidden="true" />
+            <span class="sr-only"> (opens in a new tab)</span>
           </a>
-
-          <!-- Instagram Content Container -->
-          <div
-            v-if="selectedItem && selectedItem.platform === 'instagram'"
-            :class="[
-              'relative bg-black rounded-lg shadow-2xl overflow-hidden',
-              selectedItem.aspectRatio === 'portrait' 
-                ? 'w-full max-w-[min(540px,96vw)] h-[calc(100vh-16px)] sm:h-[calc(100vh-24px)] max-h-[960px]' 
-                : selectedItem.aspectRatio === 'square' 
-                  ? 'w-[min(96vw,90vh)] aspect-square' 
-                  : 'w-[96vw] max-w-5xl aspect-[4/3]'
-            ]"
-          >
-            <!-- Instagram embed with bottom crop -->
-            <div class="relative w-full h-full">
-              <!-- The iframe wrapper - extends below the visible area to hide Instagram UI -->
-              <div class="absolute inset-0 overflow-hidden">
-                <iframe
-                  :src="`${selectedItem.embedUrl}embed/?hidecaption=true&cr=1`"
-                  class="w-full border-0"
-                  :style="{
-                    height: 'calc(100% + 80px)',
-                    marginBottom: '-80px'
-                  }"
-                  scrolling="no"
-                  allowtransparency="true"
-                  allowfullscreen
-                />
-              </div>
-              
-              <!-- Gradient fade at bottom for smooth clipping -->
-              <div class="absolute bottom-0 left-0 right-0 h-8 bg-gradient-to-t from-black to-transparent pointer-events-none z-10" />
-            </div>
-          </div>
-          
-          <!-- YouTube Content Container -->
-          <div
-            v-else-if="selectedItem"
-            class="relative bg-black rounded-lg shadow-2xl w-[96vw] max-w-6xl aspect-video"
-          >
-            <iframe
-              :src="`${selectedItem.embedUrl}?rel=0&modestbranding=1`"
-              class="w-full h-full rounded-lg"
-              frameborder="0"
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-              allowfullscreen
-            />
+          <div class="flex items-center gap-3" aria-label="Browse gallery">
+            <button type="button" class="gallery-arrow" aria-label="Previous item" :disabled="items.length < 2" @click="moveSelection(-1)">
+              <ChevronLeft class="h-5 w-5" aria-hidden="true" />
+            </button>
+            <span class="min-w-14 text-center text-xs tabular-nums text-muted-foreground" role="status" aria-live="polite" aria-atomic="true">{{ selectedIndex + 1 }} / {{ items.length }}</span>
+            <button type="button" class="gallery-arrow" aria-label="Next item" :disabled="items.length < 2" @click="moveSelection(1)">
+              <ChevronRight class="h-5 w-5" aria-hidden="true" />
+            </button>
           </div>
         </div>
-      </Transition>
-    </Teleport>
+      </div>
+    </AccessibleDialog>
   </div>
 </template>
+
+<style scoped>
+.gallery-card { cursor: pointer; }
+.gallery-card:focus-visible, .gallery-arrow:focus-visible { outline: 2px solid currentColor; outline-offset: 3px; }
+.gallery-thumbnail { transition: transform 260ms ease; }
+.gallery-card:hover .gallery-thumbnail { transform: scale(1.035); }
+.gallery-media { display: flex; justify-content: center; overflow: hidden; border-radius: 0.5rem; background: #101010; }
+.gallery-photo { width: auto; height: auto; max-width: 100%; max-height: 60dvh; object-fit: contain; }
+.gallery-video { display: block; width: 100%; aspect-ratio: 16 / 9; max-height: 60dvh; border: 0; }
+.gallery-video--portrait { width: min(100%, 33.75dvh); aspect-ratio: 9 / 16; }
+.gallery-arrow { display: grid; width: 2.75rem; height: 2.75rem; place-items: center; border: 1px solid hsl(var(--border)); border-radius: 999px; cursor: pointer; }
+.gallery-arrow:hover { background: hsl(var(--muted)); }
+.gallery-arrow:disabled { opacity: 0.4; cursor: default; }
+@media (prefers-reduced-motion: reduce) { .gallery-thumbnail { transition: none; } .gallery-card:hover .gallery-thumbnail { transform: none; } }
+</style>
