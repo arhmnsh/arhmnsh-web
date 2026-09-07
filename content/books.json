@@ -4,7 +4,7 @@
         "title": "The Sealed Nectar",
         "author": "Safiur Rahman Mubarakpuri",
         "cover": "/images/books/sealed-nectar.jpg",
-        "review": "The definitive biography of the Prophet Mohammad (PBUH). Meticulously researched, deeply moving.",
+        "review": "A biography of the Prophet Muhammad (PBUH) that brings individual events into a connected life story. Reading in sequence helps keep each chapter in its wider context.",
         "purchaseUrl": "https://www.amazon.in/Sealed-Nectar-Biography-Prophet-Colour/dp/6035001106"
     },
     {
@@ -12,7 +12,7 @@
         "title": "Wings of Fire",
         "author": "APJ Abdul Kalam",
         "cover": "/images/books/wings-of-fire.jpg",
-        "review": "From humble beginnings to missile man. A story of dreams and persistence.",
+        "review": "Kalam's journey from humble beginnings to a career in science gives persistence a concrete shape. A reminder that a large ambition is built through years of learning and work.",
         "purchaseUrl": "https://www.amazon.in/Wings-Fire-Autobiography-Arun-Tiwari/dp/8173711461"
     },
     {
@@ -20,7 +20,7 @@
         "title": "Steve Jobs",
         "author": "Walter Isaacson",
         "cover": "/images/books/steve-jobs.jpg",
-        "review": "The definitive biography. Genius and madness in equal measure.",
+        "review": "A portrait of creative ambition and demanding leadership, with the difficult relationships left in view. The product story is inseparable from the way people worked together.",
         "purchaseUrl": "https://www.amazon.in/STEVE-JOBS-EXCLUSIVE-BIOGRAPHY-Paperback/dp/034914043X"
     },
     {
@@ -28,7 +28,7 @@
         "title": "Elon Musk (Isaacson)",
         "author": "Walter Isaacson",
         "cover": "/images/books/elon-isaacson.jpg",
-        "review": "The updated picture. Darker, more complex. Essential for understanding the man.",
+        "review": "A more complex portrait of Musk, with ambition and personal contradictions sharing the page. It invites a closer look at both what gets built and the pressures surrounding it.",
         "purchaseUrl": "https://www.amazon.in/dp/1398527491"
     },
     {
@@ -36,7 +36,7 @@
         "title": "Einstein: His Life and Universe",
         "author": "Walter Isaacson",
         "cover": "/images/books/einstein.jpg",
-        "review": "Physics made human. Isaacson's best work on a singular genius.",
+        "review": "Physics placed alongside the life of the person doing the thinking. The biographical perspective makes scientific ideas feel like questions someone had to struggle with before reaching an answer.",
         "purchaseUrl": "https://www.amazon.in/Einstein-Life-Universe-Walter-Isaacson/dp/1847390544"
     },
     {
@@ -44,7 +44,7 @@
         "title": "Code",
         "author": "Charles Petzold",
         "cover": "/images/books/code.jpg",
-        "review": "From flashlights to CPUs. The best explanation of how computers actually work.",
+        "review": "From flashlights to CPUs, complex machinery becomes a sequence of understandable steps. A useful way to rebuild intuition about what sits underneath the software we write.",
         "purchaseUrl": "https://www.amazon.in/Code-Language-Computer-Hardware-Software/dp/0137909101"
     },
     {
@@ -52,7 +52,7 @@
         "title": "The Making of Prince of Persia",
         "author": "Jordan Mechner",
         "cover": "/images/books/prince-persia.jpg",
-        "review": "A game developer's journal from the 80s. Raw, honest, and inspiring for any creator.",
+        "review": "A game developer's journal that lets the making of a game unfold day by day. The value is in seeing the work in progress, before it becomes a polished story about a finished creation.",
         "purchaseUrl": "https://www.amazon.in/Making-Prince-Persia-Journals-1985-1993-Illustrated/dp/0578627310"
     },
     {
@@ -60,7 +60,7 @@
         "title": "Do You Remember Kunan Poshpora?",
         "author": "Zubaan",
         "cover": "/images/books/kunan-poshpora.jpg",
-        "review": "A haunting account of violence and impunity. Difficult but necessary reading.",
+        "review": "An account of violence and impunity that keeps attention on the people affected. Difficult reading that asks what it means to remember and to seek accountability.",
         "purchaseUrl": "https://www.amazon.in/Remember-Kunan-Poshpora-Zubaan-Violence-Impunity/dp/9384757667"
     },
     {
@@ -68,7 +68,7 @@
         "title": "Enjoy Your Life",
         "author": "Dr. Muhammad Al-Arifi",
         "cover": "/images/books/enjoy-life.jpg",
-        "review": "Timeless wisdom on human relationships. Changed how I interact with people.",
+        "review": "Practical reflections on human relationships and the way we treat one another. Small choices in conversation and everyday conduct deserve as much attention as our intentions.",
         "purchaseUrl": "https://www.amazon.in/Enjoy-Deduced-Prophets-English-Language/dp/B09M7NC61S"
     },
     {
@@ -76,7 +76,7 @@
         "title": "Gems and Jewels",
         "author": "Abdul Malik Mujahid",
         "cover": "/images/books/gems-jewels.jpg",
-        "review": "Short stories with profound lessons. Perfect for moments of reflection.",
+        "review": "Short stories that leave room to pause over a lesson before moving on. A book suited to reading a little at a time and carrying a question into the rest of the day.",
         "purchaseUrl": "https://www.amazon.in/Gems-Jewels-Abdul-Malik-Mujahid/dp/9960897591"
     },
     {
@@ -84,7 +84,7 @@
         "title": "When the Heavens Went on Sale",
         "author": "Ashlee Vance",
         "cover": "/images/books/heavens-sale.jpg",
-        "review": "The new space race told through the mavericks making it happen. Thrilling.",
+        "review": "The new space race viewed through the people trying to build their place in it. The appeal is seeing a vast ambition take shape through individual ventures and decisions.",
         "purchaseUrl": "https://www.amazon.in/dp/0753557762"
     },
     {
@@ -92,7 +92,7 @@
         "title": "Elon Musk (Vance)",
         "author": "Ashlee Vance",
         "cover": "/images/books/elon-vance.jpg",
-        "review": "The first proper Musk biography. Captures the early Tesla and SpaceX chaos.",
+        "review": "A view of the early Tesla and SpaceX years, when the eventual outcome was far less certain. The chaos gives context to the distance between a company's ambition and its ability to deliver.",
         "purchaseUrl": "https://www.amazon.in/Elon-Musk-Billionaire-SpaceX-Shaping-ebook/dp/B00SIDCSWY"
     },
     {
@@ -100,7 +100,7 @@
         "title": "Zero to One",
         "author": "Peter Thiel",
         "cover": "/images/books/zero-to-one.jpg",
-        "review": "A masterclass on building monopolies. Changed how I think about startups.",
+        "review": "An argument for building something distinct enough to escape direct competition. A useful question for a new product: what can it offer that another company cannot easily copy?",
         "purchaseUrl": "https://www.amazon.in/dp/0753555190"
     },
     {
@@ -108,7 +108,7 @@
         "title": "The Worlds I See",
         "author": "Fei-Fei Li",
         "cover": "/images/books/worlds-i-see.jpg",
-        "review": "The godmother of AI tells her story. Vision, both literal and metaphorical.",
+        "review": "Fei-Fei Li's life story alongside her work in AI and computer vision. It brings a human perspective to a field often described through models and technical milestones.",
         "purchaseUrl": "https://www.amazon.in/dp/1250389895"
     },
     {
@@ -116,7 +116,7 @@
         "title": "How to Stop Worrying and Start Living",
         "author": "Dale Carnegie",
         "cover": "/images/books/stop-worrying.jpg",
-        "review": "Practical wisdom for anxious minds. Timeless advice that actually works.",
+        "review": "Practical reflections on worry and the attention it takes from everyday life. A useful prompt to separate the problem in front of you from everything you imagine might follow.",
         "purchaseUrl": "https://www.amazon.in/How-Stop-Worrying-Start-Living/dp/9390441927"
     },
     {
@@ -124,7 +124,7 @@
         "title": "Project Hail Mary",
         "author": "Andy Weir",
         "cover": "/images/books/hail-mary.jpg",
-        "review": "Science fiction at its finest. Gripping, funny, and unexpectedly moving.",
+        "review": "Science fiction that makes working through a difficult problem part of the adventure. Curiosity and experimentation carry a story with room for both humour and feeling.",
         "purchaseUrl": "https://www.amazon.in/dp/1529157463"
     },
     {
@@ -132,7 +132,7 @@
         "title": "Guarding the Tongue",
         "author": "Imam al-Nawawi",
         "cover": "/images/books/guarding-tongue.jpg",
-        "review": "The power of words and silence. A guide to mindful speech.",
+        "review": "A guide to mindful speech and the responsibility that comes with words. It makes the pause before speaking feel like an action worth practising in its own right.",
         "purchaseUrl": "https://www.amazon.in/Guarding-Tongue-Golden-Advice-Book-ebook/dp/B00DRHK2XI"
     },
     {
@@ -140,7 +140,7 @@
         "title": "User Friendly",
         "author": "Cliff Kuang",
         "cover": "/images/books/user-friendly.jpg",
-        "review": "How design shapes behavior. Essential reading for product builders.",
+        "review": "A reminder that interface choices shape what people understand and do. Useful for looking beyond how a product appears to the behaviour its design encourages.",
         "purchaseUrl": "https://www.amazon.in/User-Friendly-Hidden-Design-Changing-ebook/dp/B01HR5DVAQ"
     },
     {
@@ -148,7 +148,7 @@
         "title": "The Design of Everyday Things",
         "author": "Don Norman",
         "cover": "/images/books/design-everyday.jpg",
-        "review": "Why doors confuse us. The foundational text on human-centered design.",
+        "review": "Even a door can reveal a mismatch between a design and the person using it. A foundation for asking whether an interface explains itself and makes the next action clear.",
         "purchaseUrl": "https://www.amazon.in/Design-Everyday-Things-English-Paperback/dp/B0GD8VFB9M"
     },
     {
@@ -156,7 +156,7 @@
         "title": "Atomic Habits",
         "author": "James Clear",
         "cover": "/images/books/atomic-habits.jpg",
-        "review": "Small changes, remarkable results. The systems approach to improvement.",
+        "review": "A systems approach to improvement through small, repeatable changes. The useful shift is from wanting a result to arranging daily life so that the next good action is easier.",
         "purchaseUrl": "https://www.amazon.in/dp/1847941834"
     },
     {
@@ -164,7 +164,7 @@
         "title": "Calvin and Hobbes",
         "author": "Bill Watterson",
         "cover": "/images/books/calvin-hobbes.jpg",
-        "review": "Childhood wonder preserved in comic form. Pure joy on every page.",
+        "review": "Childhood imagination given room to take ordinary life somewhere unexpected. The humour is a reminder of how much there is to notice when familiar things are still open to question.",
         "purchaseUrl": "https://www.amazon.in/CALVIN-HOBBES-THEREBY-HANGS-TALE/dp/0751505080"
     }
 ]
