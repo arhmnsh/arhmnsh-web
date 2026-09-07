@@ -2,7 +2,7 @@
 import { ArrowUpRight, ArrowRight, Mail, Github, Rss } from 'lucide-vue-next'
 import { formatDate } from '~/utils/date'
 
-usePageSeo({ title: 'AbdurRahaman Shah', description: 'CTO, product lead, engineer and designer in Riyadh. Building AI products for airports, cities, and teams. Writing, books, and photography.' })
+usePageSeo({ title: 'AbdurRahaman Shah', description: 'CTO, engineer and designer in Riyadh. Building AI products for airports, cities, and teams. Writing, books, and photography.' })
 const { data: latestArticles } = await useAsyncData('latest-articles', () => queryCollection('articles').order('date', 'DESC').limit(3).all())
 const { data: latestShayris } = await useAsyncData('latest-shayris', () => queryCollection('shayris').order('date', 'DESC').limit(3).all())
 const projects = [
@@ -18,7 +18,7 @@ const projects = [
   <div class="mx-auto max-w-5xl px-6 py-10 sm:px-10 lg:py-16">
     <section class="grid items-start gap-8 sm:gap-12 xl:grid-cols-[1.2fr_1fr]" aria-labelledby="intro-title">
       <div>
-        <p class="mb-4 text-xs font-semibold uppercase tracking-[0.18em] text-muted-foreground">Engineer · designer · product lead</p>
+        <p class="mb-4 text-xs font-semibold uppercase tracking-[0.18em] text-muted-foreground">Engineer · designer</p>
         <h1 id="intro-title" class="text-4xl font-bold leading-tight tracking-tight sm:text-5xl">AbdurRahaman Shah</h1>
         <p class="mt-6 max-w-xl font-serif text-lg leading-relaxed text-muted-foreground sm:text-xl">I build AI products and lead the teams behind them. Based in Riyadh, my work spans airport operations, tools for cities, and language systems.</p>
         <p class="mt-4 max-w-xl text-sm leading-relaxed text-muted-foreground">Away from the keyboard: cars, motorcycles, travel, photography, painting, and astronomy.</p>
