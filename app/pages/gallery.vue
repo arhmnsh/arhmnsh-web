@@ -178,6 +178,16 @@ watch(isOpen, (open) => {
             @error="markImageFailed(selectedItem.id)"
           />
           <p v-else class="p-8 text-center text-sm text-white/80">Preview unavailable.</p>
+          <a
+            v-if="selectedItem.type === 'video' && !youtubeEmbedUrl"
+            :href="selectedItem.externalUrl"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="gallery-play"
+            :aria-label="`Play video on ${selectedItem.platform === 'instagram' ? 'Instagram' : 'YouTube'} (opens in a new tab)`"
+          >
+            <Play class="ml-1 h-7 w-7 fill-current" aria-hidden="true" />
+          </a>
         </div>
 
         <div class="flex flex-wrap items-center justify-between gap-x-6 gap-y-3">
@@ -211,7 +221,10 @@ watch(isOpen, (open) => {
 .gallery-card:focus-visible, .gallery-arrow:focus-visible { outline: 2px solid currentColor; outline-offset: 3px; }
 .gallery-thumbnail { transition: transform 260ms ease; }
 .gallery-card:hover .gallery-thumbnail { transform: scale(1.035); }
-.gallery-media { display: flex; justify-content: center; overflow: hidden; border-radius: 0.5rem; background: #101010; }
+.gallery-media { position: relative; display: flex; justify-content: center; overflow: hidden; border-radius: 0.5rem; background: #101010; }
+.gallery-play { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); display: grid; place-items: center; width: 4rem; height: 4rem; border-radius: 50%; border: 1px solid rgb(255 255 255 / 55%); background: linear-gradient(rgb(255 255 255 / 30%), rgb(0 0 0 / 65%)); color: white; box-shadow: 0 3px 16px rgb(0 0 0 / 30%), inset 0 1px 0 rgb(255 255 255 / 40%); backdrop-filter: blur(12px); }
+.gallery-play:hover { background-color: rgb(0 0 0 / 35%); }
+.gallery-play:focus-visible { outline: 3px solid white; outline-offset: 5px; }
 .gallery-photo { width: auto; height: auto; max-width: 100%; max-height: 60dvh; object-fit: contain; }
 .gallery-video { display: block; width: 100%; aspect-ratio: 16 / 9; max-height: 60dvh; border: 0; }
 .gallery-video--portrait { width: min(100%, 33.75dvh); aspect-ratio: 9 / 16; }
