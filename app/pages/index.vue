@@ -1,223 +1,87 @@
 <script setup lang="ts">
-import { format, parseISO } from 'date-fns'
+import { ArrowUpRight, ArrowRight, Mail, Github, Rss } from 'lucide-vue-next'
+import { formatDate } from '~/utils/date'
 
-const siteUrl = 'https://arhmn.sh'
-const socialImage = `${siteUrl}/images/og-arhmn.jpg`
-const pageTitle = 'AbdurRahaman Shah'
-const pageDescription = 'Engineer and designer building AI products. Personal website, writing, and projects.'
-
-useSeoMeta({
-  title: pageTitle,
-  description: pageDescription,
-  ogTitle: pageTitle,
-  ogDescription: pageDescription,
-  ogType: 'website',
-  ogUrl: siteUrl,
-  ogImage: socialImage,
-  ogImageAlt: 'AbdurRahaman Shah',
-  twitterCard: 'summary_large_image',
-  twitterTitle: pageTitle,
-  twitterDescription: pageDescription,
-  twitterImage: socialImage
-})
-
-useHead({
-  meta: [
-    { property: 'og:image:secure_url', content: socialImage },
-    { property: 'og:image:type', content: 'image/jpeg' },
-    { property: 'og:image:width', content: '1200' },
-    { property: 'og:image:height', content: '630' },
-    { name: 'twitter:image:alt', content: 'AbdurRahaman Shah' }
-  ],
-  link: [
-    { rel: 'canonical', href: siteUrl }
-  ]
-})
-
-const { data: latestArticles } = await useAsyncData('latest-articles', () => 
-  queryCollection('articles')
-    .order('date', 'DESC')
-    .limit(3)
-    .all()
-)
-const { data: latestShayris } = await useAsyncData('latest-shayris', () =>
-  queryCollection('shayris')
-    .order('date', 'DESC')
-    .limit(3)
-    .all()
-)
-
-const skydiveClickCount = ref(0)
-let skydiveClickTimer: ReturnType<typeof setTimeout> | undefined
-
-const handleSkydiveImageClick = () => {
-  skydiveClickCount.value += 1
-
-  if (skydiveClickTimer) {
-    clearTimeout(skydiveClickTimer)
-  }
-
-  skydiveClickTimer = setTimeout(() => {
-    skydiveClickCount.value = 0
-  }, 2500)
-
-  if (skydiveClickCount.value < 4) {
-    return
-  }
-
-  skydiveClickCount.value = 0
-  if (skydiveClickTimer) {
-    clearTimeout(skydiveClickTimer)
-  }
-
-  window.open('https://youtu.be/DK1E-9Fj7RE', '_blank', 'noopener,noreferrer')
-}
-
-onUnmounted(() => {
-  if (skydiveClickTimer) {
-    clearTimeout(skydiveClickTimer)
-  }
-})
+usePageSeo({ title: 'AbdurRahaman Shah', description: 'CTO, product lead, engineer and designer in Riyadh. Building AI products for airports, cities, and teams. Writing, books, and photography.' })
+const { data: latestArticles } = await useAsyncData('latest-articles', () => queryCollection('articles').order('date', 'DESC').limit(3).all())
+const { data: latestShayris } = await useAsyncData('latest-shayris', () => queryCollection('shayris').order('date', 'DESC').limit(3).all())
+const projects = [
+  { name: 'Baseer TMS', description: 'Aircraft turnaround management with real-time event tracking and predictive analytics. Deployed at Riyadh Airport.' },
+  { name: 'Baseer Builder', description: 'A no-code and low-code platform for building AI use cases. Deployed at Eastern Province Municipality in Dammam.' },
+  { name: 'Baseer GPT', description: 'An internal knowledge platform with retrieval-augmented generation, contextual conversations, and semantic search.' },
+  { name: 'Baseer STT', description: 'Speech-to-text for local Arabic dialects, with speaker and sentiment analysis.' },
+  { name: 'Altanfeethi', description: 'Passenger journey analytics for airport VIP terminals.' }
+]
 </script>
 
 <template>
-  <div class="mx-auto max-w-4xl px-6 py-12 lg:py-24">
-    <div class="flex flex-col gap-8 lg:gap-12">
-      <!-- Intro / Bio -->
-      <section class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-        <!-- Left: Text Content -->
-        <div class="flex flex-col gap-8 order-2 lg:order-1">
-          <div class="flex flex-col gap-5 text-lg leading-relaxed text-muted-foreground/90 font-serif">
-            <p>
-              <strong class="text-foreground font-sans">AbdurRahaman Shah</strong> is an engineer and designer based in Riyadh, Saudi Arabia.
-            </p>
-            <p>
-              His work includes building impactful AI products such as:
-            </p>
-            <ul class="list-none space-y-2 pl-1 text-base">
-              <li>
-                — <strong class="font-sans text-foreground/80">Baseer TMS</strong> (Turnaround Management System), the first AI TMS deployment in the Middle East at Riyadh Airport. It automates turnaround events with real-time timestamps and predictive analytics.
-              </li>
-              <li>
-                — <strong class="font-sans text-foreground/80">Baseer Builder</strong>, a no-code/low-code platform for building AI use cases, deployed in Eastern Province Municipality (Dammam).
-              </li>
-              <li>
-                — <strong class="font-sans text-foreground/80">Baseer GPT</strong>, an in-house built LLM platform with RAGops, maintaining context and offering semantic search.
-              </li>
-              <li>
-                — <strong class="font-sans text-foreground/80">Baseer STT</strong>, an in-house STT model trained on local Arabic dialects, capable of distinguishing multiple speakers and analyzing sentiment.
-              </li>
-              <li>
-                — <strong class="font-sans text-foreground/80">Passenger Journey Analytics</strong> for Altanfeethi, a VIP terminal in Saudi airports, optimizing the passenger experience.
-              </li>
-            </ul>
-            <p class="text-base text-muted-foreground/80 pt-2">
-              When not coding: cars, motorcycles, travel, photography, painting, and astronomy.
-            </p>
-          </div>
-
-          <!-- Project Links -->
-          <div class="flex flex-col gap-3 pt-2">
-            <p class="text-xs font-sans font-semibold uppercase tracking-[0.2em] text-muted-foreground/45">Projects</p>
-            <a href="https://salafsayings.arhmn.sh" target="_blank" rel="noopener noreferrer" class="flex items-center gap-3 text-base font-sans font-medium text-muted-foreground/70 hover:text-foreground transition-colors w-fit group">
-              <svg class="h-4 w-4 opacity-70 group-hover:opacity-100 transition-opacity" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 14 21 3"/><path d="M21 3h-7"/><path d="M21 3v7"/><path d="M14 10v11H3V10h11"/></svg>
-              <span>Salaf Sayings</span>
-            </a>
-            <a href="https://athkar.arhmn.sh" target="_blank" rel="noopener noreferrer" class="flex items-center gap-3 text-base font-sans font-medium text-muted-foreground/70 hover:text-foreground transition-colors w-fit group">
-              <svg class="h-4 w-4 opacity-70 group-hover:opacity-100 transition-opacity" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 14 21 3"/><path d="M21 3h-7"/><path d="M21 3v7"/><path d="M14 10v11H3V10h11"/></svg>
-              <span>Athkar</span>
-            </a>
-          </div>
-
-          <!-- Contact Links -->
-          <div class="flex flex-col gap-3 text-base font-sans font-medium text-muted-foreground/60">
-            <a href="mailto:hi@arhmn.sh" class="flex items-center gap-3 hover:text-foreground transition-colors w-fit group">
-              <svg class="h-4 w-4 opacity-70 group-hover:opacity-100 transition-opacity" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
-              <span>hi@arhmn.sh</span>
-            </a>
-            <a href="https://x.com/arhmnsh" target="_blank" class="flex items-center gap-3 hover:text-foreground transition-colors w-fit group">
-              <svg class="h-4 w-4 opacity-70 group-hover:opacity-100 transition-opacity" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
-              <span>arhmnsh</span>
-            </a>
-            <a href="https://github.com/arhmnsh" target="_blank" class="flex items-center gap-3 hover:text-foreground transition-colors w-fit group">
-              <svg class="h-4 w-4 opacity-70 group-hover:opacity-100 transition-opacity" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
-              <span>arhmnsh</span>
-            </a>
-          </div>
+  <div class="mx-auto max-w-5xl px-6 py-10 sm:px-10 lg:py-16">
+    <section class="grid items-start gap-8 sm:gap-12 xl:grid-cols-[1.2fr_1fr]" aria-labelledby="intro-title">
+      <div>
+        <p class="mb-4 text-xs font-semibold uppercase tracking-[0.18em] text-muted-foreground">Engineer · designer · product lead</p>
+        <h1 id="intro-title" class="text-4xl font-bold leading-tight tracking-tight sm:text-5xl">AbdurRahaman Shah</h1>
+        <p class="mt-6 max-w-xl font-serif text-lg leading-relaxed text-muted-foreground sm:text-xl">I build AI products and lead the teams behind them. Based in Riyadh, my work spans airport operations, tools for cities, and language systems.</p>
+        <p class="mt-4 max-w-xl text-sm leading-relaxed text-muted-foreground">Away from the keyboard: cars, motorcycles, travel, photography, painting, and astronomy.</p>
+        <div class="mt-7 flex flex-wrap items-center gap-5 text-sm font-medium">
+          <a href="#projects" class="inline-flex min-h-11 items-center gap-2">Explore my work <ArrowRight class="h-4 w-4" aria-hidden="true" /></a>
+          <NuxtLink to="/articles" class="inline-flex min-h-11 items-center gap-2 text-muted-foreground hover:text-foreground">Read my writing <ArrowRight class="h-4 w-4" aria-hidden="true" /></NuxtLink>
+          <a href="mailto:hi@arhmn.sh" class="inline-flex min-h-11 items-center gap-2 text-muted-foreground hover:text-foreground"><Mail class="h-4 w-4" aria-hidden="true" />Get in touch</a>
         </div>
-        
-        <!-- Right: Image -->
-        <div class="order-1 lg:order-2">
-          <div class="relative w-full rounded-xl overflow-hidden bg-muted/20">
-            <button
-              type="button"
-              class="block w-full cursor-default overflow-hidden text-left focus:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background"
-              aria-label="AbdurRahaman Shah portrait"
-              @click="handleSkydiveImageClick"
-            >
-              <img src="/images/me.jpg" alt="AbdurRahaman Shah" class="w-full h-full object-cover lg:grayscale transform-gpu transition-all duration-500 ease-out hover:scale-[1.02] lg:hover:grayscale-0 will-change-transform" />
-            </button>
-          </div>
-        </div>
-      </section>
+      </div>
+      <figure class="max-w-xl">
+        <SkydivePhoto />
 
-      <!-- Latest Articles Section -->
-      <section class="flex flex-col gap-6">
-        <h2 class="text-lg font-semibold uppercase tracking-wider text-muted-foreground">Latest Articles</h2>
-        <div v-if="latestArticles && latestArticles.length > 0" class="flex flex-col">
-          <NuxtLink
-            v-for="article in latestArticles"
-            :key="article.path"
-            :to="{ path: article.path, query: { c: article.categories?.[0] } }"
-            class="group flex flex-col gap-2 py-5 border-b border-muted/50 transition-all last:border-0 hover:bg-transparent"
-          >
-            <div class="flex flex-col gap-1">
-              <div class="flex items-center justify-between gap-4">
-                <h3 class="font-medium text-base group-hover:underline decoration-muted-foreground/30 underline-offset-4">{{ article.title }}</h3>
-                <span class="shrink-0 text-xs text-muted-foreground/60 font-mono">
-                  {{ format(parseISO(article.date), "dd MMM yyyy") }}
-                </span>
-              </div>
-              <p v-if="article.description" class="text-sm text-muted-foreground line-clamp-2 leading-relaxed">
-                {{ article.description }}
-              </p>
-            </div>
-          </NuxtLink>
-        </div>
-        <NuxtLink to="/articles" class="text-sm text-muted-foreground hover:text-foreground transition-colors self-start">
-          View all articles →
+      </figure>
+    </section>
+
+    <section id="projects" class="mt-16 scroll-mt-24 border-t border-border pt-10 sm:mt-20" aria-labelledby="work-title">
+      <h2 id="work-title" class="text-2xl font-semibold tracking-tight">Projects</h2>
+      <ul class="mt-5 divide-y divide-border">
+        <li v-for="project in projects" :key="project.name" class="py-6">
+          <h3 class="text-lg font-medium">{{ project.name }}</h3>
+          <p class="mt-2 max-w-2xl text-sm leading-relaxed text-muted-foreground">{{ project.description }}</p>
+
+        </li>
+      </ul>
+    </section>
+
+    <section class="mt-14 border-t border-border pt-10" aria-labelledby="personal-projects-title">
+      <h2 id="personal-projects-title" class="text-xl font-semibold tracking-tight">Personal projects</h2>
+      <div class="mt-5 divide-y divide-border">
+        <a href="https://salafsayings.arhmn.sh" target="_blank" rel="noopener noreferrer" class="block py-5 hover:text-foreground"><span class="flex items-center justify-between gap-4 font-medium">Salaf Sayings <ArrowUpRight class="h-4 w-4" aria-hidden="true" /></span><p class="mt-2 text-sm leading-relaxed text-muted-foreground">A collection of sayings from the early generations.</p><span class="sr-only">Opens in a new tab.</span></a>
+        <a href="https://athkar.arhmn.sh" target="_blank" rel="noopener noreferrer" class="block py-5 hover:text-foreground"><span class="flex items-center justify-between gap-4 font-medium">Athkar <ArrowUpRight class="h-4 w-4" aria-hidden="true" /></span><p class="mt-2 text-sm leading-relaxed text-muted-foreground">Daily remembrances in a focused reading experience.</p><span class="sr-only">Opens in a new tab.</span></a>
+      </div>
+    </section>
+
+    <section v-if="latestArticles?.length" class="mt-14 border-t border-border pt-10" aria-labelledby="writing-title">
+      <div class="flex flex-wrap items-center justify-between gap-4"><h2 id="writing-title" class="text-2xl font-semibold tracking-tight">Latest writing</h2><a href="/rss.xml" class="inline-flex min-h-11 items-center gap-2 text-sm text-muted-foreground hover:text-foreground"><Rss class="h-4 w-4" aria-hidden="true" />RSS feed</a></div>
+      <div class="mt-3 divide-y divide-border">
+        <NuxtLink v-for="article in latestArticles" :key="article.path" :to="article.path" class="group block py-5">
+          <div class="flex flex-col gap-2 sm:flex-row sm:items-baseline sm:justify-between sm:gap-6"><h3 class="font-medium group-hover:underline underline-offset-4">{{ article.title }}</h3><time :datetime="article.date" class="shrink-0 text-xs text-muted-foreground">{{ formatDate(article.date) }}</time></div>
+          <p v-if="article.description" class="mt-2 max-w-2xl text-sm leading-relaxed text-muted-foreground">{{ article.description }}</p>
         </NuxtLink>
-      </section>
+      </div>
+      <NuxtLink to="/articles" class="mt-3 inline-flex min-h-11 items-center gap-2 text-sm font-medium">View all articles <ArrowRight class="h-4 w-4" aria-hidden="true" /></NuxtLink>
+    </section>
 
-      <section class="flex flex-col gap-6">
-        <h2 class="text-lg font-semibold uppercase tracking-wider text-muted-foreground">Latest Shayris</h2>
-        <div v-if="latestShayris && latestShayris.length > 0" class="flex flex-col">
-          <NuxtLink
-            v-for="shayri in latestShayris"
-            :key="shayri.path"
-            :to="{ path: shayri.path, query: { t: shayri.tags?.[0] } }"
-            class="group flex flex-col gap-2 py-5 border-b border-muted/50 transition-all last:border-0 hover:bg-transparent"
-          >
-            <div class="flex flex-col gap-2">
-              <div class="flex items-center justify-between gap-4">
-                <h3 class="font-medium text-base group-hover:underline decoration-muted-foreground/30 underline-offset-4">{{ shayri.title }}</h3>
-                <span class="shrink-0 text-xs text-muted-foreground/60 font-mono">
-                  {{ format(parseISO(shayri.date), "dd MMM yyyy") }}
-                </span>
-              </div>
-              <p class="text-xs uppercase tracking-[0.16em] text-muted-foreground/70">
-                {{ shayri.author }}
-              </p>
-              <p v-if="shayri.description" class="text-sm text-muted-foreground line-clamp-2 leading-relaxed">
-                {{ shayri.description }}
-              </p>
-            </div>
-          </NuxtLink>
-        </div>
-        <NuxtLink to="/shayris" class="text-sm text-muted-foreground hover:text-foreground transition-colors self-start">
-          View all shayris →
-        </NuxtLink>
-      </section>
-    </div>
+    <section class="mt-14 border-t border-border pt-10" aria-labelledby="elsewhere-title">
+      <h2 id="elsewhere-title" class="text-xl font-semibold tracking-tight">Beyond work</h2>
+      <div class="mt-5 grid gap-5 sm:grid-cols-2">
+        <NuxtLink to="/books" class="rounded-lg border border-border p-5 hover:bg-muted/40"><h3 class="font-medium">On my bookshelf</h3><p class="mt-2 text-sm leading-relaxed text-muted-foreground">Books on design, technology, faith, and the people who build things.</p></NuxtLink>
+        <NuxtLink to="/gallery" class="rounded-lg border border-border p-5 hover:bg-muted/40"><h3 class="font-medium">Through my lens</h3><p class="mt-2 text-sm leading-relaxed text-muted-foreground">Photography, rides, and moments along the way.</p></NuxtLink>
+      </div>
+    </section>
+
+    <section v-if="latestShayris?.length" class="mt-14 border-t border-border pt-10" aria-labelledby="poetry-title">
+      <h2 id="poetry-title" class="text-xl font-semibold">From the poetry collection</h2>
+      <NuxtLink v-for="shayri in latestShayris" :key="shayri.path" :to="shayri.path" class="mt-4 block py-2"><span class="font-medium">{{ shayri.title }}</span><span class="ml-3 text-sm text-muted-foreground">{{ shayri.author }}</span></NuxtLink>
+      <NuxtLink to="/shayris" class="mt-3 inline-flex min-h-11 items-center gap-2 text-sm">Browse all shayris <ArrowRight class="h-4 w-4" aria-hidden="true" /></NuxtLink>
+    </section>
+
+    <footer class="mt-14 flex flex-wrap items-center gap-x-6 gap-y-2 border-t border-border pt-7 text-sm text-muted-foreground">
+      <a href="mailto:hi@arhmn.sh" class="inline-flex min-h-11 items-center gap-2 hover:text-foreground"><Mail class="h-4 w-4" aria-hidden="true" />hi@arhmn.sh</a>
+      <a href="https://github.com/arhmnsh" target="_blank" rel="noopener noreferrer" class="inline-flex min-h-11 items-center gap-2 hover:text-foreground"><Github class="h-4 w-4" aria-hidden="true" />GitHub<span class="sr-only"> (opens in a new tab)</span></a>
+      <a href="https://x.com/arhmnsh" target="_blank" rel="noopener noreferrer" class="inline-flex min-h-11 items-center hover:text-foreground">X / arhmnsh<span class="sr-only"> (opens in a new tab)</span></a>
+    </footer>
   </div>
 </template>
