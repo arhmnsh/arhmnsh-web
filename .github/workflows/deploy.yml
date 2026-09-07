@@ -28,8 +28,14 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
+      - name: Test search content extraction
+        run: npm test
+
       - name: Generate static files
         run: npm run generate
+
+      - name: Verify generated pages and feeds
+        run: npm run verify:static
 
       - name: Setup Pages
         uses: actions/configure-pages@v4

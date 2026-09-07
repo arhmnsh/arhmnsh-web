@@ -1,25 +1,37 @@
 ---
-readTime: 1
-title: "Vibe Coding and the Rise of the Product Engineer"
+readTime: 2
+title: "Vibe coding and the rise of the product engineer"
 date: "2026-02-09"
-description: "AI made coding faster. Now product and design are the bottleneck."
+description: "When implementation gets easier, choosing the right problem and measuring the result become even more valuable."
 categories: ["AI", "Career"]
 ---
 
-AI made coding faster. Now product and design are the bottleneck.
+AI can make it quicker to get from an idea to a working prototype. That makes another part of the work more visible: deciding what is worth building.
 
-Teams are shrinking. The two-pizza team is becoming one-pizza. When you can scaffold an app in minutes and debug with AI, you don't need five engineers per PM anymore.
+The engineer I find most interesting in that environment understands the user problem, makes product tradeoffs, and stays involved after the code ships. That's how I think about a product engineer.
 
-What you need are engineers who understand *why* they're building something, not just *how*. Engineers who can talk to users, make product tradeoffs, and ship without a 10-page spec.
+They own a loop: user problem → proposed solution → implementation → measurement. AI can help with the implementation. The judgment still has to come from someone who understands the problem and can assess the result.
 
-That's the product engineer.
+## What that looks like in practice
 
-They own the full loop: user problem → solution → code → measurement. They use AI to eliminate boilerplate, not to avoid thinking. The thinking is the value.
+Consider a hypothetical support dashboard. A request arrives to add an export button. It is easy to jump straight into building a CSV download.
 
-If you're an engineer optimizing purely for technical depth, you're optimizing for a shrinking role. The new leverage is product sense, design intuition, and the ability to move fast with judgment.
+A product engineer first asks what the export is for. If the user needs to send the same weekly summary to a colleague, a saved report might be more useful. If they need to analyze data in a spreadsheet, the export may be exactly right.
 
-The companies winning right now have adjusted their talent mix. Fewer code executors. More builders who blend strategy with execution.
+The next step is a small, testable version. Decide which fields belong in the report, check access permissions, and watch someone use it. After shipping, measure whether the task became easier: fewer manual steps, fewer errors, or less time spent preparing the report.
+
+The code is part of the answer. Understanding the workflow tells you which code to write.
+
+## Technical depth still matters
+
+I don't think product sense replaces technical expertise. Reliable systems need people who understand architecture, security, performance, and the consequences of a shortcut. AI-generated changes need that scrutiny too.
+
+What I want to emphasize is the connection between those skills and the outcome. An engineer who can explain a technical tradeoff in terms of the user's task helps a team make better decisions.
+
+For small teams especially, there is value in people who can move between a user conversation, a prototype, and a production issue. That doesn't mean every team should shrink or every engineer should have the same role. It means ownership can extend beyond completing a specification.
+
+Build the thing, understand why it matters, and come back to see whether it helped.
 
 ---
 
-*Inspired by [The rise of one-pizza engineering teams](https://jampa.dev/blog/one-pizza-team) — worth a read.*
+*Inspired by [The rise of one-pizza engineering teams](https://www.jampa.dev/p/the-rise-of-one-pizza-engineering).*

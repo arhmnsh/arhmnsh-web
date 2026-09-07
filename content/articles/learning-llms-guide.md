@@ -1,145 +1,103 @@
 ---
-readTime: 4
-title: "A Practical Guide to Learning LLMs: From Foundations to Agents"
+readTime: 6
+title: "A practical guide to learning LLMs: from foundations to agents"
 date: "2026-02-09"
-description: "A comprehensive technical guide for engineering students to master large language models - from transformer architecture to building production-ready agents."
+description: "A staged learning roadmap for engineers, with practical projects, completion checkpoints, and evaluation built into every step."
 categories: ["AI", "Career", "Learning"]
 ---
 
-If you're an engineering student wanting to understand large language models beyond just using ChatGPT, this guide will help you build real technical depth. This isn't about prompt engineering tricks - it's about understanding how these systems actually work and how to build with them.
+If you're an engineering student who wants to understand large language models beyond using a chatbot, it helps to have a path. There is a lot to learn, and a long list of courses can make it harder to decide what to do next.
 
-## Why Learn LLMs as an Engineer?
+This is the roadmap I would use: understand the foundations, implement a small model, learn to measure its behavior, and then build applications with retrieval and tools. Each stage ends with something you can demonstrate.
 
-LLMs are becoming infrastructure. Whether you're building products, working on AI systems, or just want to stay relevant in tech, understanding how these models work under the hood is crucial. You need to know the architecture, the training process, and how to integrate them into real systems.
+## Choose your starting point
 
-### Prerequisites (Be Honest With Yourself)
+**New to programming or machine learning?** Start at stage 1. You can experiment with an LLM while learning Python; you don't need to master every mathematical prerequisite before making your first small application.
 
-Before starting, you'll need:
-- **Solid Python skills**: Not beginner level - comfortable with classes, decorators, async/await
-- **Math foundations**: Linear algebra (matrix operations, dot products), calculus (derivatives, chain rule), basic probability
-- **Deep learning basics**: Understanding of neural networks, gradient descent, backpropagation
+**Already comfortable with Python and neural networks?** Try the stage 1 checkpoint, then move to stage 2. You should be able to work with arrays, read a training loop, and explain the difference between training and validation data.
 
-Don't have these yet? That's fine. Start with:
-- **3Blue1Brown's Linear Algebra series**: https://www.youtube.com/playlist?list=PLZHQObOWTQDPD3MizzM2xVFitgF8hE_ab
-- **Fast.ai Part 1 (covers DL fundamentals)**: https://course.fast.ai/
+This is a learning sequence, not a fixed timetable. Give yourself time to debug. Finishing a course and being able to explain your own implementation are different milestones.
 
-## The Learning Path
+## 1. Build the foundations
 
-### 1. Start with Python Fundamentals
+Start with Python functions, data structures, files, packages, and debugging. Then learn enough linear algebra to understand vectors and matrix multiplication, and enough calculus and probability to follow gradients and predictions.
 
-Before diving into LLMs, make sure you're comfortable with Python. If you're rusty, start here:
-- **AI Python for Beginners** by DeepLearning.AI: https://www.deeplearning.ai/short-courses/ai-python-for-beginners/
+Resources to work through:
 
-### 2. Understand Transformer Architecture
+- [AI Python for Beginners from DeepLearning.AI](https://www.deeplearning.ai/courses/ai-python-for-beginners) for an introduction to Python with practical exercises.
+- [3Blue1Brown's linear algebra lessons](https://www.3blue1brown.com/?topic=linear-algebra) for visual explanations of vectors and transformations.
+- [Practical Deep Learning for Coders from fast.ai](https://course.fast.ai/) for training models and connecting the theory to code.
 
-This is the core of modern LLMs. You need to understand attention mechanisms, how tokens flow through layers, and why this architecture works so well for language.
+**Completion checkpoint:** Write a script that loads a small dataset, separates training and validation examples, and trains a simple model. Explain what the loss measures and why a good training score may fail to generalize.
 
-**Recommended courses:**
-- **Hugging Face NLP Course**: Comprehensive coverage of transformers, tokenization, and embeddings. Completely free and hands-on. https://huggingface.co/learn/nlp-course/
-- **Stanford CS224N**: Full university course on NLP with deep learning. Lectures are free on YouTube: https://www.youtube.com/playlist?list=PLoROMvodv4rMFqRtEuo6SGjY4XbRIVRd4
+## 2. Understand transformers
 
-### 3. Go Deeper with Implementation
+Work through tokenization, embeddings, attention, and next-token prediction. Trace how text becomes token IDs, how those IDs move through a model, and how the output distribution becomes generated text.
 
-Theory alone won't cut it. You need to implement these concepts.
+The [Hugging Face LLM Course](https://huggingface.co/learn/llm-course/chapter1/1) is a useful hands-on starting point. For a deeper academic treatment, follow the lectures and assignments in [Stanford CS224N: Natural Language Processing with Deep Learning](https://web.stanford.edu/class/cs224n/).
 
-**Fast.ai - Practical Deep Learning for Coders**: Part 2 of this course walks you through building transformers from scratch. You'll understand backpropagation, training dynamics, and model optimization. https://course.fast.ai/
+**Completion checkpoint:** Tokenize a short passage and run a small pretrained model. Draw the path from input tokens to output probabilities. Explain why changing the prompt or sampling settings can change the result.
 
-**Andrej Karpathy's Resources**: 
-- minGPT repository: https://github.com/karpathy/minGPT
-- "Let's build GPT: from scratch, in code, spelled out" (YouTube): https://www.youtube.com/watch?v=kCc8FmEb1nY
-- "Intro to Large Language Models" (YouTube): https://www.youtube.com/watch?v=zjkBMFhNj_g
+## 3. Implement a small model
 
+This is where the concepts become concrete. Build a small transformer and train it on a modest text dataset that you have permission to use. Keep the model small enough that you can inspect tensors and rerun experiments without an expensive setup.
 
-### 4. Learn Evaluation and Testing
+Follow [Andrej Karpathy's GPT implementation walkthrough](https://www.youtube.com/watch?v=kCc8FmEb1nY), and use [minGPT](https://github.com/karpathy/minGPT) as an educational reference. The repository is in a semi-archived state, so treat it as code to study rather than a production dependency.
 
-Critical but often skipped: You need to know if your LLM system actually works.
+**Completion checkpoint:** Train a small model, save and reload a checkpoint, and generate samples. Plot training and validation loss. Change one parameter, such as context length, and describe what changed and what stayed uncertain.
 
-**Key concepts:**
-- Metrics: BLEU, ROUGE, perplexity, BERTScore
-- Human evaluation vs. automated metrics
-- Testing for hallucinations and factual accuracy
-- A/B testing LLM outputs
-- When metrics mislead you
+Fine-tuning can come next. Choose a model that fits your hardware and licensing requirements, then compare it with the untuned model on held-out examples. Fine-tuning is an experiment with a measurable goal; it is not an automatic improvement.
 
-**Resources:**
-- **DeepLearning.AI - Building and Evaluating Advanced RAG**: https://www.deeplearning.ai/short-courses/building-evaluating-advanced-rag/
-- **LangSmith for evaluation**: https://docs.smith.langchain.com/
-- **OpenAI's guide on evals**: https://cookbook.openai.com/examples/evaluation/how_to_eval_abstractive_summarization
+## 4. Evaluate before adding complexity
 
-### 5. Learn Retrieval Augmented Generation (RAG)
+A convincing answer can still be wrong. Decide what success means for your task before choosing a metric.
 
-Most production LLM systems use RAG - combining LLMs with external knowledge retrieval.
+For a document question-answering tool, useful checks include whether the answer is supported by the source, whether its citations are correct, and whether it admits when the information is missing. For a summarizer, you might also check coverage, factual consistency, and length.
 
-**Resources:**
-- **DeepLearning.AI - Building and Evaluating Advanced RAG**: https://www.deeplearning.ai/short-courses/building-evaluating-advanced-rag/
-- **Greg Kamradt's chunking strategies:** https://github.com/FullStackRetrieval-com/RetrievalTutorials
+Create a small evaluation set with ordinary requests, ambiguous requests, and cases where the system should decline to guess. Keep some examples separate from the ones you use while tuning. Review actual outputs alongside aggregate scores.
 
-Key concepts to master:
-- Vector embeddings and similarity search
-- Chunking strategies for documents
-- Hybrid search approaches
-- Evaluation metrics for retrieval quality
-- Re-ranking and query rewriting
-- Handling document updates and cache invalidation
+**Completion checkpoint:** Compare a baseline with one changed prompt or model on the same examples. Record successes, failures, latency, and cost. Explain at least one case where a single score hides an important failure.
 
-### 6. Build LLM Agents
+## 5. Add retrieval when the task needs it
 
-Agents are LLMs that can use tools, make decisions, and execute multi-step tasks.
+Retrieval-augmented generation, or RAG, supplies relevant material to the model before it answers. It is useful when answers depend on a document collection or information that changes. It also introduces another possible failure: retrieving the wrong material.
 
-**Resources:**
-- **LLM Powered Autonomous Agents** by Lilian Weng: https://lilianweng.github.io/posts/2023-06-23-agent/
-- **LangChain Conceptual Guides**: https://python.langchain.com/docs/concepts/
-- **Berkeley's Function Calling Tutorial**: https://gorilla.cs.berkeley.edu/blogs/8_berkeley_function_calling_leaderboard.html
+Start with a small, familiar collection. Preserve source identifiers while splitting documents into chunks. Inspect retrieved passages before judging the final answer.
 
-**Frameworks to explore:**
-- LangChain: https://github.com/langchain-ai/langchain
-- AutoGen (Microsoft): https://github.com/microsoft/autogen
-- Semantic Kernel: https://github.com/microsoft/semantic-kernel
+Work through [Building and Evaluating Advanced RAG Applications from DeepLearning.AI](https://learn.deeplearning.ai/courses/building-evaluating-advanced-rag/) for a guided exercise. As your project grows, compare chunk sizes, keyword and embedding search, and re-ranking against your evaluation set.
 
-## Hands-on Project Progression
+**Completion checkpoint:** Build a document QA tool that links answers to source passages and handles unanswerable questions. Test it after changing or removing a document. Separate retrieval failures from answer-generation failures in your notes.
 
-Learning without building is just reading. Here's a practical sequence:
+## 6. Build a bounded agent
 
-1. **Implement a simple transformer from scratch**: Use Karpathy's minGPT as reference: https://github.com/karpathy/minGPT
+An agent can choose tools and take several steps toward a task. Start with one narrow job and a small set of tools, such as looking up a document and doing a calculation.
 
-2. **Fine-tune a small LLM**: Take a model like GPT-2 or Llama-2-7B and fine-tune it on domain-specific data. Learn about training loops, loss functions, and evaluation.
+[Lilian Weng's overview of LLM-powered agents](https://lilianweng.github.io/posts/2023-06-23-agent/) explains planning, memory, and tool use. [Anthropic's guide to building effective agents](https://www.anthropic.com/engineering/building-effective-agents) is useful for deciding when a fixed workflow is sufficient and when flexible tool use helps.
 
-3. **Build a RAG system**: Create a document QA system with proper chunking, embedding, and retrieval. Use ChromaDB or Pinecone for vector storage.
+Make tool inputs explicit. Limit the number of steps, handle tool errors, and require confirmation before a learning project changes external data. Record which tools were called so you can investigate failures.
 
-4. **Create a multi-step agent**: Build an agent that can use tools (web search, calculator, database queries) to accomplish complex tasks.
+**Completion checkpoint:** Demonstrate a successful task, an unavailable tool, and a request outside the agent's scope. Compare the agent with a simpler fixed workflow. Keep the added complexity only if the results justify it.
 
-## Tools and Platforms for Practice
+## Turn the exercises into one project
 
-- **Google Colab**: https://colab.research.google.com/ - Free GPU access for training and experimentation
-- **Hugging Face**: https://huggingface.co/ - Access to thousands of models and datasets
-- **Replicate**: https://replicate.com/ - Free tier for experimenting with different models
-- **Anthropic API**: https://console.anthropic.com/ - Free tier credits for Claude
-- **OpenAI API**: https://platform.openai.com/ - Free tier credits for GPT models
-- **ChromaDB**: https://www.trychroma.com/ - Open source vector database
-- **Pinecone**: https://www.pinecone.io/ - Managed vector database with free tier
+A small document assistant can connect the later stages:
 
-## What to Avoid Initially
+1. Choose a collection you understand and write realistic questions about it.
+2. Establish a baseline using a simple prompt and a few documents.
+3. Add retrieval, preserving sources and checking answer quality.
+4. Add one tool only when it solves a clear limitation.
+5. Publish a short project note with the approach, evaluation examples, failure cases, and next improvement.
 
-Don't get stuck in prompt engineering tutorials. You'll naturally learn prompting while building systems. Focus on understanding the architecture, training process, and integration patterns first.
+The result should make your engineering decisions visible. A demo shows that a system can work once; an evaluation helps show where it works and where it does not.
 
-Skip the overhyped courses that promise to make you an "AI expert" in a weekend. Deep learning and LLMs require time and hands-on practice.
+## Keep the setup manageable
 
-## The Mindset
+You can use a local environment or a hosted notebook. Choose small models and datasets first. Hosted compute and model APIs may incur charges, and access limits change, so check the provider's current terms and set a budget before running experiments.
 
-Treat this like learning any other engineering discipline. Start with fundamentals, implement concepts yourself, break things, debug them, and gradually build more complex systems. The field moves fast, but the core concepts remain stable.
+Keep a record of package versions, model versions, prompts, and data splits. Reproducibility makes it much easier to understand whether a change helped.
 
-Focus on understanding why things work, not just how to use them. When you hit a concept you don't understand, go deeper rather than moving on. Read papers, check source code, and experiment.
+## Keep building, and keep questioning
 
-## Moving Forward
+You don't have to finish every resource here. Pick one at each stage, build the exercise, and use the checkpoint to find the gaps in your understanding.
 
-After completing these foundations, you'll be ready to:
-- Contribute to open source LLM projects
-- Build production LLM applications
-- Understand research papers in the field
-- Make informed architectural decisions
-
-The key is consistent, hands-on practice. Set aside dedicated time each week, build projects that interest you, and don't be afraid to start small. Every expert was once a beginner who kept going.
-
----
-
-*This guide reflects my experience building AI and computer vision systems over the past decade. The path to mastery is never linear, but having a structured approach helps. If you're serious about learning LLMs, commit to the fundamentals first - everything else builds on that foundation.*
+The aim is to become more deliberate: to explain how a system works, recognize its limits, and measure whether a change improved it. Production work adds further requirements around reliability, privacy, security, and operations. Treat this roadmap as a foundation for that work, with plenty of room to go deeper.

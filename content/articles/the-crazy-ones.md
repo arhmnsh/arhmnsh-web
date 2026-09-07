@@ -1,27 +1,29 @@
 ---
 readTime: 2
-title: "The Crazy Ones"
+title: "The crazy ones"
 date: "2026-01-10"
 categories: ["Personal", "Philosophy"]
-description: "I still remember watching this for the first time in my room. I was surrounded by textbooks, assignments, and the overwhelming pressure to follow the \"standard path\"."
+description: "A memory of watching Steve Jobs in my room, and what curiosity meant while I was trying to find my own path."
 ---
 
-<div class="relative w-full aspect-video rounded-lg overflow-hidden mb-8">
-  <iframe class="absolute top-0 left-0 w-full h-full" src="https://www.youtube.com/embed/UF8uR6Z6KLc" title="Here's to the Crazy Ones" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+<div class="relative w-full aspect-video rounded-lg overflow-hidden mb-3">
+  <iframe class="absolute top-0 left-0 w-full h-full" src="https://www.youtube-nocookie.com/embed/UF8uR6Z6KLc" title="Steve Jobs' 2005 Stanford Commencement Address" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
 </div>
 
-I still remember watching this for the first time in my room. I was surrounded by textbooks, assignments, and the overwhelming pressure to follow the "standard path", to get good grades, get a safe job, settle down.
+[Watch Steve Jobs' 2005 Stanford commencement address on YouTube](https://www.youtube.com/watch?v=UF8uR6Z6KLc).
 
-But something about this resonated deeply.
+I still remember watching this for the first time in my room. I was surrounded by textbooks, assignments, and the overwhelming pressure to follow the "standard path": get good grades, get a safe job, settle down.
 
-> The people who are crazy enough to think they can change the world, are the ones who do.
+Something about it resonated deeply. It gave me room to think about what I wanted to learn and build, even when I couldn't see where that curiosity would lead.
 
-It wasn't just a marketing slogan to me; it was validation. Validation to be different. Validation to care more about *building* things than memorizing them.
+The title of this piece comes from Apple's *Think Different* campaign. The video above is Jobs' Stanford address, a separate speech. I associate both with the same feeling: permission to take my curiosity seriously.
 
-During college, while others were optimizing for GPAs, I was optimizing for curiosity. I spent nights hacking together side projects, breaking code, and learning things that weren't on the syllabus. It felt risky. It felt lonely at times. People often don't understand why you won't just "follow the rules."
+During college, I spent nights hacking together side projects, breaking code, and learning things that weren't on the syllabus. It felt risky. It felt lonely at times. There was no grade to tell me whether that time had been worthwhile.
 
-But looking back, that unconventional path was the only one worth taking. The misfits, the rebels, the trouble-makers. They aren't just disruptors; they are the architects of the future.
+Looking back, what stays with me is the process: trying something, getting stuck, and learning enough to try again. I didn't need every experiment to become a company or change the world for it to matter.
 
-If you feel like you don't fit in the box they built for you, good. Don't try to.
+I wouldn't prescribe the same path to everyone. A stable job, formal study, and an unconventional project can all be meaningful choices. For me, the important part was making some room for the things I wanted to understand.
 
-Here’s to the crazy ones.
+If you're in that uncertain place, you don't have to decide your entire future at once. Give the thing you're curious about a little time. Build something small. See where the questions take you.
+
+Here's to the crazy ones.

@@ -1,78 +1,14 @@
 <script setup lang="ts">
-import { Menu, Sun, Moon, Search } from 'lucide-vue-next'
-
-const colorMode = useColorMode()
+import { Menu, Search } from 'lucide-vue-next'
 const { open } = useCommandMenu()
-const { open: openSidebar } = useSidebar()
-
-const toggleTheme = () => {
-  colorMode.preference = colorMode.value === 'dark' ? 'light' : 'dark'
-}
-
-// Hide-on-scroll logic
-const isVisible = ref(true)
-const lastScrollY = ref(0)
-
-onMounted(() => {
-  const handleScroll = () => {
-    const currentScrollY = window.scrollY
-    
-    if (currentScrollY < 10) {
-      isVisible.value = true
-    } else if (currentScrollY < lastScrollY.value) {
-      isVisible.value = true
-    } else if (currentScrollY > lastScrollY.value) {
-      isVisible.value = false
-    }
-    
-    lastScrollY.value = currentScrollY
-  }
-  
-  window.addEventListener('scroll', handleScroll, { passive: true })
-  
-  onUnmounted(() => {
-    window.removeEventListener('scroll', handleScroll)
-  })
-})
+const { open: openSidebar, isOpen } = useSidebar()
 </script>
 
 <template>
-  <header 
-    :class="[
-      'sticky top-0 z-50 flex h-14 items-center justify-between border-b border-border/50 bg-background px-4 lg:hidden transition-transform duration-300',
-      isVisible ? 'translate-y-0' : '-translate-y-full'
-    ]"
-  >
-    <div class="flex items-center gap-2 min-w-0">
-      <button
-        @click="openSidebar"
-        class="p-2 text-muted-foreground hover:text-foreground transition-colors"
-        aria-label="Open menu"
-      >
-        <Menu class="h-5 w-5" />
-      </button>
-      <NuxtLink to="/" class="truncate font-serif text-lg font-bold italic tracking-wide">
-        AbdurRahaman Shah
-      </NuxtLink>
-    </div>
-    
-    <div class="flex items-center gap-1">
-      <button 
-        @click="open"
-        class="p-2 text-muted-foreground hover:text-foreground transition-colors"
-        aria-label="Search"
-      >
-        <Search class="h-5 w-5" />
-      </button>
-      <button 
-        @click="toggleTheme"
-        class="p-2 transition-colors"
-        :class="colorMode.value === 'dark' ? 'text-neutral-400 hover:text-white' : 'text-neutral-600 hover:text-black'"
-        aria-label="Toggle Theme"
-      >
-        <Sun v-if="colorMode.value === 'dark'" class="h-5 w-5" />
-        <Moon v-else class="h-5 w-5" />
-      </button>
-    </div>
+  <header class="site-toolbar sticky top-0 z-40 flex h-16 items-center justify-between gap-1 border-b border-border bg-background px-3 lg:hidden">
+    <button type="button" @click="openSidebar" class="flex h-11 w-11 shrink-0 items-center justify-center rounded-md text-muted-foreground hover:bg-muted/50" aria-label="Open navigation" aria-haspopup="dialog" :aria-expanded="isOpen"><Menu class="h-5 w-5" aria-hidden="true" /></button>
+    <NuxtLink to="/" class="min-w-0 flex-1 truncate font-serif text-base font-bold italic sm:text-lg">AbdurRahaman Shah</NuxtLink>
+    <button type="button" @click="open" class="flex h-11 w-11 shrink-0 items-center justify-center rounded-md text-muted-foreground hover:bg-muted/50" aria-label="Search this site" aria-haspopup="dialog"><Search class="h-5 w-5" aria-hidden="true" /></button>
+    <ThemeToggle />
   </header>
 </template>

@@ -1,221 +1,98 @@
 <script setup lang="ts">
-import { Search, X, FileText, Link as LinkIcon, PenTool } from 'lucide-vue-next'
+import { Search, ArrowRight } from 'lucide-vue-next'
+import books from '../../content/books.json'
+import bookmarks from '../../content/bookmarks.json'
+import gallery from '../../content/gallery.json'
+import { contentText } from '~/utils/contentText'
 
 const { isOpen, close } = useCommandMenu()
-const router = useRouter()
 const route = useRoute()
-
-// Close on route change
-router.afterEach(() => {
-  close()
-})
-
-// Keyboard shortcuts
-onMounted(() => {
-  window.addEventListener('keydown', (e) => {
-    if (e.key === 'k' && (e.metaKey || e.ctrlKey)) {
-      e.preventDefault()
-      isOpen.value = !isOpen.value
-    }
-    if (e.key === 'Escape' && isOpen.value) {
-      close()
-    }
-  })
-})
-
 const query = ref('')
-const isShayriContext = computed(() => route.path.startsWith('/shayris'))
-const placeholder = computed(() => isShayriContext.value ? 'Search shayris...' : 'Search articles...')
+const input = ref<HTMLInputElement | null>(null)
+const resultList = ref<HTMLElement | null>(null)
+const { data, status, error, execute } = await useAsyncData('site-search-content', async () => {
+  const [articles, shayris] = await Promise.all([
+    queryCollection('articles').select('path', 'title', 'description', 'categories', 'body').all(),
+    queryCollection('shayris').select('path', 'title', 'author', 'tags', 'body').all()
+  ])
+  return { articles, shayris }
+}, { immediate: false })
 
-// Fetch dynamic content
-const { data: articles } = await useAsyncData('search-articles', () => 
-  queryCollection('articles').select('path', 'title', 'categories').all()
-)
-const { data: shayris } = await useAsyncData('search-shayris', () =>
-  queryCollection('shayris').select('path', 'title', 'author', 'tags', 'body').all()
-)
-const { data: bookmarksRaw } = await useAsyncData('search-bookmarks', () => 
-  queryCollection('bookmarks').all()
-)
-
-const bookmarks = computed(() => (bookmarksRaw.value?.[0]?.meta?.body || []) as any[])
-
-const searchableText = (value: unknown) => {
-  if (!value) return ''
-  return JSON.stringify(value).toLowerCase()
-}
-
-const searchResults = computed(() => {
-  const q = query.value.toLowerCase().trim()
-  
-  const results = {
-    articles: [] as any[],
-    shayris: [] as any[],
-    bookmarks: [] as any[]
-  }
-
-  // Only show results when user types something
-  if (!q) return results
-
-  // Filter Articles
-  if (!isShayriContext.value && articles.value) {
-    results.articles = articles.value
-      .filter(a => 
-        a.title.toLowerCase().includes(q) || 
-        a.categories?.some((c: string) => c.toLowerCase().includes(q))
-      )
-      .slice(0, 8)
-  }
-
-  if (shayris.value) {
-    results.shayris = shayris.value
-      .filter(s =>
-        s.title.toLowerCase().includes(q) ||
-        s.author.toLowerCase().includes(q) ||
-        s.tags?.some((tag: string) => tag.toLowerCase().includes(q)) ||
-        searchableText(s.body).includes(q)
-      )
-      .slice(0, 8)
-  }
-
-  // Filter Bookmarks
-  if (!isShayriContext.value) {
-    results.bookmarks = bookmarks.value
-      .filter((b: any) => 
-        b.title.toLowerCase().includes(q) || 
-        b.url.toLowerCase().includes(q) ||
-        b.tags?.some((t: string) => t.toLowerCase().includes(q))
-      )
-      .slice(0, 5)
-  }
-
-  return results
+type SearchItem = { title: string, detail: string, href: string, text: string, external?: boolean }
+const normalize = (text: string) => text.normalize('NFKD').replace(/\p{M}/gu, '').toLowerCase()
+const groups = computed(() => [
+  { name: 'Articles', items: (data.value?.articles || []).map(a => ({ title: a.title, detail: a.description || a.categories.join(' · '), href: a.path, text: [a.title, a.description, a.categories.join(' '), contentText(a.body)].join(' ') })) },
+  { name: 'Books', items: books.map(b => ({ title: b.title, detail: b.author, href: `/books?book=${encodeURIComponent(b.id)}`, text: [b.title, b.author, b.review].join(' ') })) },
+  { name: 'Gallery', items: gallery.map(g => ({ title: g.title, detail: 'caption' in g ? String(g.caption) : g.platform, href: `/gallery?media=${encodeURIComponent(g.id)}`, text: [g.title, 'caption' in g ? g.caption : '', 'alt' in g ? g.alt : ''].join(' ') })) },
+  { name: 'Shayris', items: (data.value?.shayris || []).map(s => ({ title: s.title, detail: s.author, href: s.path, text: [s.title, s.author, s.tags.join(' '), contentText(s.body)].join(' ') })) },
+  { name: 'Bookmarks', items: (bookmarks as Array<{title: string, url: string, description?: string, tags: string[]}>).map(b => ({ title: b.title, detail: b.description || new URL(b.url).hostname, href: b.url, external: true, text: [b.title, b.url, b.description, b.tags.join(' ')].join(' ') })) }
+] as { name: string, items: SearchItem[] }[])
+const results = computed(() => {
+  const terms = normalize(query.value).trim().split(/\s+/).filter(Boolean)
+  if (!terms.length) return []
+  return groups.value.map(group => ({ ...group, items: group.items
+    .filter(item => terms.every(term => normalize(item.text).includes(term)))
+    .sort((a, b) => Number(normalize(b.title).includes(normalize(query.value))) - Number(normalize(a.title).includes(normalize(query.value))))
+  })).filter(group => group.items.length)
 })
-
-const hasResults = computed(() => {
-  return searchResults.value.articles.length > 0 || 
-         searchResults.value.shayris.length > 0 ||
-         searchResults.value.bookmarks.length > 0
-})
-
-const hasQuery = computed(() => query.value.trim().length > 0)
-
-function navigate(path: string, filter?: string) {
-  const queryKey = path.startsWith('/shayris/') ? 't' : 'c'
-  const url = filter ? { path, query: { [queryKey]: filter } } : path
-  router.push(url as any)
-  close()
+const count = computed(() => results.value.reduce((total, group) => total + group.items.length, 0))
+const focusResult = (index: number) => {
+  const links = resultList.value?.querySelectorAll<HTMLElement>('[data-search-result]')
+  if (!links?.length || index < 0) { input.value?.focus(); return }
+  links[Math.min(index, links.length - 1)]?.focus()
 }
-
-const searchInput = ref<HTMLInputElement | null>(null)
-
-watch(isOpen, async (val) => {
-  if (val) {
+const openFirstResult = (event: KeyboardEvent) => {
+  if (event.isComposing) return
+  event.preventDefault()
+  resultList.value?.querySelector<HTMLElement>('[data-search-result]')?.click()
+}
+const moveResult = (event: KeyboardEvent, direction: number) => {
+  if (!(event.target instanceof HTMLElement) || !event.target.matches('[data-search-result]')) return
+  event.preventDefault()
+  const links = Array.from(resultList.value?.querySelectorAll<HTMLElement>('[data-search-result]') || [])
+  focusResult(links.indexOf(event.target) + direction)
+}
+const shortcut = (event: KeyboardEvent) => {
+  if (event.key.toLowerCase() === 'k' && (event.metaKey || event.ctrlKey)) {
+    if (!isOpen.value && document.querySelector('dialog[open]')) return
+    event.preventDefault()
+    isOpen.value = !isOpen.value
+  }
+}
+watch(() => route.fullPath, close)
+watch(isOpen, async value => {
+  if (value) {
+    if (status.value === 'idle' || status.value === 'error') execute()
     await nextTick()
-    searchInput.value?.focus()
-  } else {
-    query.value = '' // Clear query on close
-  }
+    input.value?.focus()
+  } else query.value = ''
 })
+onMounted(() => window.addEventListener('keydown', shortcut))
+onUnmounted(() => window.removeEventListener('keydown', shortcut))
 </script>
 
 <template>
-  <div v-if="isOpen" class="fixed inset-0 z-50 flex items-start justify-center pt-[20vh]">
-    <!-- Backdrop -->
-    <div class="fixed inset-0 bg-background/80 backdrop-blur-sm" @click="close" />
-    
-    <!-- Modal (no rounded corners) -->
-    <div class="relative w-full max-w-lg border border-border/50 bg-background shadow-lg">
-      <div class="flex items-center border-b border-border/50 px-4">
-        <Search class="mr-2 h-4 w-4 text-muted-foreground/50" />
-        <input
-          ref="searchInput"
-          v-model="query"
-          :placeholder="placeholder"
-          class="flex h-12 w-full bg-transparent py-3 text-sm outline-none placeholder:text-muted-foreground/50"
-        />
-        <button @click="close" class="ml-2 p-1 text-muted-foreground hover:text-foreground">
-          <X class="h-4 w-4" />
-        </button>
-      </div>
-      
-      <div class="max-h-[400px] overflow-y-auto">
-        <!-- Empty state when no query -->
-        <div v-if="!hasQuery" class="py-8 text-center text-sm text-muted-foreground/60">
-          Start typing to search...
-        </div>
-        
-        <!-- No results -->
-        <div v-else-if="!hasResults" class="py-8 text-center text-sm text-muted-foreground/60">
-          No results found.
-        </div>
-        
-        <!-- Results -->
-        <div v-else class="p-2">
-          <!-- Articles -->
-          <div v-if="searchResults.articles.length > 0">
-            <div class="px-2 py-1.5 text-xs font-medium uppercase tracking-wider text-muted-foreground/60">
-              Articles
-            </div>
-            <div class="flex flex-col">
-              <button
-                v-for="article in searchResults.articles"
-                :key="article.path"
-                @click="navigate(article.path, article.categories?.[0])"
-                class="flex w-full items-center gap-3 px-2 py-2 text-sm outline-none hover:bg-muted/50 hover:text-foreground text-left text-muted-foreground"
-              >
-                <FileText class="h-4 w-4 opacity-50" />
-                <div class="flex flex-col">
-                  <span class="font-medium text-foreground">{{ article.title }}</span>
-                  <span class="text-xs text-muted-foreground/60 capitalize">{{ article.categories?.join(', ') }}</span>
-                </div>
-              </button>
-            </div>
-          </div>
-
-          <div v-if="searchResults.shayris.length > 0" class="mt-2">
-            <div class="px-2 py-1.5 text-xs font-medium uppercase tracking-wider text-muted-foreground/60">
-              Shayris
-            </div>
-            <div class="flex flex-col">
-              <button
-                v-for="shayri in searchResults.shayris"
-                :key="shayri.path"
-                @click="navigate(shayri.path, shayri.tags?.[0])"
-                class="flex w-full items-center gap-3 px-2 py-2 text-sm outline-none hover:bg-muted/50 hover:text-foreground text-left text-muted-foreground"
-              >
-                <PenTool class="h-4 w-4 opacity-50" />
-                <div class="flex flex-col">
-                  <span class="font-medium text-foreground">{{ shayri.title }}</span>
-                  <span class="text-xs text-muted-foreground/60">{{ shayri.author }} - {{ shayri.tags?.join(', ') }}</span>
-                </div>
-              </button>
-            </div>
-          </div>
-
-          <!-- Bookmarks -->
-          <div v-if="searchResults.bookmarks.length > 0" class="mt-2">
-            <div class="px-2 py-1.5 text-xs font-medium uppercase tracking-wider text-muted-foreground/60">
-              Bookmarks
-            </div>
-            <div class="flex flex-col">
-              <a
-                v-for="bookmark in searchResults.bookmarks"
-                :key="bookmark.url"
-                :href="bookmark.url"
-                target="_blank"
-                class="flex w-full items-center gap-3 px-2 py-2 text-sm outline-none hover:bg-muted/50 hover:text-foreground text-left text-muted-foreground"
-              >
-                <LinkIcon class="h-4 w-4 opacity-50" />
-                <div class="flex flex-col">
-                  <span class="font-medium text-foreground">{{ bookmark.title }}</span>
-                  <span class="text-[10px] text-muted-foreground/60 truncate">{{ bookmark.url.replace(/^https?:\/\//, '').split('/')[0] }}</span>
-                </div>
-              </a>
-            </div>
-          </div>
-        </div>
-      </div>
+  <AccessibleDialog v-model:open="isOpen" title="Search this site" description="Find articles, books, photographs, and published collections." close-label="Close search">
+    <label for="site-search" class="sr-only">Search words</label>
+    <div class="flex items-center gap-3 rounded-md border border-border px-3 focus-within:ring-2 focus-within:ring-ring">
+      <Search class="h-5 w-5 shrink-0 text-muted-foreground" aria-hidden="true" />
+      <input id="site-search" ref="input" v-model="query" type="search" autofocus autocomplete="off" placeholder="Try a title, author, or topic…" class="h-12 min-w-0 flex-1 bg-transparent text-base" aria-describedby="search-status" @keydown.down.prevent="focusResult(0)" @keydown.enter="openFirstResult" />
     </div>
-  </div>
+    <p id="search-status" role="status" aria-live="polite" class="my-4 text-sm text-muted-foreground">{{ !query.trim() ? 'Start typing to explore the site.' : status === 'pending' ? 'Searching…' : `${count} ${count === 1 ? 'result' : 'results'} found.` }}</p>
+    <p v-if="error" class="mb-4 text-sm text-muted-foreground">Articles could not be loaded. Books and photographs are still available. <button type="button" class="underline underline-offset-4" @click="execute()">Try again</button></p>
+    <div v-if="query.trim() && !count && status !== 'pending'" class="py-4 text-sm text-muted-foreground"><p>Try fewer words, a book author, or a topic such as AI or design.</p><button type="button" class="mt-4 min-h-11 underline underline-offset-4" @click="query = ''; input?.focus()">Clear search</button></div>
+    <div ref="resultList" @keydown.down="moveResult($event, 1)" @keydown.up="moveResult($event, -1)">
+      <section v-for="group in results" :key="group.name" class="mt-5">
+        <h3 class="mb-2 text-xs font-semibold uppercase tracking-wider text-muted-foreground">{{ group.name }} <span class="font-normal">{{ group.items.length }}</span></h3>
+        <ul class="space-y-1">
+          <li v-for="item in group.items" :key="item.href">
+            <NuxtLink :to="item.href" :external="item.external" :target="item.external ? '_blank' : undefined" :rel="item.external ? 'noopener noreferrer' : undefined" data-search-result class="flex min-h-14 items-center justify-between gap-3 rounded-md px-3 py-3 hover:bg-muted/60 focus-visible:bg-muted/60" @click="close">
+              <span class="min-w-0"><span class="block text-sm font-medium">{{ item.title }}</span><span class="mt-1 block text-xs leading-relaxed text-muted-foreground">{{ item.detail }}</span><span v-if="item.external" class="sr-only">Opens in a new tab.</span></span><ArrowRight class="h-4 w-4 shrink-0 text-muted-foreground" aria-hidden="true" />
+            </NuxtLink>
+          </li>
+        </ul>
+      </section>
+    </div>
+    <p v-if="count" class="mt-5 text-xs text-muted-foreground">Use ↓ and ↑ to move through results, Enter to open, and Esc to close.</p>
+  </AccessibleDialog>
 </template>

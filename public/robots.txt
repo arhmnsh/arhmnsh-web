@@ -1,2 +1,4 @@
-User-Agent: *
+User-agent: *
 Disallow:
+
+Sitemap: https://www.arhmn.sh/sitemap.xml

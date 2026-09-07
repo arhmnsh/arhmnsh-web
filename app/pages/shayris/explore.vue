@@ -1,81 +1,53 @@
 <script setup lang="ts">
-import { PenTool, User } from 'lucide-vue-next'
-
-const { data: allShayris } = await useAsyncData('shayris-explore', () =>
-  queryCollection('shayris').order('date', 'DESC').all()
+const { data: allShayris } = await useAsyncData('poetry-index', () =>
+  queryCollection('shayris').order('date', 'DESC').order('title', 'ASC').all()
 )
-
-const tags = computed(() => {
-  if (!allShayris.value) return []
+function countEntries(values: string[]) {
   const counts = new Map<string, number>()
-  allShayris.value.forEach((shayri: any) => {
-    shayri.tags?.forEach((tag: string) => {
-      counts.set(tag, (counts.get(tag) || 0) + 1)
-    })
-  })
-  return Array.from(counts.entries())
-    .map(([name, count]) => ({ name, count }))
-    .sort((a, b) => a.name.localeCompare(b.name))
-})
-
-const authors = computed(() => {
-  if (!allShayris.value) return []
-  const counts = new Map<string, number>()
-  allShayris.value.forEach((shayri: any) => {
-    counts.set(shayri.author, (counts.get(shayri.author) || 0) + 1)
-  })
-  return Array.from(counts.entries())
-    .map(([name, count]) => ({ name, count }))
-    .sort((a, b) => a.name.localeCompare(b.name))
+  for (const name of values) counts.set(name, (counts.get(name) || 0) + 1)
+  return [...counts].map(([name, count]) => ({ name, count })).sort((a, b) => a.name.localeCompare(b.name))
+}
+const tags = computed(() => countEntries((allShayris.value || []).flatMap(item => item.tags)))
+const authors = computed(() => countEntries((allShayris.value || []).map(item => item.author)))
+usePageSeo({
+  title: 'Explore poetry',
+  description: 'Find poems by theme or author in the poetry collection.',
+  noindex: () => !allShayris.value?.length,
 })
 </script>
 
 <template>
-  <div class="w-full max-w-4xl mx-auto px-4 sm:px-6 py-8 lg:py-16">
-    <header class="mb-12">
-      <p class="mb-3 text-xs font-bold uppercase tracking-[0.24em] text-muted-foreground">
-        Explore Shayris
-      </p>
-      <h1 class="font-sans text-4xl font-bold uppercase tracking-tight lg:text-5xl">
-        Tags & Authors
-      </h1>
-    </header>
-
-    <div class="grid gap-12 lg:grid-cols-2">
-      <section>
-        <h2 class="mb-6 text-sm font-semibold uppercase tracking-[0.22em] text-muted-foreground">Tags</h2>
-        <div class="space-y-1">
-          <NuxtLink
-            v-for="entry in tags"
-            :key="entry.name"
-            :to="{ path: '/shayris', query: { t: entry.name } }"
-            class="group flex items-center justify-between border-b border-muted py-4 transition-colors hover:text-foreground"
-          >
-            <div class="flex items-center gap-3">
-              <PenTool class="h-5 w-5 text-muted-foreground transition-colors group-hover:text-foreground" />
-              <span class="font-medium capitalize decoration-muted-foreground/30 underline-offset-4 group-hover:underline">{{ entry.name }}</span>
-            </div>
-            <span class="font-mono text-sm text-muted-foreground">{{ entry.count }}</span>
-          </NuxtLink>
-        </div>
+  <div class="mx-auto w-full max-w-4xl px-5 py-10 sm:px-8 lg:py-16">
+    <NuxtLink to="/shayris" class="mb-8 inline-block text-sm text-muted-foreground underline underline-offset-4">Browse all poetry</NuxtLink>
+    <header class="mb-10"><h1 class="text-3xl font-semibold tracking-tight sm:text-4xl">Themes and authors</h1></header>
+    <div v-if="!allShayris?.length" class="rounded-xl border border-border p-6 sm:p-8">
+      <p class="leading-relaxed text-muted-foreground">The poetry collection is still in preparation. Themes and authors will appear as poems are published.</p>
+      <div class="mt-6 flex flex-wrap gap-5 text-sm">
+        <NuxtLink to="/articles" class="underline underline-offset-4">Read the articles</NuxtLink>
+        <NuxtLink to="/books" class="underline underline-offset-4">Visit the bookshelf</NuxtLink>
+      </div>
+    </div>
+    <div v-else class="grid gap-10 sm:grid-cols-2">
+      <section aria-labelledby="poetry-themes">
+        <h2 id="poetry-themes" class="mb-4 text-lg font-medium">Themes</h2>
+        <p v-if="!tags.length" class="text-sm text-muted-foreground">No themes have been added yet.</p>
+        <ul class="divide-y divide-border">
+          <li v-for="entry in tags" :key="entry.name">
+            <NuxtLink :to="{ path: '/shayris', query: { t: entry.name } }" class="flex items-center justify-between gap-3 rounded-sm py-4 hover:underline underline-offset-4">
+              <span>{{ entry.name }}</span><span class="text-sm text-muted-foreground">{{ entry.count }} {{ entry.count === 1 ? 'poem' : 'poems' }}</span>
+            </NuxtLink>
+          </li>
+        </ul>
       </section>
-
-      <section>
-        <h2 class="mb-6 text-sm font-semibold uppercase tracking-[0.22em] text-muted-foreground">Authors</h2>
-        <div class="space-y-1">
-          <NuxtLink
-            v-for="entry in authors"
-            :key="entry.name"
-            :to="{ path: '/shayris', query: { a: entry.name } }"
-            class="group flex items-center justify-between border-b border-muted py-4 transition-colors hover:text-foreground"
-          >
-            <div class="flex items-center gap-3">
-              <User class="h-5 w-5 text-muted-foreground transition-colors group-hover:text-foreground" />
-              <span class="font-medium decoration-muted-foreground/30 underline-offset-4 group-hover:underline">{{ entry.name }}</span>
-            </div>
-            <span class="font-mono text-sm text-muted-foreground">{{ entry.count }}</span>
-          </NuxtLink>
-        </div>
+      <section aria-labelledby="poetry-authors">
+        <h2 id="poetry-authors" class="mb-4 text-lg font-medium">Authors</h2>
+        <ul class="divide-y divide-border">
+          <li v-for="entry in authors" :key="entry.name">
+            <NuxtLink :to="{ path: '/shayris', query: { a: entry.name } }" class="flex items-center justify-between gap-3 rounded-sm py-4 hover:underline underline-offset-4">
+              <span>{{ entry.name }}</span><span class="text-sm text-muted-foreground">{{ entry.count }} {{ entry.count === 1 ? 'poem' : 'poems' }}</span>
+            </NuxtLink>
+          </li>
+        </ul>
       </section>
     </div>
   </div>

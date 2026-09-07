@@ -1,21 +1,11 @@
-<script setup lang="ts">
-/*
-  3-column layout implementation:
-  1. Sidebar (Fixed)
-  2. Main Content (Flexible)
-     Inside Main Content, pages like /articles/[category] will further split into ArticleList + ArticleContent
-*/
-</script>
-
 <template>
-  <div class="flex min-h-screen bg-background font-sans text-foreground">
+  <div class="site-shell flex min-h-screen bg-background font-sans text-foreground">
+    <a href="#main-content" class="skip-link">Skip to content</a>
     <NuxtLoadingIndicator color="#888" :height="2" />
     <Sidebar />
-    <div class="flex flex-1 flex-col ml-0 lg:ml-64 min-w-0 w-full">
+    <div class="flex min-w-0 flex-1 flex-col lg:ml-64">
       <MobileNav />
-      <div class="flex-1 min-w-0 w-full">
-        <slot />
-      </div>
+      <main id="main-content" tabindex="-1" class="min-w-0 w-full flex-1"><slot /></main>
     </div>
     <CommandMenu />
   </div>
