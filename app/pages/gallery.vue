@@ -177,10 +177,9 @@ watch(isOpen, (open) => {
             class="gallery-photo"
             @error="markImageFailed(selectedItem.id)"
           />
-          <p v-else class="p-8 text-center text-sm text-white/80">The preview is unavailable. Open the original using the link below.</p>
+          <p v-else class="p-8 text-center text-sm text-white/80">Preview unavailable.</p>
         </div>
 
-        <p v-if="selectedItem.type === 'video' && selectedItem.platform === 'instagram'" class="text-sm text-muted-foreground">Watch the full reel on Instagram.</p>
         <div class="flex flex-wrap items-center justify-between gap-x-6 gap-y-3">
           <a
             :href="selectedItem.externalUrl"
