@@ -19,7 +19,7 @@ const projects = [
     <section class="grid items-start gap-8 sm:gap-12 xl:grid-cols-[1.2fr_1fr]" aria-labelledby="intro-title">
       <div>
         <p class="mb-4 text-xs font-semibold uppercase tracking-[0.18em] text-muted-foreground">Engineer · designer</p>
-        <h1 id="intro-title" class="text-4xl font-bold leading-tight tracking-tight sm:text-5xl">AbdurRahaman Shah</h1>
+        <h1 id="intro-title" class="text-3xl font-bold leading-tight tracking-tight sm:text-4xl xl:text-5xl">AbdurRahaman Shah</h1>
         <p class="mt-6 max-w-xl font-serif text-lg leading-relaxed text-muted-foreground sm:text-xl">I build AI products and lead the teams behind them. Based in Riyadh, my work spans airport operations, tools for cities, and language systems.</p>
         <p class="mt-4 max-w-xl text-sm leading-relaxed text-muted-foreground">Away from the keyboard: cars, motorcycles, travel, photography, painting, and astronomy.</p>
         <div class="mt-7 flex flex-wrap items-center gap-5 text-sm font-medium">
@@ -62,19 +62,28 @@ const projects = [
       <NuxtLink to="/articles" class="mt-3 inline-flex min-h-11 items-center gap-2 text-sm font-medium">View all articles <ArrowRight class="h-4 w-4" aria-hidden="true" /></NuxtLink>
     </section>
 
-    <section class="mt-14 border-t border-border pt-10" aria-labelledby="books-title">
-      <h2 id="books-title" class="text-2xl font-semibold tracking-tight">Books</h2>
-      <NuxtLink to="/books" class="mt-3 inline-flex min-h-11 items-center gap-2 text-sm font-medium">Books I’ve read <ArrowRight class="h-4 w-4" aria-hidden="true" /></NuxtLink>
-    </section>
-
-    <section class="mt-14 border-t border-border pt-10" aria-labelledby="photography-title">
-      <h2 id="photography-title" class="text-2xl font-semibold tracking-tight">Photography</h2>
-      <NuxtLink to="/gallery" class="mt-3 inline-flex min-h-11 items-center gap-2 text-sm font-medium">View gallery <ArrowRight class="h-4 w-4" aria-hidden="true" /></NuxtLink>
-    </section>
+    <div class="mt-10 grid gap-8 border-t border-border pt-8 sm:mt-14 sm:grid-cols-2">
+      <section aria-labelledby="books-title" class="min-w-0">
+        <NuxtLink to="/books" class="group block">
+          <div class="flex h-36 items-end justify-center gap-4 overflow-hidden rounded-lg bg-muted/40 px-4 pt-4 sm:h-44" aria-hidden="true">
+            <img v-for="cover in ['sealed-nectar', 'wings-of-fire', 'steve-jobs']" :key="cover" :src="`/images/books/${cover}.jpg`" alt="" loading="lazy" class="h-full min-w-0 w-auto max-w-[29%] object-contain object-bottom drop-shadow-md" />
+          </div>
+          <h2 id="books-title" class="mt-4 flex items-center justify-between text-xl font-semibold">Books <ArrowRight class="h-4 w-4" aria-hidden="true" /></h2>
+          <p class="mt-1 text-sm text-muted-foreground">From my bookshelf</p>
+        </NuxtLink>
+      </section>
+      <section aria-labelledby="photography-title" class="min-w-0">
+        <NuxtLink to="/gallery" class="group block">
+          <img src="/images/gallery/ig-post-6.jpg" alt="Stars above silhouetted palm trees" loading="lazy" class="h-36 w-full rounded-lg object-cover sm:h-44" />
+          <h2 id="photography-title" class="mt-4 flex items-center justify-between text-xl font-semibold">Photography <ArrowRight class="h-4 w-4" aria-hidden="true" /></h2>
+          <p class="mt-1 text-sm text-muted-foreground">Photos and videos</p>
+        </NuxtLink>
+      </section>
+    </div>
 
     <section v-if="latestShayris?.length" class="mt-14 border-t border-border pt-10" aria-labelledby="poetry-title">
-      <h2 id="poetry-title" class="text-xl font-semibold">From the poetry collection</h2>
-      <NuxtLink v-for="shayri in latestShayris" :key="shayri.path" :to="shayri.path" class="mt-4 block py-2"><span class="font-medium">{{ shayri.title }}</span><span class="ml-3 text-sm text-muted-foreground">{{ shayri.author }}</span></NuxtLink>
+      <h2 id="poetry-title" class="text-xl font-semibold">Poetry</h2>
+      <NuxtLink v-for="shayri in latestShayris" :key="shayri.path" :to="shayri.path" class="mt-4 flex flex-col gap-1 py-2 sm:flex-row sm:items-baseline sm:gap-3"><span class="font-medium">{{ shayri.title }}</span><span class="text-sm text-muted-foreground">{{ shayri.author }}</span></NuxtLink>
       <NuxtLink to="/shayris" class="mt-3 inline-flex min-h-11 items-center gap-2 text-sm">Browse all shayris <ArrowRight class="h-4 w-4" aria-hidden="true" /></NuxtLink>
     </section>
 
