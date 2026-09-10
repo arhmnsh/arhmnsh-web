@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { filterValues, matchesPoetry } from '~/utils/poetryFilters'
 import { ArrowLeft, ArrowRight, Shuffle } from 'lucide-vue-next'
 import { shayriGlossary, type ShayriGlossaryEntry } from '~/data/shayriGlossary'
 
@@ -6,10 +7,7 @@ definePageMeta({ key: route => route.path.replace(/\/+$/, '') })
 const route = useRoute()
 const pageQuery = usePageQuery()
 const poemPath = computed(() => route.path.replace(/\/+$/, ''))
-const navigationQuery = computed(() => ({
-  ...(typeof pageQuery.value.a === 'string' && pageQuery.value.a ? { a: pageQuery.value.a } : {}),
-  ...(typeof pageQuery.value.t === 'string' && pageQuery.value.t ? { t: pageQuery.value.t } : {}),
-}))
+const navigationQuery = computed(() => ({ a: filterValues(pageQuery.value.a), t: filterValues(pageQuery.value.t) }))
 const { data: shayri, error } = await useAsyncData(
   () => `poem-${poemPath.value}`, () => queryCollection('shayris').path(poemPath.value).first()
 )
@@ -18,10 +16,7 @@ if (!shayri.value) throw createError({ statusCode: 404, statusMessage: 'Poem not
 const { data: allShayris } = await useAsyncData('poetry-index', () =>
   queryCollection('shayris').order('date', 'DESC').order('title', 'ASC').all()
 )
-const scopedPoems = computed(() => (allShayris.value || []).filter(item =>
-  (!navigationQuery.value.a || item.author.toLowerCase() === navigationQuery.value.a.toLowerCase()) &&
-  (!navigationQuery.value.t || item.tags.some(tag => tag.toLowerCase() === navigationQuery.value.t?.toLowerCase()))
-))
+const scopedPoems = computed(() => (allShayris.value || []).filter(item => matchesPoetry(item, navigationQuery.value.a, navigationQuery.value.t)))
 const currentIndex = computed(() => scopedPoems.value.findIndex(item => item.path === shayri.value?.path))
 const previous = computed(() => currentIndex.value > 0 ? scopedPoems.value[currentIndex.value - 1] : undefined)
 const next = computed(() => currentIndex.value >= 0 ? scopedPoems.value[currentIndex.value + 1] : undefined)
@@ -80,7 +75,7 @@ useHead({ link: [{ key: 'poetry-font', rel: 'stylesheet', href: 'https://fonts.g
       <ThemeToggle />
     </nav>
     <header class="mb-10">
-      <h1 class="shayri-title mb-4 text-4xl leading-tight sm:text-5xl lg:text-6xl">{{ shayri.title }}</h1>
+      <h1 class="shayri-title mb-4 break-words text-3xl leading-tight sm:text-4xl lg:text-5xl">{{ shayri.title }}</h1>
       <p class="text-base text-muted-foreground">By <NuxtLink :to="{ path: '/shayris', query: { a: shayri.author } }" class="underline underline-offset-4">{{ shayri.author }}</NuxtLink></p>
       <p class="mt-3 text-xs text-muted-foreground">Added <time :datetime="dateTime(shayri.date)">{{ formatDate(shayri.date) }}</time></p>
       <p v-if="shayri.description" class="mt-5 leading-relaxed text-muted-foreground">{{ shayri.description }}</p>
