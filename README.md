@@ -36,7 +36,7 @@ Article content starts here.
 
 Use descriptive Markdown links and image alt text. Place article media in `public/images/articles/<slug>/` and reference it as `/images/articles/<slug>/<filename>`. Give video embeds a descriptive title and a visible link to watch on the source site.
 
-Poetry also requires `author` and `tags`; `youtubeUrl` is optional. Set `author` to the actual poet’s name. The poetry index supports author/theme filters and the detail page handles attribution. Publication dates render consistently across time zones.
+Poetry also requires `author` and `tags`; `youtubeUrl` is optional, and `youtubeUrls` can be used for multiple recordings. Set `author` to the actual poet’s name. The poetry index supports author/theme filters and the detail page handles attribution. Publication dates render consistently across time zones.
 
 Search indexes article and poetry text, books, saved links, and gallery captions. Article categories are collected from frontmatter and shown as filters on the article index.
 

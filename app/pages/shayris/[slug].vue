@@ -48,16 +48,19 @@ const activeWord = ref<ShayriGlossaryEntry | null>(null)
 const glossaryOpen = ref(false)
 function openWord(entry: ShayriGlossaryEntry) { activeWord.value = entry; glossaryOpen.value = true }
 
-const video = computed(() => {
-  if (!shayri.value?.youtubeUrl) return undefined
-  try {
-    const url = new URL(shayri.value.youtubeUrl)
-    const host = url.hostname.toLowerCase()
-    if (!['https:', 'http:'].includes(url.protocol) || !['youtube.com', 'www.youtube.com', 'm.youtube.com', 'youtu.be', 'www.youtube-nocookie.com'].includes(host)) return undefined
-    const id = host === 'youtu.be' ? url.pathname.slice(1) : url.searchParams.get('v') || url.pathname.match(/^\/(?:embed|shorts)\/([^/]+)/)?.[1]
-    if (!id || !/^[\w-]{11}$/.test(id)) return undefined
-    return { embed: `https://www.youtube-nocookie.com/embed/${id}`, url: `https://www.youtube.com/watch?v=${id}` }
-  } catch { return undefined }
+const videos = computed(() => {
+  if (!shayri.value) return []
+  const urls = [shayri.value.youtubeUrl, ...(shayri.value.youtubeUrls || [])].filter((url): url is string => Boolean(url))
+  return urls.flatMap((sourceUrl) => {
+    try {
+      const url = new URL(sourceUrl)
+      const host = url.hostname.toLowerCase()
+      if (!['https:', 'http:'].includes(url.protocol) || !['youtube.com', 'www.youtube.com', 'm.youtube.com', 'youtu.be', 'www.youtube-nocookie.com'].includes(host)) return []
+      const id = host === 'youtu.be' ? url.pathname.slice(1) : url.searchParams.get('v') || url.pathname.match(/^\/(?:embed|shorts)\/([^/]+)/)?.[1]
+      if (!id || !/^[\w-]{11}$/.test(id)) return []
+      return [{ embed: `https://www.youtube-nocookie.com/embed/${id}`, url: `https://www.youtube.com/watch?v=${id}` }]
+    } catch { return [] }
+  })
 })
 usePageSeo({
   title: () => shayri.value?.title || 'Poetry',
@@ -99,9 +102,11 @@ useHead({ link: [{ key: 'poetry-font', rel: 'stylesheet', href: 'https://fonts.g
         <p lang="ur-Latn" class="leading-relaxed text-muted-foreground">{{ activeWord.romanUrdu }}</p>
       </div>
     </AccessibleDialog>
-    <div v-if="video" class="mt-10">
-      <div class="aspect-video overflow-hidden rounded-lg bg-black"><iframe :src="video.embed" :title="shayri.title + ' by ' + shayri.author" class="h-full w-full" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen /></div>
-      <a :href="video.url" class="mt-3 inline-block text-sm underline underline-offset-4">Watch on YouTube</a>
+    <div v-if="videos.length" class="mt-10 space-y-8">
+      <div v-for="(video, index) in videos" :key="video.embed">
+        <div class="aspect-video overflow-hidden rounded-lg bg-black"><iframe :src="video.embed" :title="shayri.title + ' by ' + shayri.author + (videos.length > 1 ? ' — recording ' + (index + 1) : '')" class="h-full w-full" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen /></div>
+        <a :href="video.url" class="mt-3 inline-block text-sm underline underline-offset-4">Watch on YouTube{{ videos.length > 1 ? ` (recording ${index + 1})` : '' }}</a>
+      </div>
     </div>
     <footer class="mt-10 border-t border-border pt-6">
       <div class="mb-6 flex flex-wrap gap-2"><NuxtLink v-for="tag in shayri.tags" :key="tag" :to="{ path: '/shayris', query: { t: tag } }" class="rounded-full border border-border px-3 py-2 text-xs text-muted-foreground hover:text-foreground">{{ tag }}</NuxtLink></div>

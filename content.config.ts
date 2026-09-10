@@ -22,7 +22,8 @@ export default defineContentConfig({
                 author: z.string(),
                 tags: z.array(z.string()),
                 description: z.string().optional(),
-                youtubeUrl: z.string().url().optional()
+                youtubeUrl: z.string().url().optional(),
+                youtubeUrls: z.array(z.string().url()).optional()
             })
         }),
         bookmarks: defineCollection({
