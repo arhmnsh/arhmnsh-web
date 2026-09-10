@@ -23,8 +23,6 @@ const projects = [
         <p class="mt-6 max-w-xl font-serif text-lg leading-relaxed text-muted-foreground sm:text-xl">I build AI products and lead the teams behind them. Based in Riyadh, my work spans airport operations, tools for cities, and language systems.</p>
         <p class="mt-4 max-w-xl text-sm leading-relaxed text-muted-foreground">Away from the keyboard: cars, motorcycles, travel, photography, painting, and astronomy.</p>
         <div class="mt-7 flex flex-wrap items-center gap-5 text-sm font-medium">
-          <a href="#projects" class="inline-flex min-h-11 items-center gap-2">Explore my work <ArrowRight class="h-4 w-4" aria-hidden="true" /></a>
-          <NuxtLink to="/articles" class="inline-flex min-h-11 items-center gap-2 text-muted-foreground hover:text-foreground">Read my writing <ArrowRight class="h-4 w-4" aria-hidden="true" /></NuxtLink>
           <a href="mailto:hi@arhmn.sh" class="inline-flex min-h-11 items-center gap-2 text-muted-foreground hover:text-foreground"><Mail class="h-4 w-4" aria-hidden="true" />Get in touch</a>
         </div>
       </div>
@@ -64,12 +62,14 @@ const projects = [
       <NuxtLink to="/articles" class="mt-3 inline-flex min-h-11 items-center gap-2 text-sm font-medium">View all articles <ArrowRight class="h-4 w-4" aria-hidden="true" /></NuxtLink>
     </section>
 
-    <section class="mt-14 border-t border-border pt-10" aria-labelledby="elsewhere-title">
-      <h2 id="elsewhere-title" class="text-xl font-semibold tracking-tight">Beyond work</h2>
-      <div class="mt-5 grid gap-5 sm:grid-cols-2">
-        <NuxtLink to="/books" class="rounded-lg border border-border p-5 hover:bg-muted/40"><h3 class="font-medium">On my bookshelf</h3><p class="mt-2 text-sm leading-relaxed text-muted-foreground">Books on design, technology, faith, and the people who build things.</p></NuxtLink>
-        <NuxtLink to="/gallery" class="rounded-lg border border-border p-5 hover:bg-muted/40"><h3 class="font-medium">Through my lens</h3><p class="mt-2 text-sm leading-relaxed text-muted-foreground">Photography, rides, and moments along the way.</p></NuxtLink>
-      </div>
+    <section class="mt-14 border-t border-border pt-10" aria-labelledby="books-title">
+      <h2 id="books-title" class="text-2xl font-semibold tracking-tight">Books</h2>
+      <NuxtLink to="/books" class="mt-3 inline-flex min-h-11 items-center gap-2 text-sm font-medium">Books I’ve read <ArrowRight class="h-4 w-4" aria-hidden="true" /></NuxtLink>
+    </section>
+
+    <section class="mt-14 border-t border-border pt-10" aria-labelledby="photography-title">
+      <h2 id="photography-title" class="text-2xl font-semibold tracking-tight">Photography</h2>
+      <NuxtLink to="/gallery" class="mt-3 inline-flex min-h-11 items-center gap-2 text-sm font-medium">View gallery <ArrowRight class="h-4 w-4" aria-hidden="true" /></NuxtLink>
     </section>
 
     <section v-if="latestShayris?.length" class="mt-14 border-t border-border pt-10" aria-labelledby="poetry-title">
