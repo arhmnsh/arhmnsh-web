@@ -72,7 +72,6 @@ useHead({ link: [{ key: 'poetry-font', rel: 'stylesheet', href: 'https://fonts.g
     <nav aria-label="Poetry navigation" class="mb-10 flex flex-wrap items-center justify-between gap-4 text-sm">
       <NuxtLink :to="{ path: '/shayris', query: navigationQuery }" class="inline-flex items-center gap-2 rounded-sm text-muted-foreground hover:text-foreground"><ArrowLeft class="h-4 w-4" aria-hidden="true" /> Browse poetry</NuxtLink>
       <NuxtLink to="/shayris/explore" class="rounded-sm underline underline-offset-4">Themes and authors</NuxtLink>
-      <ThemeToggle />
     </nav>
     <header class="mb-10">
       <h1 class="shayri-title mb-4 break-words text-3xl leading-tight sm:text-4xl lg:text-5xl">{{ shayri.title }}</h1>

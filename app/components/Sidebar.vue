@@ -26,8 +26,9 @@ onUnmounted(() => desktop?.removeEventListener('change', handleDesktop))
     <div class="flex-1 overflow-y-auto px-4 py-6"><SiteNavigation :has-poems="Boolean(poems?.length)" /></div>
     <div class="border-t border-border p-4"><ThemeToggle /></div>
   </aside>
-  <AccessibleDialog v-model:open="isOpen" title="Navigation" close-label="Close navigation">
+  <AccessibleDialog v-model:open="isOpen" title="Navigation" close-label="Close navigation" size="sidebar">
     <button type="button" class="mb-4 flex min-h-11 w-full items-center gap-3 rounded-md border border-border px-3 text-sm" aria-haspopup="dialog" @click="search"><Search class="h-4 w-4" aria-hidden="true" />Search this site</button>
     <SiteNavigation :has-poems="Boolean(poems?.length)" @navigate="close" />
+    <div class="mt-auto border-t border-border pt-4"><ThemeToggle /></div>
   </AccessibleDialog>
 </template>

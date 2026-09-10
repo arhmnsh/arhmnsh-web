@@ -13,7 +13,7 @@ const props = withDefaults(defineProps<{
   title: string
   description?: string
   closeLabel?: string
-  size?: 'default' | 'wide'
+  size?: 'default' | 'wide' | 'sidebar'
 }>(), {
   closeLabel: 'Close dialog',
   size: 'default'
@@ -141,7 +141,7 @@ onBeforeUnmount(() => {
   <dialog
       ref="dialog"
       class="accessible-dialog"
-      :class="{ 'accessible-dialog--wide': size === 'wide' }"
+      :class="{ 'accessible-dialog--wide': size === 'wide', 'accessible-dialog--sidebar': size === 'sidebar' }"
       :aria-labelledby="titleId"
       :aria-describedby="description ? descriptionId : undefined"
       aria-modal="true"
@@ -211,6 +211,10 @@ onBeforeUnmount(() => {
 }
 .dialog-close:hover { background: hsl(var(--muted)); }
 .dialog-close:focus-visible { outline: 2px solid currentColor; outline-offset: 2px; }
+.accessible-dialog--sidebar { margin: 0; width: min(20rem, calc(100vw - 3rem)); max-width: none; height: 100dvh; max-height: 100dvh; border-radius: 0; border-width: 0 1px 0 0; }
+.accessible-dialog--sidebar[open] { display: flex; flex-direction: column; animation: sidebar-enter 180ms ease-out; }
+.accessible-dialog--sidebar .dialog-content { display: flex; flex: 1; min-height: 0; flex-direction: column; gap: 1rem; overflow-y: auto; padding-bottom: max(1rem, env(safe-area-inset-bottom)); }
+@keyframes sidebar-enter { from { opacity: 0; transform: translateX(-100%); } to { opacity: 1; transform: translateX(0); } }
 @keyframes dialog-enter { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
 @media (max-width: 480px) {
   .dialog-header, .dialog-content { padding: 1rem; }

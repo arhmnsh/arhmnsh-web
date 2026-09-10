@@ -46,7 +46,6 @@ usePageSeo({
       <NuxtLink :to="backLink" class="inline-flex items-center gap-2 rounded-sm py-2 text-sm text-muted-foreground hover:text-foreground">
         <ArrowLeft class="h-4 w-4" aria-hidden="true" /> {{ category ? `Back to ${category}` : 'All articles' }}
       </NuxtLink>
-      <ThemeToggle />
     </nav>
 
     <header class="mb-10">
