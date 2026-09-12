@@ -70,17 +70,26 @@ function onClose() {
   if (props.open) requestClose()
 }
 
+let closingAnimation: Animation | undefined
 function syncDialog() {
   const element = dialog.value
   if (!element) return
+  if (props.open) { closingAnimation?.cancel(); closingAnimation = undefined }
   if (props.open && !element.open) {
     previousFocus = document.activeElement instanceof HTMLElement ? document.activeElement : null
     element.showModal()
     lockScroll()
     element.querySelector<HTMLElement>('[autofocus]')?.focus({ preventScroll: true })
   } else if (!props.open && element.open) {
-    element.close()
-    onClose()
+    if (props.size === 'sidebar' && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      if (closingAnimation) return
+      closingAnimation = element.animate([{ transform: 'translateY(0)', opacity: 1 }, { transform: 'translateY(100%)', opacity: 0 }], { duration: 180, easing: 'ease-in', fill: 'forwards' })
+      closingAnimation.onfinish = () => {
+        if (!props.open) { element.close(); onClose() }
+        closingAnimation?.cancel()
+        closingAnimation = undefined
+      }
+    } else { element.close(); onClose() }
   }
 }
 
@@ -130,6 +139,7 @@ function onKeydown(event: KeyboardEvent) {
 watch(() => props.open, syncDialog, { flush: 'post' })
 onMounted(syncDialog)
 onBeforeUnmount(() => {
+  closingAnimation?.cancel()
   dialog.value?.close()
   releaseScroll()
   restoreFocus()
@@ -211,10 +221,10 @@ onBeforeUnmount(() => {
 }
 .dialog-close:hover { background: hsl(var(--muted)); }
 .dialog-close:focus-visible { outline: 2px solid currentColor; outline-offset: 2px; }
-.accessible-dialog--sidebar { margin: 0; width: min(20rem, calc(100vw - 3rem)); max-width: none; height: 100dvh; max-height: 100dvh; border-radius: 0; border-width: 0 1px 0 0; }
-.accessible-dialog--sidebar[open] { display: flex; flex-direction: column; animation: sidebar-enter 180ms ease-out; }
+.accessible-dialog--sidebar { margin: auto auto 0; width: min(36rem, 100vw); max-width: none; height: min(44rem, 90dvh); max-height: 90dvh; border-radius: 1.5rem 1.5rem 0 0; border-width: 1px 1px 0; }
+.accessible-dialog--sidebar[open] { display: flex; flex-direction: column; animation: sidebar-enter 260ms cubic-bezier(.2,.8,.2,1); }
 .accessible-dialog--sidebar .dialog-content { display: flex; flex: 1; min-height: 0; flex-direction: column; gap: 1rem; overflow-y: auto; padding-bottom: max(1rem, env(safe-area-inset-bottom)); }
-@keyframes sidebar-enter { from { opacity: 0; transform: translateX(-100%); } to { opacity: 1; transform: translateX(0); } }
+@keyframes sidebar-enter { from { opacity: 0; transform: translateY(100%); } to { opacity: 1; transform: translateY(0); } }
 @keyframes dialog-enter { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
 @media (max-width: 480px) {
   .dialog-header, .dialog-content { padding: 1rem; }

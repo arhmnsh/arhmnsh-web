@@ -254,3 +254,25 @@ nav a[aria-current="page"] { font-weight: 600; }
 #main-content nav[aria-label^="Filter"] a[aria-current=page],.library-dialog .page-controls button[aria-pressed=true] { color:var(--aqua-ink); background:linear-gradient(var(--aqua-top),var(--aqua-bottom)); border-color:var(--aqua-line); }
 .library-dialog .browse-volumes button { padding:0 12px; }
 .library-dialog .page-controls button { margin:0 3px; }
+
+/* Hover belongs to pointing devices; press feedback lasts for the entire hold. */
+:where(button:not(:disabled):not(.book-item):not(.gallery-card), [role="button"], .site-sidebar nav a, .accessible-dialog nav a, .gallery-play) {
+  touch-action: manipulation;
+  transition: scale 140ms ease, translate 140ms ease, filter 140ms ease, box-shadow 140ms ease;
+}
+@media (hover: hover) and (pointer: fine) {
+  :where(button:not(:disabled):not(.book-item):not(.gallery-card), .site-sidebar nav a, .accessible-dialog nav a, .gallery-play):hover { filter: brightness(1.08); translate: 0 -1px; }
+}
+:where(button:not(:disabled):not(.book-item):not(.gallery-card), [role="button"], .site-sidebar nav a, .accessible-dialog nav a, .gallery-play):active {
+  scale: .96;
+  translate: 0 1px;
+  filter: brightness(.94);
+  box-shadow: inset 0 2px 5px var(--glass-shadow);
+  transition-duration: 70ms;
+}
+@media (pointer: coarse) {
+  :where(button:not(:disabled):not(.book-item):not(.gallery-card), .accessible-dialog nav a, .gallery-play):active { scale: .94; }
+}
+@media (prefers-reduced-motion: reduce) {
+  :where(button, [role="button"], nav a, .gallery-play):is(:hover, :active) { scale: 1; translate: none; }
+}
