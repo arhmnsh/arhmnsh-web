@@ -9,7 +9,7 @@ npm ci
 npm run dev
 ```
 
-The development site opens at [localhost:3000](http://localhost:3000). The shared navigation includes articles, books, gallery, and RSS. Bookmarks and poetry appear when those collections contain published entries; their existing URLs remain available while empty.
+The development site opens at [localhost:3000](http://localhost:3000). The header lists work, writing, books, photos, about, and search on every page. Poetry and bookmarks appear when those collections contain published entries; their existing URLs remain available while empty.
 
 ## Content
 
@@ -85,7 +85,11 @@ The GitHub Pages workflow runs tests, generates the site, verifies the output, a
 
 ### Design and interactions
 
-The site uses a neutral white/charcoal palette, restrained typography, and open space inspired by Mike Matas’s portfolio. The shared tokens and primitives live in `app/assets/css/main.css`. Desktop navigation becomes a single mobile header and an accessible menu below 1024px. All pages share a compact contact footer.
+The site uses a neutral white/charcoal palette, light grotesque typography, and open space inspired by Mike Matas’s portfolio. The shared tokens and primitives live in `app/assets/css/main.css`.
+
+Every page renders inside one frame (`app/components/SiteFrame.vue`): a sticky header with the name, the open section's title beneath it, search and theme controls, and a bar of pills for the other sections defined in `app/data/sections.ts`. The introduction is open at `/`; the other sections are ordinary routes. Choosing a pill is a route change: its title travels up under the name, the previous title settles back into the bar as a pill, the remaining pills slide over, and the page eases in beneath. The animation snapshots positions before the route changes and plays them with the Web Animations API, so it is skipped for reduced motion and never affects layout. Once the reader scrolls into a page the header folds to a smaller size and unfolds again at the top. Section index pages keep an `h1` for structure, visually hidden because the title already appears in the header.
+
+Work items live in `app/data/projects.ts`; a project can carry an `image` path once real screenshots exist.
 
 The homepage has a horizontal collection of photographs, book covers, and writing. Touch uses native scrolling and scroll snap; mouse users can drag or use the visible arrows. Arrow keys, Home, and End move between collections. Project rows expand natively. The library retains its book opening experience. Gallery filters switch between all media, photographs, and films; the viewer follows the active collection and supports horizontal swipes on photos as well as buttons and arrow keys.
 
