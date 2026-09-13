@@ -32,13 +32,13 @@ onBeforeUnmount(() => { wobble?.cancel(); if (resetTimer) clearTimeout(resetTime
 
 <template>
   <button type="button" class="skydive-photo" aria-label="Skydiving photo" :style="{ '--photo-scale': 1 + taps * .02, '--hint-strength': taps * 2 + 'px' }" @click="discover">
-    <img ref="photo" src="/images/me-640.webp" srcset="/images/me-640.webp 640w, /images/me-1024.webp 1024w" sizes="(min-width: 1280px) 380px, (min-width: 1024px) 700px, (min-width: 640px) 576px, calc(100vw - 48px)" width="2576" height="1552" fetchpriority="high" decoding="async" alt="AbdurRahaman Shah skydiving above the coast" class="aspect-[2576/1552] w-full rounded-xl object-cover" />
+    <img ref="photo" src="/images/me-640.webp" srcset="/images/me-640.webp 640w, /images/me-1024.webp 1024w" sizes="(min-width: 1200px) 450px, (min-width: 761px) 40vw, (min-width: 481px) 350px, 280px" width="2576" height="1552" fetchpriority="high" decoding="async" alt="AbdurRahaman Shah skydiving above the coast" class="aspect-[2576/1552] w-full object-cover" />
   </button>
   <span class="sr-only" role="status">{{ hint }}</span>
 </template>
 
 <style scoped>
-.skydive-photo { display:block; width:100%; border-radius:.75rem; transform:scale(var(--photo-scale)); transform-origin:center; transition:transform 300ms cubic-bezier(.2,.8,.25,1),box-shadow 300ms; touch-action:manipulation; -webkit-tap-highlight-color:transparent; box-shadow:0 0 0 var(--hint-strength) hsl(var(--foreground) / .06); }
+.skydive-photo { display:block; width:100%; border-radius:2px; transform:scale(var(--photo-scale)); transform-origin:center; transition:transform 300ms cubic-bezier(.2,.8,.25,1),box-shadow 300ms; touch-action:manipulation; -webkit-tap-highlight-color:transparent; box-shadow:0 0 0 var(--hint-strength) hsl(var(--foreground) / .06); }
 .skydive-photo:focus-visible { outline:2px solid hsl(var(--foreground)); outline-offset:5px; }
 .skydive-photo img { display:block; user-select:none; -webkit-user-drag:none; }
 @media(prefers-reduced-motion:reduce) { .skydive-photo { transform:none; transition:none; } }

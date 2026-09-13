@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { format, parseISO } from 'date-fns'
 
 defineProps<{
   title: string
@@ -19,33 +18,23 @@ const isShayriActive = (shayriPath: string) => route.path === shayriPath
 </script>
 
 <template>
-  <div class="flex h-full flex-col">
-    <div class="flex min-h-16 items-center border-b border-muted px-6">
-      <h2 class="text-lg font-semibold uppercase tracking-wider text-muted-foreground capitalize">{{ title }}</h2>
-    </div>
-    <div class="flex-1 overflow-y-auto">
-      <div v-if="shayris.length === 0" class="p-6 text-sm text-muted-foreground">
-        No shayris found.
-      </div>
-      <div v-else class="flex flex-col">
-        <NuxtLink
-          v-for="shayri in shayris"
-          :key="shayri.path"
-          :to="{ path: shayri.path, query }"
-          :class="cn(
-            'flex flex-col gap-2 px-6 py-4 text-sm transition-colors border-b border-muted hover:bg-muted/30',
-            isShayriActive(shayri.path) ? 'bg-muted/50' : ''
-          )"
-        >
-          <div class="flex items-start justify-between gap-3">
-            <span class="font-medium leading-tight line-clamp-2">{{ shayri.title }}</span>
-            <span class="shrink-0 text-xs text-muted-foreground font-mono">
-              {{ format(parseISO(shayri.date), "d MMM yyyy") }}
-            </span>
-          </div>
-          <span class="text-xs uppercase tracking-[0.16em] text-muted-foreground/70">{{ shayri.author }}</span>
-        </NuxtLink>
-      </div>
-    </div>
-  </div>
+  <section class="compact-poetry-list" :aria-label="title">
+    <div class="compact-poetry-heading"><h2>{{ title }}</h2><span>{{ shayris.length }}</span></div>
+    <div class="compact-poetry-scroll"><p v-if="shayris.length === 0" class="compact-poetry-empty">No poems found.</p><ul v-else><li v-for="shayri in shayris" :key="shayri.path"><NuxtLink :to="{ path: shayri.path, query }" :aria-current="isShayriActive(shayri.path) ? 'page' : undefined" class="compact-poem"><span class="compact-poem-title">{{ shayri.title }}</span><span class="compact-poem-author">{{ shayri.author }}</span><time :datetime="dateTime(shayri.date)">{{ formatDate(shayri.date) }}</time></NuxtLink></li></ul></div>
+  </section>
 </template>
+
+<style scoped>
+.compact-poetry-list { display: flex; flex-direction: column; height: 100%; }
+.compact-poetry-heading { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 24px; border-bottom: 1px solid var(--studio-line); }
+.compact-poetry-heading h2 { font-size: 11px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; }
+.compact-poetry-heading > span { font-size: 11px; color: hsl(var(--muted-foreground)); }
+.compact-poetry-scroll { flex: 1; overflow-y: auto; }
+.compact-poetry-empty { padding: 24px; color: hsl(var(--muted-foreground)); font-size: 13px; }
+.compact-poem { display: flex; flex-direction: column; gap: 9px; padding: 24px; border-bottom: 1px solid var(--studio-line); transition: background .2s; }
+.compact-poem:hover, .compact-poem[aria-current="page"] { background: var(--studio-paper); }
+.compact-poem[aria-current="page"] { box-shadow: inset 3px 0 var(--studio-accent); }
+.compact-poem-title { font: 19px/1.4 Georgia, serif; }
+.compact-poem-author { color: var(--studio-accent); font-size: 11px; }
+.compact-poem time { font-size: 10px; color: hsl(var(--muted-foreground)); }
+</style>

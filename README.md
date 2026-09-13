@@ -42,7 +42,7 @@ Search indexes article and poetry text, books, saved links, and gallery captions
 
 ## Book presentation
 
-The bookshelf uses CSS 3D covers. Selecting a book moves, enlarges, and opens one rigid cover into a readable spread in a single 720 ms transition. Closing reverses the same movement. The title page is printed on the inside of the cover, with no extra blank leaf. Cover images are contained so titles and artwork are not cropped. Title, author, purchase link, and the personal reading note live on the book pages. Paper grain, gutter shading, layered edges, and binding shadows give the pages depth. These interior pages are custom presentation elements, not reproductions of the publisher’s interior.
+The bookshelf uses CSS 3D covers. Selecting a book moves, enlarges, and opens one rigid cover into a readable spread in a single 520 ms transition. Closing reverses the same movement. The title page is printed on the inside of the cover, with no extra blank leaf. Cover images are contained so titles and artwork are not cropped. Title, author, purchase link, and the personal reading note live on the book pages. Paper grain, gutter shading, layered edges, and binding shadows give the pages depth. These interior pages are custom presentation elements, not reproductions of the publisher’s interior.
 
 On phones, page controls move between book details and the reading note; the offscreen page is inert for keyboard and assistive technology. The book lifts from its shelf position, opens, then closes and returns on dismissal. Reduced motion, `?book=` links, keyboard dismissal, focus restoration, and purchase links are supported. The reading view uses selectable HTML text and does not require WebGL.
 
@@ -58,7 +58,7 @@ python3 scripts/generate-article-previews.py
 
 Commit the generated JPGs in `public/images/articles/` and `scripts/article-previews.json`. The site uses this manifest to select a card and falls back to the shared site image for articles without one. Deployment uses the committed images and does not need Python or Pillow.
 
-Global fonts are Inter and IBM Plex Serif; monospace text uses system fonts. Poetry fonts load only when a poetry detail page needs them. Colors and reading styles live in `app/assets/css/main.css`.
+Global fonts are Inter and IBM Plex Serif; monospace text uses system fonts. Poetry uses Georgia, so it needs no separate font request. Colors and reading styles live in `app/assets/css/main.css`.
 
 ## Verification and deployment
 
@@ -68,7 +68,7 @@ npm run generate
 npm run verify:static
 ```
 
-The tests cover visible-text extraction used by search. Static verification checks every page’s generated HTML and metadata, article text, image files, sitemap, RSS, and robots.txt. Generation explicitly includes Markdown routes so direct article requests work without waiting for browser JavaScript.
+The tests cover visible-text extraction, poetry filters, and search shortcuts before the search interface loads. Static verification checks every page’s generated HTML and metadata, article text, image files, sitemap, RSS, and robots.txt. Generation explicitly includes Markdown routes so direct article requests work without waiting for browser JavaScript.
 
 Preview the generated files with a static server:
 
@@ -83,6 +83,14 @@ The preview serves only on your computer, disables caching, and accepts bursts o
 
 The GitHub Pages workflow runs tests, generates the site, verifies the output, and deploys `.output/public` on pushes to `main` or a manual workflow run. Keep the existing custom-domain configuration in `public/CNAME` aligned with the repository’s Pages settings.
 
-### Theme and bookshelf
+### Design and interactions
 
-The neutral site theme and shared glass/aqua controls live in `app/assets/css/main.css`. Wood texture is limited to the library; book pages retain their paper rendering. The library uses full-width planks for incomplete rows. The homepage photo wobbles and grows with each tap, opening the hidden video on the fifth tap; reduced-motion preferences suppress movement.
+The site uses a neutral white/charcoal palette, restrained typography, and open space inspired by Mike Matas’s portfolio. The shared tokens and primitives live in `app/assets/css/main.css`. Desktop navigation becomes a single mobile header and an accessible menu below 1024px. All pages share a compact contact footer.
+
+The homepage has a horizontal collection of photographs, book covers, and writing. Touch uses native scrolling and scroll snap; mouse users can drag or use the visible arrows. Arrow keys, Home, and End move between collections. Project rows expand natively. The library retains its book opening experience. Gallery filters switch between all media, photographs, and films; the viewer follows the active collection and supports horizontal swipes on photos as well as buttons and arrow keys.
+
+A translucent cursor appears only for a mouse with a fine pointer and no reduced-motion preference. It grows over interactive elements, yields to the native cursor in dialogs and reading/editing surfaces, and disappears for keyboard navigation or touch. The native cursor remains the fallback before JavaScript and whenever the effect is disabled.
+
+Page transitions, book arrivals, photo details, and control feedback respect reduced-motion preferences. The homepage photo still wobbles and grows with each tap, opening the hidden video on the fifth tap. Dragging the collection does not activate it.
+
+Search is loaded on first use; the shell handles Cmd/Ctrl+K before the search component exists. Navigation closes and restores focus before handing off to search. Content indexes request metadata only, while full article/poetry bodies are reserved for detail pages and text search. Optional analytics loads after hydration. Route prefetching happens on hover or keyboard focus rather than for every visible link.

@@ -1,9 +1,9 @@
 <script setup lang="ts">
-defineProps<{ src: string }>()
+withDefaults(defineProps<{ src: string; loading?: 'eager' | 'lazy' }>(), { loading: 'lazy' })
 </script>
 <template>
   <span class="cover-surface" aria-hidden="true">
-    <img class="cover-art" :src="src" alt="" width="240" height="360" decoding="async" />
+    <img class="cover-art" :src="src" alt="" width="240" height="360" :loading="loading" decoding="async" />
     <span class="cover-grain" /><span class="cover-gutter" /><span class="cover-light" />
   </span>
 </template>

@@ -22,6 +22,7 @@ const props = withDefaults(defineProps<{
 const emit = defineEmits<{
   'update:open': [value: boolean]
   keydown: [event: KeyboardEvent]
+  'after-close': []
 }>()
 
 const dialog = ref<HTMLDialogElement | null>(null)
@@ -65,9 +66,11 @@ function requestClose() {
 function onClose() {
   // A queued close event must not dismiss a dialog that has already reopened.
   if (dialog.value?.open) return
+  const wasModal = ownsScrollLock
   releaseScroll()
   restoreFocus()
   if (props.open) requestClose()
+  if (wasModal) emit('after-close')
 }
 
 let closingAnimation: Animation | undefined
@@ -165,10 +168,10 @@ onBeforeUnmount(() => {
     >
       <header class="dialog-header">
         <div class="min-w-0">
-          <h2 :id="titleId" class="text-xl font-semibold leading-snug sm:text-2xl">{{ title }}</h2>
-          <p v-if="description" :id="descriptionId" class="mt-2 text-sm leading-relaxed text-muted-foreground">{{ description }}</p>
+          <h2 :id="titleId" class="dialog-title">{{ title }}</h2>
+          <p v-if="description" :id="descriptionId" class="dialog-description">{{ description }}</p>
         </div>
-        <button type="button" class="dialog-close" :aria-label="closeLabel" @click="requestClose">
+        <button type="button" class="dialog-close tactile-button" :aria-label="closeLabel" @click="requestClose">
           <X class="h-5 w-5" aria-hidden="true" />
         </button>
       </header>
@@ -178,7 +181,7 @@ onBeforeUnmount(() => {
 
 <style scoped>
 .accessible-dialog {
-  width: min(42rem, calc(100vw - 2rem));
+  width: min(44rem, calc(100vw - 2rem));
   max-width: none;
   max-height: calc(100dvh - 2rem);
   margin: auto;
@@ -186,15 +189,15 @@ onBeforeUnmount(() => {
   overflow: auto;
   overscroll-behavior: contain;
   color: hsl(var(--foreground));
-  background: hsl(var(--background));
-  border: 1px solid hsl(var(--border));
-  border-radius: 1rem;
-  box-shadow: 0 24px 80px rgb(0 0 0 / 24%);
+  background: var(--studio-paper, hsl(var(--background)));
+  border: 1px solid var(--studio-line, hsl(var(--border)));
+  border-radius: .75rem;
+  box-shadow: 0 24px 80px rgb(0 0 0 / 14%);
 }
 
 .accessible-dialog--wide { width: min(72rem, calc(100vw - 2rem)); }
-.accessible-dialog::backdrop { background: rgb(0 0 0 / 68%); backdrop-filter: blur(5px); }
-.accessible-dialog[open] { animation: dialog-enter 160ms ease-out; }
+.accessible-dialog::backdrop { background: rgb(0 0 0 / 30%); backdrop-filter: blur(5px); }
+.accessible-dialog[open] { animation: dialog-enter 260ms cubic-bezier(.2,.75,.25,1); }
 .dialog-header {
   position: sticky;
   top: 0;
@@ -202,32 +205,38 @@ onBeforeUnmount(() => {
   display: flex;
   align-items: flex-start;
   justify-content: space-between;
-  gap: 1rem;
-  padding: 1.5rem;
-  background: hsl(var(--background));
-  border-bottom: 1px solid hsl(var(--border));
+  gap: 1.25rem;
+  padding: 1.75rem;
+  background: var(--studio-paper, hsl(var(--background)));
+  border-bottom: 1px solid var(--studio-line, hsl(var(--border)));
 }
-.dialog-content { padding: 1.5rem; }
+.dialog-title { font: 450 clamp(1.15rem, 2.5vw, 1.5rem)/1.3 var(--font-sans); letter-spacing: -.035em; overflow-wrap: anywhere; }
+.dialog-description { margin-top: .65rem; color: var(--studio-muted, hsl(var(--muted-foreground))); font-size: .8rem; line-height: 1.7; }
+.dialog-content { min-width: 0; padding: 1.75rem; }
 .dialog-close {
   flex-shrink: 0;
   display: grid;
   place-items: center;
   width: 2.75rem;
   height: 2.75rem;
+  padding: 0;
   margin-top: -0.4rem;
   margin-right: -0.4rem;
-  border-radius: 999px;
+  border-radius: .7rem;
   cursor: pointer;
 }
-.dialog-close:hover { background: hsl(var(--muted)); }
+.dialog-close:hover { filter: brightness(1.04); }
 .dialog-close:focus-visible { outline: 2px solid currentColor; outline-offset: 2px; }
 .accessible-dialog--sidebar { margin: auto auto 0; width: min(36rem, 100vw); max-width: none; height: min(44rem, 90dvh); max-height: 90dvh; border-radius: 1.5rem 1.5rem 0 0; border-width: 1px 1px 0; }
 .accessible-dialog--sidebar[open] { display: flex; flex-direction: column; animation: sidebar-enter 260ms cubic-bezier(.2,.8,.2,1); }
 .accessible-dialog--sidebar .dialog-content { display: flex; flex: 1; min-height: 0; flex-direction: column; gap: 1rem; overflow-y: auto; padding-bottom: max(1rem, env(safe-area-inset-bottom)); }
 @keyframes sidebar-enter { from { opacity: 0; transform: translateY(100%); } to { opacity: 1; transform: translateY(0); } }
-@keyframes dialog-enter { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes dialog-enter { from { opacity: 0; transform: translateY(12px) scale(.98); } to { opacity: 1; transform: translateY(0) scale(1); } }
 @media (max-width: 480px) {
-  .dialog-header, .dialog-content { padding: 1rem; }
+  .accessible-dialog { max-height: calc(100dvh - 1rem); border-radius: 1.1rem; }
+  .accessible-dialog::backdrop { backdrop-filter: blur(2px); }
+  .dialog-header, .dialog-content { padding: 1.25rem; }
+  .accessible-dialog--sidebar { max-height: 90dvh; border-radius: 1.4rem 1.4rem 0 0; }
 }
 @media (prefers-reduced-motion: reduce) { .accessible-dialog[open] { animation: none; } }
 </style>

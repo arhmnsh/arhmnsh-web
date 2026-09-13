@@ -1,96 +1,85 @@
 <script setup lang="ts">
-import { ArrowUpRight, ArrowRight, Mail, Github, Rss } from 'lucide-vue-next'
+import { ArrowUpRight, ArrowRight, Plus } from 'lucide-vue-next'
 import { formatDate } from '~/utils/date'
 
 usePageSeo({ title: 'AbdurRahaman Shah', description: 'CTO, engineer and designer in Riyadh. Building AI products for airports, cities, and teams. Writing, books, and photography.' })
-const { data: latestArticles } = await useAsyncData('latest-articles', () => queryCollection('articles').order('date', 'DESC').limit(3).all())
-const { data: latestShayris } = await useAsyncData('latest-shayris', () => queryCollection('shayris').order('date', 'DESC').limit(3).all())
+const { data: latestArticles } = await useAsyncData('latest-articles', () => queryCollection('articles').select('path', 'title', 'date', 'description', 'categories', 'readTime').order('date', 'DESC').limit(3).all())
+const { data: latestShayris } = await useAsyncData('latest-shayris', () => queryCollection('shayris').select('path', 'title', 'author').order('date', 'DESC').limit(3).all())
 const projects = [
-  { name: 'Baseer TMS', description: 'Aircraft turnaround management with real-time event tracking and predictive analytics. Deployed at Riyadh Airport.' },
-  { name: 'Baseer Builder', description: 'A no-code and low-code platform for building AI use cases. Deployed at Eastern Province Municipality in Dammam.' },
-  { name: 'Baseer GPT', description: 'An internal knowledge platform with retrieval-augmented generation, contextual conversations, and semantic search.' },
-  { name: 'Baseer STT', description: 'Speech-to-text for local Arabic dialects, with speaker and sentiment analysis.' },
-  { name: 'Altanfeethi', description: 'Passenger journey analytics for airport VIP terminals.' }
+  { name: 'Baseer TMS', field: 'Aviation · Operations', description: 'Aircraft turnaround management with real-time event tracking and predictive analytics. Deployed at Riyadh Airport.', icon: '↗' },
+  { name: 'Baseer Builder', field: 'AI · No-code', description: 'A no-code and low-code platform for building AI use cases. Deployed at Eastern Province Municipality in Dammam.', icon: '⌘' },
+  { name: 'Baseer GPT', field: 'AI · Knowledge', description: 'An internal knowledge platform with retrieval-augmented generation, contextual conversations, and semantic search.', icon: '✳' },
+  { name: 'Baseer STT', field: 'Language · Speech', description: 'Speech-to-text for local Arabic dialects, with speaker and sentiment analysis.', icon: '≋' },
+  { name: 'Altanfeethi', field: 'Aviation · Experience', description: 'Passenger journey analytics for airport VIP terminals.', icon: '⌁' }
+]
+const personalProjects = [
+  { name: 'Salaf Sayings', href: 'https://salafsayings.arhmn.sh', description: 'Sayings from the early generations.', mark: 'S' },
+  { name: 'Athkar', href: 'https://athkar.arhmn.sh', description: 'Daily remembrances.', mark: 'A' }
 ]
 </script>
-
 <template>
-  <div class="mx-auto max-w-5xl px-6 py-10 sm:px-10 lg:py-16">
-    <section class="grid items-start gap-8 sm:gap-12 xl:grid-cols-[1.2fr_1fr]" aria-labelledby="intro-title">
-      <div>
-        <p class="mb-4 text-xs font-semibold uppercase tracking-[0.18em] text-muted-foreground">Engineer · designer</p>
-        <h1 id="intro-title" class="text-3xl font-bold leading-tight tracking-tight sm:text-4xl xl:text-5xl">AbdurRahaman Shah</h1>
-        <p class="mt-6 max-w-xl font-serif text-lg leading-relaxed text-muted-foreground sm:text-xl">I build AI products and lead the teams behind them. Based in Riyadh, my work spans airport operations, tools for cities, and language systems.</p>
-        <p class="mt-4 max-w-xl text-sm leading-relaxed text-muted-foreground">Away from the keyboard: cars, motorcycles, travel, photography, painting, and astronomy.</p>
-        <div class="mt-7 flex flex-wrap items-center gap-5 text-sm font-medium">
-          <a href="mailto:hi@arhmn.sh" class="inline-flex min-h-11 items-center gap-2 text-muted-foreground hover:text-foreground"><Mail class="h-4 w-4" aria-hidden="true" />Get in touch</a>
-        </div>
-      </div>
-      <figure class="max-w-xl">
-        <SkydivePhoto />
-
-      </figure>
+  <div class="home-page">
+    <section class="home-intro" aria-labelledby="intro-title">
+      <div><h1 id="intro-title">Engineer & designer.<br /><span>Building thoughtful things.</span></h1><p>AI products, engineering teams, and a few things in between.</p></div>
+      <div class="intro-aside"><span>Based in Riyadh</span><a href="mailto:hi@arhmn.sh">Say hello <ArrowUpRight :size="14" aria-hidden="true" /></a></div>
     </section>
 
-    <section id="projects" class="mt-16 scroll-mt-24 border-t border-border pt-10 sm:mt-20" aria-labelledby="work-title">
-      <h2 id="work-title" class="text-2xl font-semibold tracking-tight">Projects</h2>
-      <ul class="mt-5 divide-y divide-border">
-        <li v-for="project in projects" :key="project.name" class="py-6">
-          <h3 class="text-lg font-medium">{{ project.name }}</h3>
-          <p class="mt-2 max-w-2xl text-sm leading-relaxed text-muted-foreground">{{ project.description }}</p>
+    <CollectionRail />
 
-        </li>
-      </ul>
-    </section>
-
-    <section class="mt-14 border-t border-border pt-10" aria-labelledby="personal-projects-title">
-      <h2 id="personal-projects-title" class="text-xl font-semibold tracking-tight">Personal projects</h2>
-      <div class="mt-5 divide-y divide-border">
-        <a href="https://salafsayings.arhmn.sh" target="_blank" rel="noopener noreferrer" class="block py-5 hover:text-foreground"><span class="flex items-center justify-between gap-4 font-medium">Salaf Sayings <ArrowUpRight class="h-4 w-4" aria-hidden="true" /></span><p class="mt-2 text-sm leading-relaxed text-muted-foreground">A collection of sayings from the early generations.</p><span class="sr-only">Opens in a new tab.</span></a>
-        <a href="https://athkar.arhmn.sh" target="_blank" rel="noopener noreferrer" class="block py-5 hover:text-foreground"><span class="flex items-center justify-between gap-4 font-medium">Athkar <ArrowUpRight class="h-4 w-4" aria-hidden="true" /></span><p class="mt-2 text-sm leading-relaxed text-muted-foreground">Daily remembrances in a focused reading experience.</p><span class="sr-only">Opens in a new tab.</span></a>
-      </div>
-    </section>
-
-    <section v-if="latestArticles?.length" class="mt-14 border-t border-border pt-10" aria-labelledby="writing-title">
-      <div class="flex flex-wrap items-center justify-between gap-4"><h2 id="writing-title" class="text-2xl font-semibold tracking-tight">Latest writing</h2><a href="/rss.xml" class="inline-flex min-h-11 items-center gap-2 text-sm text-muted-foreground hover:text-foreground"><Rss class="h-4 w-4" aria-hidden="true" />RSS feed</a></div>
-      <div class="mt-3 divide-y divide-border">
-        <NuxtLink v-for="article in latestArticles" :key="article.path" :to="article.path" class="group block py-5">
-          <div class="flex flex-col gap-2 sm:flex-row sm:items-baseline sm:justify-between sm:gap-6"><h3 class="font-medium group-hover:underline underline-offset-4">{{ article.title }}</h3><time :datetime="article.date" class="shrink-0 text-xs text-muted-foreground">{{ formatDate(article.date) }}</time></div>
-          <p v-if="article.description" class="mt-2 max-w-2xl text-sm leading-relaxed text-muted-foreground">{{ article.description }}</p>
-        </NuxtLink>
-      </div>
-      <NuxtLink to="/articles" class="mt-3 inline-flex min-h-11 items-center gap-2 text-sm font-medium">View all articles <ArrowRight class="h-4 w-4" aria-hidden="true" /></NuxtLink>
-    </section>
-
-    <div class="mt-10 grid gap-8 border-t border-border pt-8 sm:mt-14 sm:grid-cols-2">
-      <section aria-labelledby="books-title" class="min-w-0">
-        <NuxtLink to="/books" class="group block">
-          <div class="flex h-36 items-end justify-center gap-4 overflow-hidden rounded-lg bg-muted/40 px-4 pt-4 sm:h-44" aria-hidden="true">
-            <img v-for="cover in ['sealed-nectar', 'wings-of-fire', 'steve-jobs']" :key="cover" :src="`/images/books/${cover}.jpg`" alt="" loading="lazy" class="h-full min-w-0 w-auto max-w-[29%] object-contain object-bottom drop-shadow-md" />
-          </div>
-          <h2 id="books-title" class="mt-4 flex items-center justify-between text-xl font-semibold">Books <ArrowRight class="h-4 w-4" aria-hidden="true" /></h2>
-          <p class="mt-1 text-sm text-muted-foreground">From my bookshelf</p>
-        </NuxtLink>
+    <div class="home-index">
+      <section class="work-section" aria-labelledby="work-title">
+        <h2 id="work-title" class="section-label">Selected work</h2>
+        <details v-for="project in projects" :key="project.name" class="project-row">
+          <summary><span>{{ project.name }}<small>{{ project.field }}</small></span><Plus :size="16" aria-hidden="true" /></summary>
+          <p>{{ project.description }}</p>
+        </details>
+        <div class="side-projects"><a v-for="project in personalProjects" :key="project.name" :href="project.href" target="_blank" rel="noopener noreferrer">{{ project.name }} <ArrowUpRight :size="14" aria-hidden="true" /><span class="sr-only">Opens in a new tab.</span></a></div>
       </section>
-      <section aria-labelledby="photography-title" class="min-w-0">
-        <NuxtLink to="/gallery" class="group block">
-          <img src="/images/gallery/ig-post-6.jpg" alt="Stars above silhouetted palm trees" loading="lazy" class="h-36 w-full rounded-lg object-cover sm:h-44" />
-          <h2 id="photography-title" class="mt-4 flex items-center justify-between text-xl font-semibold">Photography <ArrowRight class="h-4 w-4" aria-hidden="true" /></h2>
-          <p class="mt-1 text-sm text-muted-foreground">Photos and videos</p>
-        </NuxtLink>
-      </section>
+      <div class="home-notes">
+        <section v-if="latestArticles?.length" aria-labelledby="writing-title">
+          <div class="section-heading"><h2 id="writing-title" class="section-label">Recent writing</h2><NuxtLink to="/articles" aria-label="All articles">All <ArrowRight :size="14" aria-hidden="true" /></NuxtLink></div>
+          <NuxtLink v-for="article in latestArticles" :key="article.path" :to="article.path" class="writing-entry"><div><h3>{{ article.title }}</h3><time :datetime="article.date">{{ formatDate(article.date) }}</time></div><ArrowUpRight :size="15" aria-hidden="true" /></NuxtLink>
+        </section>
+        <section v-if="latestShayris?.length" class="poetry-section" aria-labelledby="poetry-title"><div class="section-heading"><h2 id="poetry-title" class="section-label">A little poetry</h2><NuxtLink to="/shayris" aria-label="All poems">All <ArrowRight :size="14" aria-hidden="true" /></NuxtLink></div><NuxtLink v-for="poem in latestShayris.slice(0, 2)" :key="poem.path" :to="poem.path" class="writing-entry"><div><h3>{{ poem.title }}</h3><span class="poem-author">{{ poem.author }}</span></div><ArrowUpRight :size="15" aria-hidden="true" /></NuxtLink></section>
+      </div>
     </div>
-
-    <section v-if="latestShayris?.length" class="mt-14 border-t border-border pt-10" aria-labelledby="poetry-title">
-      <h2 id="poetry-title" class="text-xl font-semibold">Poetry</h2>
-      <NuxtLink v-for="shayri in latestShayris" :key="shayri.path" :to="shayri.path" class="mt-4 flex flex-col gap-1 py-2 sm:flex-row sm:items-baseline sm:gap-3"><span class="font-medium">{{ shayri.title }}</span><span class="text-sm text-muted-foreground">{{ shayri.author }}</span></NuxtLink>
-      <NuxtLink to="/shayris" class="mt-3 inline-flex min-h-11 items-center gap-2 text-sm">Browse all shayris <ArrowRight class="h-4 w-4" aria-hidden="true" /></NuxtLink>
-    </section>
-
-    <footer class="mt-14 flex flex-wrap items-center gap-x-6 gap-y-2 border-t border-border pt-7 text-sm text-muted-foreground">
-      <a href="mailto:hi@arhmn.sh" class="inline-flex min-h-11 items-center gap-2 hover:text-foreground"><Mail class="h-4 w-4" aria-hidden="true" />hi@arhmn.sh</a>
-      <a href="https://github.com/arhmnsh" target="_blank" rel="noopener noreferrer" class="inline-flex min-h-11 items-center gap-2 hover:text-foreground"><Github class="h-4 w-4" aria-hidden="true" />GitHub<span class="sr-only"> (opens in a new tab)</span></a>
-      <a href="https://x.com/arhmnsh" target="_blank" rel="noopener noreferrer" class="inline-flex min-h-11 items-center hover:text-foreground">X / arhmnsh<span class="sr-only"> (opens in a new tab)</span></a>
-    </footer>
   </div>
 </template>
+
+<style scoped>
+.home-page { --page-gutter: max(28px, calc((100vw - 1160px) / 2)); padding-block: 80px 90px; }
+.home-intro { display: flex; justify-content: space-between; align-items: flex-end; gap: 2rem; margin-inline: var(--page-gutter); }
+h1 { font-size: clamp(25px, 2.6vw, 36px); font-weight: 450; line-height: 1.35; letter-spacing: -.045em; }
+h1 span { color: var(--studio-muted); }
+.home-intro p { margin-top: 20px; max-width: 30rem; font-size: 13px; line-height: 1.8; color: var(--studio-muted); }
+.intro-aside { display: flex; flex-direction: column; align-items: flex-end; flex-shrink: 0; font-size: 12px; color: var(--studio-muted); }
+.intro-aside a { display: inline-flex; gap: 10px; align-items: center; min-height: 44px; color: hsl(var(--foreground)); }
+.home-index { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(3rem, 9vw, 9rem); margin-inline: var(--page-gutter); }
+.section-label { font-size: 12px; font-weight: 400; color: var(--studio-muted); }
+.work-section > .section-label { min-height: 44px; display: flex; align-items: center; }
+.section-heading { display: flex; align-items: center; justify-content: space-between; gap: 1rem; }
+.section-heading a { display: flex; align-items: center; gap: 8px; min-height: 44px; font-size: 11px; color: var(--studio-muted); }
+.project-row, .writing-entry { border-bottom: 1px solid var(--studio-line); }
+.project-row summary { display: flex; align-items: center; justify-content: space-between; gap: 1rem; min-height: 80px; padding-block: 17px; list-style: none; font-size: 15px; }
+.project-row summary::-webkit-details-marker { display: none; }
+.project-row summary small { display: block; margin-top: 5px; font-size: 11px; color: var(--studio-muted); }
+.project-row summary svg { color: var(--studio-muted); transition: transform .2s; }
+.project-row[open] summary svg { transform: rotate(45deg); }
+.project-row p { padding: 0 25px 22px 0; color: var(--studio-muted); font-size: 13px; line-height: 1.8; }
+.side-projects { display: flex; flex-wrap: wrap; gap: 12px 25px; padding-top: 22px; }
+.side-projects a { display: inline-flex; align-items: center; gap: 8px; min-height: 44px; font-size: 12px; }
+.writing-entry { display: flex; align-items: center; justify-content: space-between; gap: 20px; min-height: 80px; padding-block: 17px; }
+.writing-entry h3 { font-size: 14px; line-height: 1.6; font-weight: 400; }
+.writing-entry time, .poem-author { display: block; margin-top: 5px; color: var(--studio-muted); font-size: 11px; }
+.writing-entry svg { flex-shrink: 0; color: var(--studio-muted); transition: transform .2s; }
+.poetry-section { margin-top: 38px; }
+@media (hover: hover) and (pointer: fine) { .writing-entry:hover svg { transform: translate(2px,-2px); } .project-row summary:hover, a:hover { color: var(--studio-muted); } }
+.project-row summary:active, .writing-entry:active { opacity: .6; }
+@media (max-width: 700px) {
+  .home-page { --page-gutter: 24px; padding-block: 44px 55px; }
+  .home-intro { align-items: flex-start; flex-direction: column; gap: 14px; }
+  .home-intro p { max-width: 300px; margin-top: 16px; font-size: 12px; }
+  .intro-aside { width: 100%; flex-direction: row; align-items: center; justify-content: space-between; font-size: 11px; }
+  .home-index { grid-template-columns: 1fr; gap: 44px; }
+}
+</style>

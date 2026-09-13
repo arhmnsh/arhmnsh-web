@@ -1,97 +1,28 @@
 <script setup lang="ts">
+import { Home, Newspaper, BookOpen, Image, Search } from 'lucide-vue-next'
 const route = useRoute()
-
+const { open } = useCommandMenu()
 const tabs = [
-  { name: 'Home', path: '/', icon: 'home' },
-  { name: 'Articles', path: '/articles', icon: 'file-text' },
-  { name: 'Shayris', path: '/shayris', icon: 'pen-tool' },
-  { name: 'Books', path: '/books', icon: 'book' },
-  { name: 'Bookmarks', path: '/bookmarks', icon: 'bookmark' }
+  { name: 'Home', path: '/', icon: Home },
+  { name: 'Articles', path: '/articles', icon: Newspaper },
+  { name: 'Books', path: '/books', icon: BookOpen },
+  { name: 'Gallery', path: '/gallery', icon: Image }
 ]
-
-const isActive = (path: string) => {
-  if (path === '/') {
-    return route.path === '/'
-  }
-  return route.path.startsWith(path)
-}
-
-// Hide-on-scroll logic (same as MobileNav but inverted direction)
-const isVisible = ref(true)
-const lastScrollY = ref(0)
-
-onMounted(() => {
-  const handleScroll = () => {
-    const currentScrollY = window.scrollY
-    
-    if (currentScrollY < 10) {
-      isVisible.value = true
-    } else if (currentScrollY < lastScrollY.value) {
-      // Scrolling up - show
-      isVisible.value = true
-    } else if (currentScrollY > lastScrollY.value) {
-      // Scrolling down - hide
-      isVisible.value = false
-    }
-    
-    lastScrollY.value = currentScrollY
-  }
-  
-  window.addEventListener('scroll', handleScroll, { passive: true })
-  
-  onUnmounted(() => {
-    window.removeEventListener('scroll', handleScroll)
-  })
-})
+const isActive = (path: string) => path === '/' ? route.path === '/' : route.path === path || route.path.startsWith(path + '/')
 </script>
 
 <template>
-  <nav 
-    :class="[
-      'fixed bottom-0 left-0 right-0 z-50 lg:hidden bg-background border-t border-border transition-transform duration-300',
-      isVisible ? 'translate-y-0' : 'translate-y-full'
-    ]"
-  >
-    <div class="flex items-center justify-around h-14">
-      <NuxtLink
-        v-for="tab in tabs"
-        :key="tab.path"
-        :to="tab.path"
-        class="flex flex-col items-center justify-center flex-1 h-full transition-colors"
-        :class="isActive(tab.path) ? 'text-foreground' : 'text-muted-foreground'"
-      >
-        <!-- Home Icon -->
-        <svg v-if="tab.icon === 'home'" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8"/>
-          <path d="M3 10a2 2 0 0 1 .709-1.528l7-5.999a2 2 0 0 1 2.582 0l7 5.999A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
-        </svg>
-        <!-- File Text Icon -->
-        <svg v-else-if="tab.icon === 'file-text'" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/>
-          <path d="M14 2v4a2 2 0 0 0 2 2h4"/>
-          <path d="M10 9H8"/>
-          <path d="M16 13H8"/>
-          <path d="M16 17H8"/>
-        </svg>
-        <!-- Pen Tool Icon -->
-        <svg v-else-if="tab.icon === 'pen-tool'" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <path d="m12 19 7-7 3 3-7 7-3 1z"/>
-          <path d="m18 13-1.5-1.5"/>
-          <path d="M2 22l7-7"/>
-          <path d="m14 4 6 6"/>
-          <path d="m5 14 5-5"/>
-          <path d="m8 17 5-5"/>
-        </svg>
-        <!-- Book Icon -->
-        <svg v-else-if="tab.icon === 'book'" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H19a1 1 0 0 1 1 1v18a1 1 0 0 1-1 1H6.5a1 1 0 0 1 0-5H20"/>
-        </svg>
-        <!-- Bookmark Icon -->
-        <svg v-else-if="tab.icon === 'bookmark'" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <path d="m19 21-7-4-7 4V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v16z"/>
-        </svg>
-        <span class="text-xs mt-1">{{ tab.name }}</span>
-      </NuxtLink>
-    </div>
+  <nav class="mobile-dock" aria-label="Quick navigation">
+    <NuxtLink v-for="item in tabs" :key="item.path" :to="item.path" :aria-current="isActive(item.path) ? 'page' : undefined" class="dock-item"><component :is="item.icon" :size="18" :stroke-width="1.7" aria-hidden="true" /><span>{{ item.name }}</span></NuxtLink>
+    <button type="button" class="dock-item" aria-label="Search this site" aria-haspopup="dialog" @click="open"><Search :size="18" :stroke-width="1.7" aria-hidden="true" /><span>Search</span></button>
   </nav>
 </template>
+
+<style scoped>
+.mobile-dock { position: fixed; z-index: 35; left: max(.75rem, env(safe-area-inset-left)); right: max(.75rem, env(safe-area-inset-right)); bottom: max(.6rem, env(safe-area-inset-bottom)); display: flex; align-items: stretch; padding: .35rem; max-width: 440px; margin-inline: auto; border: 1px solid hsl(var(--border)); border-radius: 1.2rem; background: hsl(var(--card) / .96); box-shadow: 0 5px 25px #172d221a, inset 0 1px 0 var(--glass-highlight); backdrop-filter: blur(12px); }
+.dock-item { display: flex; flex: 1; min-width: 0; min-height: 51px; flex-direction: column; justify-content: center; align-items: center; gap: .3rem; border-radius: .85rem; color: var(--studio-muted); font-size: .56rem; font-weight: 500; transition: background 160ms, color 160ms, transform 160ms; }
+.dock-item[aria-current="page"] { background: hsl(var(--accent)); color: var(--studio-accent); }
+.dock-item:active { transform: scale(.95); }
+@media (min-width: 1024px) { .mobile-dock { display: none; } }
+@media (prefers-reduced-motion: reduce) { .dock-item:active { transform: none; } }
+</style>

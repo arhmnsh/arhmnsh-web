@@ -1,13 +1,20 @@
 <script setup lang="ts">
-import { Menu, Search } from 'lucide-vue-next'
-const { open } = useCommandMenu()
 const { open: openSidebar, isOpen } = useSidebar()
 </script>
 
 <template>
-  <header class="site-toolbar sticky top-0 z-40 flex h-16 items-center justify-between gap-1 border-b border-border bg-background px-3 lg:hidden">
-    <button type="button" @click="openSidebar" class="flex h-11 w-11 shrink-0 items-center justify-center rounded-md text-muted-foreground hover:bg-muted/50" aria-label="Open navigation" aria-haspopup="dialog" :aria-expanded="isOpen"><Menu class="h-5 w-5" aria-hidden="true" /></button>
-    <NuxtLink to="/" class="min-w-0 flex-1 truncate font-serif text-base font-bold italic sm:text-lg">AbdurRahaman Shah</NuxtLink>
-    <button type="button" @click="open" class="flex h-11 w-11 shrink-0 items-center justify-center rounded-md text-muted-foreground hover:bg-muted/50" aria-label="Search this site" aria-haspopup="dialog"><Search class="h-5 w-5" aria-hidden="true" /></button>
+  <header class="mobile-header">
+    <NuxtLink to="/" class="mobile-brand" aria-label="AbdurRahaman Shah — Home">AbdurRahaman Shah</NuxtLink>
+    <div class="mobile-tools"><ThemeToggle /><button type="button" @click="openSidebar" class="mobile-menu" aria-label="Open navigation" aria-haspopup="dialog" :aria-expanded="isOpen"><span>Menu</span></button></div>
   </header>
 </template>
+
+<style scoped>
+.mobile-header { display: flex; position: relative; z-index: 40; min-height: 84px; align-items: center; justify-content: space-between; gap: .5rem; padding-inline: 24px; background: hsl(var(--background)); }
+.mobile-brand { display: flex; align-items: center; min-height: 44px; font-size: 13px; font-weight: 500; letter-spacing: -.035em; }
+.mobile-tools { display: flex; gap: .25rem; align-items: center; }
+.mobile-menu { display: grid; place-items: center; min-width: 44px; height: 44px; border-radius: .5rem; font-size: 12px; color: var(--studio-muted); }
+.mobile-menu:hover { background: hsl(var(--muted)); }
+@media (min-width: 1024px) { .mobile-header { display: none; } }
+@media (max-width: 359px) { .mobile-header { padding-inline: 16px; } .mobile-brand { font-size: 12px; } }
+</style>

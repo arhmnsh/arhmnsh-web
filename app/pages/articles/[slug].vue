@@ -17,7 +17,7 @@ if (error.value) throw createError({ statusCode: 500, statusMessage: 'Unable to 
 if (!article.value) throw createError({ statusCode: 404, statusMessage: 'Article not found' })
 
 const { data: allArticles } = await useAsyncData('article-index', () =>
-  queryCollection('articles').order('date', 'DESC').order('title', 'ASC').all()
+  queryCollection('articles').select('path', 'title', 'date', 'description', 'categories', 'readTime').order('date', 'DESC').order('title', 'ASC').all()
 )
 
 const readingTime = computed(() => article.value?.readTime || 1)
@@ -41,70 +41,71 @@ usePageSeo({
 </script>
 
 <template>
-  <div v-if="article" class="mx-auto w-full max-w-3xl px-5 py-8 sm:px-8 lg:py-12">
-    <nav aria-label="Article navigation" class="mb-10 flex items-center justify-between gap-4">
-      <NuxtLink :to="backLink" class="inline-flex items-center gap-2 rounded-sm py-2 text-sm text-muted-foreground hover:text-foreground">
-        <ArrowLeft class="h-4 w-4" aria-hidden="true" /> {{ category ? `Back to ${category}` : 'All articles' }}
-      </NuxtLink>
+  <div v-if="article" class="studio-page reading-page">
+    <nav aria-label="Article navigation" class="reading-navigation">
+      <NuxtLink :to="backLink" class="text-link"><ArrowLeft class="h-4 w-4" aria-hidden="true" /> {{ category ? `Back to ${category}` : 'All articles' }}</NuxtLink>
+
     </nav>
-
-    <header class="mb-10">
-      <div class="mb-4 flex flex-wrap items-center gap-x-3 gap-y-1 text-xs text-muted-foreground">
-        <time :datetime="dateTime(article.date)">{{ formatDate(article.date) }}</time>
-        <span aria-hidden="true">·</span>
-        <span>{{ readingTime }} min read</span>
-      </div>
-      <h1 class="mb-5 text-3xl font-bold leading-tight tracking-tight sm:text-4xl lg:text-5xl lg:leading-[1.15]">{{ article.title }}</h1>
-      <p v-if="article.description" class="mb-5 text-base leading-relaxed text-muted-foreground sm:text-lg">{{ article.description }}</p>
-      <div class="flex flex-wrap gap-x-4 gap-y-2 text-xs text-muted-foreground">
-        <NuxtLink
-          v-for="name in article.categories"
-          :key="name"
-          :to="{ path: '/articles', query: { c: name } }"
-          class="rounded-sm underline decoration-muted-foreground/30 underline-offset-4 hover:text-foreground"
-        >{{ name }}</NuxtLink>
-      </div>
+    <header class="reading-header">
+      <div class="reading-meta"><time :datetime="dateTime(article.date)">{{ formatDate(article.date) }}</time><span aria-hidden="true">/</span><span>{{ readingTime }} min read</span></div>
+      <h1>{{ article.title }}</h1>
+      <p v-if="article.description" class="reading-intro">{{ article.description }}</p>
+      <div class="flex flex-wrap gap-2"><NuxtLink v-for="name in article.categories" :key="name" :to="{ path: '/articles', query: { c: name } }" class="filter-chip">{{ name.replaceAll('-', ' ') }}</NuxtLink></div>
     </header>
-
-    <details v-if="toc.length >= 4" class="mb-10 rounded-lg border border-border px-5 py-4" open>
-      <summary class="cursor-pointer font-medium">On this page</summary>
-      <nav aria-label="Table of contents" class="mt-4">
-        <ol class="space-y-3 text-sm leading-relaxed text-muted-foreground">
-          <li v-for="link in toc" :key="link.id">
-            <a :href="`#${link.id}`" class="rounded-sm hover:text-foreground hover:underline underline-offset-4">{{ link.text }}</a>
-            <ol v-if="link.children?.length" class="mt-2 space-y-2 border-l border-border pl-4">
-              <li v-for="child in link.children" :key="child.id">
-                <a :href="`#${child.id}`" class="rounded-sm hover:text-foreground hover:underline underline-offset-4">{{ child.text }}</a>
+    <div class="reading-layout" :class="{ 'has-toc': toc.length >= 4 }">
+      <aside v-if="toc.length >= 4" class="reading-aside">
+        <details class="reading-toc" open>
+          <summary>In this article</summary>
+          <nav aria-label="Table of contents">
+            <ol>
+              <li v-for="link in toc" :key="link.id">
+                <a :href="`#${link.id}`">{{ link.text }}</a>
+                <ol v-if="link.children?.length"><li v-for="child in link.children" :key="child.id"><a :href="`#${child.id}`">{{ child.text }}</a></li></ol>
               </li>
             </ol>
-          </li>
-        </ol>
-      </nav>
-    </details>
-
-    <article class="prose prose-neutral dark:prose-invert max-w-none font-serif leading-relaxed sm:prose-lg prose-headings:font-sans prose-headings:font-semibold prose-headings:tracking-tight prose-h2:mt-10 prose-h2:mb-5 prose-h3:mt-8">
-      <ContentRenderer :value="article" />
-    </article>
-
-    <footer class="mt-14 border-t border-border pt-8">
+          </nav>
+        </details>
+      </aside>
+      <article class="reading-body prose prose-neutral dark:prose-invert max-w-none font-serif leading-relaxed sm:prose-lg prose-headings:font-sans prose-headings:font-semibold prose-headings:tracking-tight prose-h2:mt-10 prose-h2:mb-5 prose-h3:mt-8"><ContentRenderer :value="article" /></article>
+    </div>
+    <footer class="reading-footer">
       <section v-if="relatedArticles.length" aria-labelledby="keep-reading-title">
-        <h2 id="keep-reading-title" class="mb-4 text-lg font-semibold">Keep reading</h2>
-        <ul class="space-y-5">
-          <li v-for="related in relatedArticles" :key="related.path">
-            <NuxtLink :to="related.path" class="group flex items-start justify-between gap-4 rounded-sm">
-              <div>
-                <p class="font-medium group-hover:underline underline-offset-4">{{ related.title }}</p>
-                <p v-if="related.description" class="mt-1 text-sm leading-relaxed text-muted-foreground">{{ related.description }}</p>
-              </div>
-              <ArrowRight class="mt-1 h-4 w-4 shrink-0 text-muted-foreground" aria-hidden="true" />
-            </NuxtLink>
-          </li>
-        </ul>
+        <div class="related-heading"><h2 id="keep-reading-title">Related articles</h2></div>
+        <ul class="related-grid"><li v-for="related in relatedArticles" :key="related.path"><NuxtLink :to="related.path" class="surface-card related-card"><span class="related-title">{{ related.title }}</span><p v-if="related.description">{{ related.description }}</p><span class="related-arrow"><ArrowRight class="h-4 w-4" aria-hidden="true" /><span class="sr-only">Read article</span></span></NuxtLink></li></ul>
       </section>
-      <div class="mt-8 flex flex-wrap items-center justify-between gap-4 border-t border-border pt-6 text-sm">
-        <NuxtLink :to="backLink" class="underline underline-offset-4">{{ category ? `More in ${category}` : 'Browse all articles' }}</NuxtLink>
-        <a href="/rss.xml" class="inline-flex items-center gap-2 text-muted-foreground hover:text-foreground"><Rss class="h-4 w-4" aria-hidden="true" /> Subscribe via RSS</a>
-      </div>
+      <div class="reading-bottom"><NuxtLink :to="backLink" class="text-link">{{ category ? `More in ${category}` : 'Browse all articles' }} <ArrowRight class="h-4 w-4" aria-hidden="true" /></NuxtLink><a href="/rss.xml" class="text-link"><Rss class="h-4 w-4" aria-hidden="true" /> Subscribe via RSS</a></div>
     </footer>
   </div>
 </template>
+
+<style scoped>
+.reading-navigation { display: flex; justify-content: space-between; align-items: center; gap: 24px; margin-bottom: 50px; }
+.reading-navigation .eyebrow { margin: 0; }
+.reading-header { max-width: 880px; padding-bottom: 42px; border-bottom: 1px solid var(--studio-line); margin-bottom: 42px; }
+.reading-meta { display: flex; flex-wrap: wrap; gap: 14px; color: hsl(var(--muted-foreground)); font-size: 11px; margin-bottom: 24px; }
+.reading-header h1 { max-width: 860px; margin-bottom: 22px; font-size: clamp(2.25rem, 4.8vw, 4.35rem); line-height: 1.08; letter-spacing: -.055em; font-weight: 600; text-wrap: balance; }
+.reading-intro { max-width: 720px; margin-bottom: 24px; font-size: clamp(1rem, 1.6vw, 1.18rem); line-height: 1.8; color: hsl(var(--muted-foreground)); }
+.reading-layout { max-width: 740px; }
+.reading-layout.has-toc { display: grid; grid-template-columns: 190px minmax(0, 1fr); gap: 44px; max-width: none; }
+.reading-body { min-width: 0; }
+.reading-toc { position: sticky; top: 112px; max-height: calc(100dvh - 140px); overflow-y: auto; padding: 4px; margin: -4px; font-size: 12px; }
+.reading-toc summary { cursor: pointer; font-size: 10px; font-weight: 600; letter-spacing: .1em; text-transform: uppercase; color: var(--studio-accent); }
+.reading-toc nav { margin-top: 20px; }
+.reading-toc li { margin: 12px 0; line-height: 1.65; }
+.reading-toc ol ol { border-left: 1px solid var(--studio-line); padding-left: 12px; }
+.reading-toc a { color: hsl(var(--muted-foreground)); transition: color .2s; }
+.reading-toc a:hover { color: var(--studio-accent); }
+.reading-footer { margin-top: 64px; padding-top: 36px; border-top: 1px solid var(--studio-line); }
+.related-heading { margin-bottom: 24px; }
+.related-heading .eyebrow { margin-bottom: 10px; }
+.related-heading h2 { font-size: 30px; font-weight: 600; letter-spacing: -.04em; }
+.related-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.related-grid li { min-width: 0; }
+.related-card { display: flex; flex-direction: column; height: 100%; padding: 26px; }
+.related-title { font-weight: 600; font-size: 19px; line-height: 1.35; letter-spacing: -.025em; }
+.related-card p { margin: 12px 0 22px; font-size: 13px; line-height: 1.7; color: hsl(var(--muted-foreground)); }
+.related-arrow { margin-top: auto; color: var(--studio-accent); }
+.reading-bottom { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 20px; margin-top: 32px; padding-top: 24px; border-top: 1px solid var(--studio-line); }
+@media (max-width: 900px) { .reading-layout.has-toc { grid-template-columns: 1fr; gap: 32px; max-width: 740px; } .reading-toc { max-height: none; overflow: visible; margin: 0; border: 1px solid var(--studio-line); border-radius: 16px; padding: 20px 24px; background: var(--studio-paper); } .reading-toc nav > ol { columns: 2; column-gap: 28px; } .reading-toc nav > ol > li { break-inside: avoid; } }
+@media (max-width: 580px) { .reading-navigation { margin-bottom: 36px; } .reading-navigation .eyebrow { display: none; } .reading-header { margin-bottom: 28px; padding-bottom: 28px; } .reading-toc nav > ol { columns: 1; } .related-grid { grid-template-columns: 1fr; } .reading-footer { margin-top: 42px; } }
+</style>

@@ -16,13 +16,16 @@ const origin = ref<{ left: number; top: number; width: number; height: number }>
 async function setDialogOpen(value: boolean) {
   if (value) { isOpen.value = true; return }
   if (closing.value) return
-  restingBook.value = selectedBook.value?.id || null
+  const closingBookId = selectedBook.value?.id
+  restingBook.value = closingBookId || null
   closing.value = true
   backdropVisible.value = false
   controlsReady.value = false
   await studio.value?.closeBook()
   isOpen.value = false
   closing.value = false
+  const requestedBook = props.books.find(book => book.id === route.query.book)
+  if (requestedBook && requestedBook.id !== closingBookId) await showBook(requestedBook)
 }
 async function showBook(book: ShelfBook) {
   if (closing.value || (isOpen.value && selectedBook.value?.id === book.id)) return
@@ -46,6 +49,14 @@ function browse(direction: number) {
   const book = props.books[(selectedIndex.value + direction + props.books.length) % props.books.length]
   if (book) selectBook(book)
 }
+function onViewerKeydown(event: KeyboardEvent) {
+  if (event.altKey || event.ctrlKey || event.metaKey || event.shiftKey || closing.value) return
+  if (event.target instanceof HTMLElement && event.target.closest('input, textarea, select, [contenteditable="true"]')) return
+  if (event.key === 'ArrowLeft' || event.key === 'ArrowRight') {
+    event.preventDefault()
+    browse(event.key === 'ArrowLeft' ? -1 : 1)
+  }
+}
 function syncBookFromQuery() {
   const book = props.books.find(item => item.id === route.query.book)
   if (book) showBook(book)
@@ -64,10 +75,10 @@ watch(isOpen, open => {
 <template>
   <div class="reading-shelf">
     <div class="shelf-grid"><BookItem v-for="(book, index) in books" :key="book.id" :book="book" :index="index" :class="{ 'book-away': isOpen && selectedBook?.id === book.id, 'book-resting': restingBook === book.id }" @pointermove="restingBook = null" @blur="restingBook = null" @select="selectBook(book)" /></div>
-    <AccessibleDialog :open="isOpen" @update:open="setDialogOpen" :class="{ 'is-leaving': closing, 'backdrop-visible': backdropVisible, 'controls-ready': controlsReady }" :title="selectedBook?.title || 'Book notes'" :description="selectedBook ? `By ${selectedBook.author}` : undefined" close-label="Close book details" size="wide" class="library-dialog" :style="{ animation: 'none', transform: 'none' }">
+    <AccessibleDialog :open="isOpen" @keydown="onViewerKeydown" @update:open="setDialogOpen" :class="{ 'is-leaving': closing, 'backdrop-visible': backdropVisible, 'controls-ready': controlsReady }" :title="selectedBook?.title || 'Book notes'" :description="selectedBook ? `By ${selectedBook.author}` : undefined" close-label="Close book details" size="wide" class="library-dialog" :style="{ animation: 'none', transform: 'none' }">
       <div v-if="selectedBook && isOpen" class="volume-detail">
         <BookStudio @opened="controlsReady = !closing" ref="studio" :key="selectedBook.id" :book="selectedBook" :origin="origin" />
-        <nav class="browse-volumes" aria-label="Browse books"><button type="button" :disabled="closing || books.length < 2" @click="browse(-1)"><ChevronLeft :size="15" aria-hidden="true" />Previous book</button><button type="button" :disabled="closing || books.length < 2" @click="browse(1)">Next book<ChevronRight :size="15" aria-hidden="true" /></button></nav>
+        <nav class="browse-volumes" aria-label="Browse books"><button type="button" :disabled="closing || books.length < 2" @click="browse(-1)"><ChevronLeft :size="15" aria-hidden="true" />Previous book</button><span aria-live="polite" aria-atomic="true">{{ selectedIndex + 1 }} / {{ books.length }}</span><button type="button" :disabled="closing || books.length < 2" @click="browse(1)">Next book<ChevronRight :size="15" aria-hidden="true" /></button></nav>
       </div>
     </AccessibleDialog>
   </div>
@@ -78,24 +89,27 @@ watch(isOpen, open => {
 .library-dialog .browse-volumes,.library-dialog :deep(.dialog-header) { opacity:0; visibility:hidden; transition:opacity 280ms ease,visibility 280ms; }
 .library-dialog.controls-ready .browse-volumes,.library-dialog.controls-ready :deep(.dialog-header) { opacity:1; visibility:visible; }
 .library-dialog.is-leaving .browse-volumes,.library-dialog.is-leaving :deep(.dialog-header) { pointer-events:none; }
-.shelf-grid { --shelf-height:290px; --shelf-gap:30px; position:relative; isolation:isolate; display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); grid-auto-rows:var(--shelf-height); column-gap:36px; row-gap:var(--shelf-gap); padding:0 18px var(--shelf-gap); }
-.shelf-grid::before { content:''; position:absolute; inset:0; z-index:-1; pointer-events:none; background:linear-gradient(transparent 0,transparent calc(var(--shelf-height) - 21px),#f4d29c calc(var(--shelf-height) - 21px),#c89a60 calc(var(--shelf-height) - 18px),#8b5b2c calc(var(--shelf-height) - 16px),#bd8b50 calc(var(--shelf-height) - 14px),#a77840 calc(var(--shelf-height) - 3px),#573314 var(--shelf-height),#42230b66 calc(var(--shelf-height) + 3px),transparent 100%); background-size:100% calc(var(--shelf-height) + var(--shelf-gap)); }
-:global(.dark .shelf-grid)::before { filter:brightness(.65); }
+.shelf-grid { --shelf-height:274px; --caption-height:77px; --shelf-gap:18px; position:relative; isolation:isolate; display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); grid-auto-rows:calc(var(--shelf-height) + var(--caption-height)); column-gap:24px; row-gap:var(--shelf-gap); padding:0 18px 12px; }
+.shelf-grid::before { content:''; position:absolute; inset:0 0 12px; z-index:-1; pointer-events:none; background:linear-gradient(transparent 0,transparent calc(var(--shelf-height) - 21px),#ded2b8 calc(var(--shelf-height) - 21px),#f2e7ce calc(var(--shelf-height) - 19px),#c6b38e calc(var(--shelf-height) - 17px),#b6a07c calc(var(--shelf-height) - 9px),#a18c68 calc(var(--shelf-height) - 8px),#7b694424 calc(var(--shelf-height) - 4px),transparent calc(var(--shelf-height) + 7px)); background-size:100% calc(var(--shelf-height) + var(--caption-height) + var(--shelf-gap)); }
+:global(.dark .shelf-grid)::before { filter:brightness(.5) saturate(.7); }
 
 .library-dialog { outline:none; background:transparent; border:0; box-shadow:none; border-radius:0; width:min(900px,calc(100vw - 24px)); overflow:visible; animation:none; }
-.library-dialog::backdrop { background:rgb(15 13 10 / 65%); opacity:0; backdrop-filter:blur(0px); transition:opacity 720ms ease,backdrop-filter 720ms ease; }
+.library-dialog::backdrop { background:rgb(15 13 10 / 65%); opacity:0; backdrop-filter:blur(0px); transition:opacity 520ms ease; }
 .library-dialog.backdrop-visible::backdrop { opacity:1; backdrop-filter:blur(4px); }
-.library-dialog :deep(.dialog-close) { color:#fff; background:rgb(0 0 0 / 20%); }
+.library-dialog :deep(.dialog-close) { color:#fff; background:rgb(24 38 31 / 90%); border-color:rgb(255 255 255 / 20%); }
 .library-dialog :deep(.dialog-header) { z-index:5; background:transparent; border:0; padding:12px 18px 0; justify-content:flex-end; }
 .library-dialog :deep(.dialog-header > div) { position:absolute; width:1px; height:1px; overflow:hidden; clip-path:inset(50%); }
 .library-dialog :deep(.dialog-content) { padding:0 30px 22px; }
 .volume-detail { min-width:0; }
 .browse-volumes { transition:opacity 300ms ease; display:flex; align-items:center; justify-content:space-between; gap:15px; margin:15px 22px 0; border:0; padding-top:10px; }
-.browse-volumes button { display:flex; align-items:center; gap:7px; min-height:38px; font-size:10px; color:#eee8dc; }
+.browse-volumes button { display:flex; align-items:center; gap:7px; min-height:44px; padding:0 8px; border-radius:8px; font-size:12px; color:#eee8dc; }
 .browse-volumes > span { font:9px var(--font-mono); color:#eee8dc; }
-.browse-volumes button:hover { color:#fff; }
+.browse-volumes button:hover { color:#fff; background:rgb(255 255 255 / 8%); }
+.browse-volumes button:focus-visible { outline:2px solid #eee8dc; outline-offset:3px; }
 .browse-volumes button:disabled { opacity:.4; }
 @media(max-height:650px) and (min-width:701px) { .browse-volumes { margin-top:0; padding-top:0; } .library-dialog :deep(.dialog-content) { padding-bottom:5px; } }
-@media(max-width:1200px) { .shelf-grid { grid-template-columns:repeat(3,minmax(0,1fr)); } }
-@media(max-width:700px) { .shelf-grid { --shelf-height:220px; --shelf-gap:24px; grid-template-columns:repeat(2,minmax(0,1fr)); column-gap:24px; padding:0 12px var(--shelf-gap); } .library-dialog :deep(.dialog-content) { padding:0 5px 14px; } .library-dialog :deep(.dialog-header) { padding:10px 12px 0; } .browse-volumes { margin:10px 16px 0; } }
+@media(min-width:701px) and (max-width:1000px) { .shelf-grid { grid-template-columns:repeat(3,minmax(0,1fr)); } }
+@media(max-width:700px) { .shelf-grid { --shelf-height:220px; --caption-height:85px; --shelf-gap:8px; grid-template-columns:repeat(2,minmax(0,1fr)); column-gap:12px; padding:0 12px 12px; } .library-dialog :deep(.dialog-content) { padding:0 5px 14px; } .library-dialog :deep(.dialog-header) { padding:10px 12px 0; } .browse-volumes { margin:10px 16px 0; } }
+@media(max-height:600px) { .library-dialog { overflow-y:auto; overflow-x:hidden; overscroll-behavior:contain; } }
+@media(prefers-reduced-motion:reduce) { .library-dialog::backdrop,.library-dialog .browse-volumes,.library-dialog :deep(.dialog-header) { transition:none; } }
 </style>

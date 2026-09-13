@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { MoveUpRight } from 'lucide-vue-next'
 import type { ShelfBook } from '~/utils/bookAppearance'
 usePageSeo({ title: 'Books', description: 'A personal library of biographies, design, technology, faith, and fiction. Pick up a book, turn it over, and read a note from my shelf.' })
 const { data: booksData } = await useAsyncData('books', () => queryCollection('books').all())
@@ -6,30 +7,42 @@ const books = computed(() => (booksData.value?.[0]?.meta?.body || []) as ShelfBo
 </script>
 
 <template>
-  <div class="personal-library">
-    <div class="library-inner">
-      <header class="library-header"><div><h1>Books</h1><p class="library-subtitle">Books I’ve read that shaped my thinking.</p></div><span>{{ books.length }} books</span></header>
-      <BookShelf v-if="books.length" :books="books" />
-      <p v-else class="library-empty">No books yet.</p>
+  <div class="personal-library studio-page">
+    <header class="library-header">
+      <div>
+
+        <h1 class="page-title">Books</h1>
+        <p class="page-description">Books I’ve read that shaped my thinking.</p>
+
+      </div>
+
+    </header>
+    <div class="library-toolbar">
+      <p><span class="library-dot" aria-hidden="true" />{{ books.length }} books</p>
+      <p class="shelf-instruction">Select a book <MoveUpRight :size="14" aria-hidden="true" /></p>
     </div>
+    <div class="library-room">
+      <BookShelf v-if="books.length" :books="books" />
+      <p v-else class="library-empty">The first books will be on the shelf soon.</p>
+    </div>
+
   </div>
 </template>
 
-<style>
-.personal-library {
-  --library-ink:#38220f; --library-muted:#563a20; --library-faint:#705233;
-  min-height:100vh; color:var(--library-ink);
-  background:linear-gradient(90deg,#43250955,transparent 5%,transparent 95%,#43250955),url('/textures/oak.svg'),#c29158;
-  box-shadow:inset 8px 0 18px #3c200d55;
-}
-.dark .personal-library { --library-ink:#f4dbb6; --library-muted:#e0bb89; --library-faint:#c29c6c; background:linear-gradient(#25140866,#25140866),url('/textures/oak.svg'),#80522e; }
-</style>
 <style scoped>
-.library-inner { width:100%; margin:0 auto; padding:0 28px 36px; }
-.library-header { display:flex; align-items:center; justify-content:space-between; margin:0 -28px 22px; padding:22px 38px; border-bottom:1px solid #593314; background:linear-gradient(#ffffff25,#2a160025),url('/textures/oak.svg'),#ba8249; box-shadow:inset 0 1px #f9d59b,0 3px 0 #dfb17a,0 7px 14px #40230c66; }
-.library-header h1 { margin:0; font:600 27px var(--font-serif); text-shadow:0 1px #f1cfa480; }
-.library-subtitle { margin:7px 0 0; font:13px/1.5 var(--font-serif); color:var(--library-muted); }
-.library-header > span { flex-shrink:0; margin-left:16px; font-size:12px; text-shadow:0 1px #f1cfa450; }
-.library-empty { padding:60px 0; }
-@media(max-width:700px) { .library-inner { padding:0 14px 24px; } .library-header { margin:0 -14px 12px; padding:18px 24px; } .library-header h1 { font-size:24px; } }
+.personal-library { --library-ink:hsl(var(--foreground)); --library-muted:var(--studio-muted); --library-faint:var(--studio-muted); }
+.library-header { display:flex; align-items:center; justify-content:space-between; gap:32px; margin-bottom:40px; }
+.library-header .eyebrow { margin-bottom:16px; }
+.library-header .page-title { max-width:760px; }
+.library-header em { font-family:var(--font-serif); font-weight:400; }
+.library-header .page-description { max-width:540px; }
+.library-stamp { flex-shrink:0; display:flex; align-items:center; gap:12px; color:var(--studio-accent); border:1px solid var(--studio-line); border-radius:14px; padding:16px 19px; transform:rotate(4deg); background:var(--studio-paper); box-shadow:0 2px 2px rgb(37 40 27 / 4%); }
+.library-stamp span { font:italic 15px/1.4 var(--font-serif); }
+.library-toolbar { display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:12px 24px; padding:0 0 18px; font-size:12px; color:var(--studio-muted); }
+.library-toolbar p { display:flex; align-items:center; gap:9px; margin:0; }
+.library-dot { width:6px; height:6px; border-radius:50%; background:var(--studio-accent); }
+.library-room { overflow:hidden; padding:8px 0 0; background:transparent; }
+.library-footnote { margin:24px 0 0; color:var(--studio-muted); text-align:center; font:italic 14px/1.5 var(--font-serif); }
+.library-empty { padding:60px 24px; text-align:center; color:var(--studio-muted); }
+@media(max-width:700px) { .library-header { margin-bottom:28px; } .library-stamp { display:none; } .library-room { padding:4px 0 0; border-radius:14px; } .library-toolbar { gap:8px; } .shelf-instruction { font-size:11px; } }
 </style>
