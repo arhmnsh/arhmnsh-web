@@ -54,9 +54,25 @@ function showItem(index: number) {
   isOpen.value = true
 }
 
+// The chosen thumbnail's position, so the viewer photo can grow out of it.
+let photoOrigin: DOMRect | null = null
+const viewerPhoto = ref<HTMLImageElement | null>(null)
+function growPhoto() {
+  const image = viewerPhoto.value
+  const from = photoOrigin
+  photoOrigin = null
+  if (!image || !from || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
+  const to = image.getBoundingClientRect()
+  if (!to.width) return
+  image.animate([
+    { transform: `translate(${from.left - to.left}px, ${from.top - to.top}px) scale(${from.width / to.width})`, opacity: .6 },
+    { transform: 'none', opacity: 1 }
+  ], { duration: 460, easing: 'cubic-bezier(.3, .7, .2, 1)' })
+}
 function selectItem(index: number) {
   const item = items.value[index]
   if (!item) return
+  photoOrigin = document.getElementById(`media-${item.id}`)?.querySelector('img')?.getBoundingClientRect() || null
   showItem(index)
   router.replace({ query: { ...route.query, media: item.id } })
 }
@@ -218,7 +234,9 @@ watch(isOpen, (open) => {
             :alt="selectedItem.alt || selectedItem.title"
             :width="selectedItem.width || 1280"
             :height="selectedItem.height || 720"
+            ref="viewerPhoto"
             class="gallery-photo"
+            @load="growPhoto"
             @error="markImageFailed(selectedItem.id)"
           />
           <p v-else class="p-8 text-center text-sm text-white/80">Preview unavailable.</p>
@@ -291,7 +309,7 @@ watch(isOpen, (open) => {
 .gallery-play { position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); display:grid; place-items:center; width:4rem; height:4rem; border-radius:50%; border:1px solid rgb(255 255 255 / 55%); background:linear-gradient(rgb(255 255 255 / 30%),rgb(0 0 0 / 65%)); color:white; box-shadow:0 3px 16px rgb(0 0 0 / 30%),inset 0 1px 0 rgb(255 255 255 / 40%); backdrop-filter:blur(12px); }
 .gallery-play:hover { background-color:rgb(0 0 0 / 35%); }
 .gallery-play:focus-visible { outline:3px solid white; outline-offset:5px; }
-.gallery-photo { width:auto; height:auto; max-width:100%; max-height:60dvh; object-fit:contain; }
+.gallery-photo { width:auto; height:auto; max-width:100%; max-height:60dvh; object-fit:contain; transform-origin:top left; will-change:transform; }
 .gallery-video { display:block; width:100%; aspect-ratio:16/9; max-height:60dvh; border:0; }
 .gallery-video--portrait { width:min(100%,33.75dvh); aspect-ratio:9/16; }
 .gallery-viewer-footer { display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between; gap:12px 24px; }
