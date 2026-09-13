@@ -73,7 +73,8 @@ function play(before: Snapshot) {
   const down = travel(before.line, rect(landingTitle))
   if (landingTitle && down) {
     landingTitle.animate([{ transform: down }, { transform: 'none' }], rise)
-    landing?.querySelector('.tab-bg')?.animate([{ opacity: 0, transform: 'scale(.6)' }, { opacity: 0, offset: .45 }, { opacity: 1, transform: 'none' }], { duration: 520, easing: ease })
+    // The pill's background waits until its title has nearly landed.
+    landing?.querySelector('.tab-bg')?.animate([{ opacity: 0, transform: 'scale(.85)' }, { opacity: 0, transform: 'scale(.85)', offset: .7 }, { opacity: 1, transform: 'none' }], { duration: 640, easing: ease })
   }
   // 3. Every other pill slides to its new spot.
   for (const [id, element] of Object.entries(tabElements)) {

@@ -16,7 +16,7 @@ export default defineNuxtPlugin((nuxtApp) => {
   const ease = 'cubic-bezier(.3, .7, .2, 1)'
   const body = () => document.querySelector<HTMLElement>('.frame-body')
 
-  type Flight = { key: string, rect: DOMRect, fontSize: number, ghost: HTMLElement, origin: HTMLElement, timeout: number }
+  type Flight = { key: string, rect: DOMRect, fontSize: number, ghost: HTMLElement, origin: HTMLElement, target?: HTMLElement, timeout: number }
   let flight: Flight | null = null
 
   function land(current: Flight) {
@@ -24,6 +24,7 @@ export default defineNuxtPlugin((nuxtApp) => {
     clearTimeout(current.timeout)
     current.ghost.remove()
     current.origin.style.visibility = ''
+    if (current.target) current.target.style.visibility = ''
     const page = body()
     if (page) page.style.opacity = ''
     flight = null
@@ -47,7 +48,7 @@ export default defineNuxtPlugin((nuxtApp) => {
     })
     document.body.appendChild(ghost)
     origin.style.visibility = 'hidden'
-    const current: Flight = { key: origin.dataset.shared || toKey, rect, fontSize: parseFloat(style.fontSize), ghost, origin, timeout: window.setTimeout(() => land(current), 4000) }
+    const current: Flight = { key: origin.dataset.shared || toKey, rect, fontSize: parseFloat(style.fontSize), ghost, origin, timeout: window.setTimeout(() => land(current), 8000) }
     flight = current
     // The page settles away beneath the lifted title before the route changes.
     const page = body()
@@ -71,6 +72,7 @@ export default defineNuxtPlugin((nuxtApp) => {
       if (!target || !page) { if (page) page.style.opacity = ''; arrive(); return land(current) }
       const to = target.getBoundingClientRect()
       const scale = parseFloat(getComputedStyle(target).fontSize) / current.fontSize
+      current.target = target
       target.style.visibility = 'hidden'
       page.style.opacity = ''
       arrive()
