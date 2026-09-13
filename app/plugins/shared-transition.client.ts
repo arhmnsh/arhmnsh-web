@@ -16,7 +16,9 @@ export default defineNuxtPlugin((nuxtApp) => {
   const ease = 'cubic-bezier(.3, .7, .2, 1)'
   const body = () => document.querySelector<HTMLElement>('.frame-body')
 
-  type Flight = { key: string, rect: DOMRect, fontSize: number, ghost: HTMLElement, origin: HTMLElement, target?: HTMLElement, timeout: number }
+  type Look = { fontSize: string, lineHeight: string, letterSpacing: string, fontWeight: string, color: string, textWrap: string }
+  const look = (style: CSSStyleDeclaration): Look => ({ fontSize: style.fontSize, lineHeight: style.lineHeight, letterSpacing: style.letterSpacing, fontWeight: style.fontWeight, color: style.color, textWrap: (style as CSSStyleDeclaration & { textWrap?: string }).textWrap || 'wrap' })
+  type Flight = { key: string, rect: DOMRect, look: Look, ghost: HTMLElement, origin: HTMLElement, target?: HTMLElement, timeout: number }
   let flight: Flight | null = null
 
   function land(current: Flight) {
@@ -44,11 +46,11 @@ export default defineNuxtPlugin((nuxtApp) => {
     ghost.setAttribute('aria-hidden', 'true')
     Object.assign(ghost.style, {
       position: 'fixed', left: `${rect.left}px`, top: `${rect.top}px`, width: `${rect.width}px`, margin: '0', zIndex: '25', pointerEvents: 'none',
-      font: style.font, letterSpacing: style.letterSpacing, color: style.color, textAlign: style.textAlign, transformOrigin: 'left top', willChange: 'transform'
+      font: style.font, letterSpacing: style.letterSpacing, color: style.color, textAlign: style.textAlign, textWrap: (style as CSSStyleDeclaration & { textWrap?: string }).textWrap || 'wrap', willChange: 'transform'
     })
     document.body.appendChild(ghost)
     origin.style.visibility = 'hidden'
-    const current: Flight = { key: origin.dataset.shared || toKey, rect, fontSize: parseFloat(style.fontSize), ghost, origin, timeout: window.setTimeout(() => land(current), 8000) }
+    const current: Flight = { key: origin.dataset.shared || toKey, rect, look: look(style), ghost, origin, timeout: window.setTimeout(() => land(current), 8000) }
     flight = current
     // The page settles away beneath the lifted title before the route changes.
     const page = body()
@@ -71,15 +73,21 @@ export default defineNuxtPlugin((nuxtApp) => {
       const arrive = () => page?.animate([{ opacity: 0 }, { opacity: 1 }], { duration: 420, easing: 'ease-out', delay: 60, fill: 'backwards' })
       if (!target || !page) { if (page) page.style.opacity = ''; arrive(); return land(current) }
       const to = target.getBoundingClientRect()
-      const scale = parseFloat(getComputedStyle(target).fontSize) / current.fontSize
+      const destination = look(getComputedStyle(target))
       current.target = target
       target.style.visibility = 'hidden'
       page.style.opacity = ''
       arrive()
+      // The copy takes on the heading's box and type as it travels, so its lines break exactly like the
+      // heading's by the time it lands, instead of scaling a differently wrapped block into place.
+      const duration = 460
+      const { textWrap: startWrap, ...start } = current.look
+      const { textWrap: endWrap, ...end } = destination
       const fly = current.ghost.animate(
-        [{ transform: 'none' }, { transform: `translate(${to.left - current.rect.left}px, ${to.top - current.rect.top}px) scale(${scale})` }],
-        { duration: 460, easing: ease, fill: 'forwards' }
+        [{ transform: 'none', width: `${current.rect.width}px`, ...start }, { transform: `translate(${to.left - current.rect.left}px, ${to.top - current.rect.top}px)`, width: `${to.width}px`, ...end }],
+        { duration, easing: ease, fill: 'forwards' }
       )
+      if (startWrap !== endWrap) setTimeout(() => { if (flight === current) current.ghost.style.textWrap = endWrap }, duration * .45)
       fly.finished.then(() => {
         if (flight !== current) return
         target.style.visibility = ''

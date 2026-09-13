@@ -78,7 +78,7 @@ usePageSeo({
 .reading-header { max-width: 880px; padding-bottom: 42px; border-bottom: 1px solid var(--studio-line); margin-bottom: 42px; }
 .reading-meta { display: flex; flex-wrap: wrap; align-items: center; gap: 14px; color: hsl(var(--muted-foreground)); font-size: 11px; margin-bottom: 24px; }
 .reading-meta .back-pill { margin-right: 6px; }
-.reading-header h1 { max-width: 860px; margin-bottom: 22px; font-size: clamp(2rem, 4vw, 3.5rem); line-height: 1.1; letter-spacing: -.04em; font-weight: 500; text-wrap: balance; }
+.reading-header h1 { max-width: 860px; margin-bottom: 22px; font-size: clamp(2rem, 4vw, 3.5rem); line-height: 1.1; letter-spacing: -.035em; font-weight: 400; text-wrap: balance; }
 .reading-intro { max-width: 720px; margin-bottom: 24px; font-size: clamp(1rem, 1.6vw, 1.18rem); line-height: 1.8; color: hsl(var(--muted-foreground)); }
 .reading-layout { max-width: 740px; }
 .reading-layout.has-toc { display: grid; grid-template-columns: 190px minmax(0, 1fr); gap: 44px; max-width: none; }
