@@ -8,8 +8,8 @@ usePageSeo({ title: 'AbdurRahaman Shah', description: 'Engineer and designer in 
     <div class="intro-scene">
       <div class="intro-text">
         <p class="intro-lead">Hello. I’m AbdurRahaman Shah, an engineer and designer based in Riyadh.</p>
-        <p>I founded Baseer and led it as CTO. There, the team built AI products for airports, cities, and the people who run them: aircraft turnaround management, no-code AI tooling, knowledge systems, and speech recognition for Arabic dialects. I have since moved on from that role and am figuring out what to build next.</p>
-        <p>Outside of work I write about building software with AI, read biographies and design books, photograph whatever I am near, and collect Urdu poetry.</p>
+        <p>I technically founded Baseer AI and led it as CTO. There, the team built AI products for airports, cities, and the people who run them: aircraft turnaround management, no-code AI tooling, knowledge systems, and speech recognition for Arabic dialects. I have since moved on from that role and am figuring out what to build next.</p>
+        <p>Outside of work I write about building software with AI, read books, photograph whatever I am near, and collect poetry.</p>
         <nav class="intro-links" aria-label="Contact links">
           <a href="mailto:hi@arhmn.sh" class="back-pill">Email</a>
           <a href="https://x.com/arhmnsh" target="_blank" rel="noopener noreferrer" class="back-pill">X<span class="sr-only"> (opens in a new tab)</span></a>
