@@ -48,7 +48,7 @@ defineProps<{
 .article-number { font-size: 11px; font-variant-numeric: tabular-nums; letter-spacing: .08em; opacity: .6; }
 .article-meta { display: flex; flex-wrap: wrap; gap: 14px; margin-bottom: 11px; color: var(--studio-accent); font-size: 10px; text-transform: uppercase; letter-spacing: .12em; font-weight: 600; }
 .article-meta span + span { color: hsl(var(--muted-foreground)); font-weight: 400; }
-.article-heading { font-size: clamp(1.35rem, 2.35vw, 1.9rem); letter-spacing: -.035em; line-height: 1.28; font-weight: 600; transition: color .2s; }
+.article-heading { font-size: clamp(1.35rem, 2.35vw, 1.9rem); letter-spacing: -.03em; line-height: 1.28; font-weight: 400; transition: color .2s; }
 .article-description { max-width: 620px; margin-top: 13px; font-size: 14px; line-height: 1.8; color: hsl(var(--muted-foreground)); }
 .article-tags { margin-top: 14px; font-size: 11px; color: hsl(var(--muted-foreground)); }
 .article-arrow { width: 42px; height: 42px; display: grid; place-items: center; border: 1px solid var(--studio-line); border-radius: 50%; transition: background .2s, color .2s, transform .2s; }

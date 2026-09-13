@@ -96,7 +96,7 @@ onBeforeUnmount(() => { disposed = true; animation?.cancel(); landingAnimations.
     <div class="reading-stage" :class="{ 'is-open': opened, 'show-details': page === 'details' }">
       <div class="reading-book">
         <div class="back-binding" aria-hidden="true" />
-        <article class="paper-page take-page" :inert="!opened || (mobile && page !== 'take')">
+        <article class="paper-page take-page" :inert="!opened">
           <div class="page-body">
             <span class="ink-rule" aria-hidden="true" />
             <h3>My take.</h3>
@@ -107,7 +107,7 @@ onBeforeUnmount(() => { disposed = true; animation?.cancel(); landingAnimations.
         <div class="hinged-cover">
           <div ref="cover" class="cover-face" aria-hidden="true"><BookCover :src="book.cover" loading="eager" /></div>
           <span class="board-edge board-edge-top" aria-hidden="true" /><span class="board-edge board-edge-bottom" aria-hidden="true" /><span class="board-edge board-edge-fore" aria-hidden="true" />
-          <article class="paper-page title-page" :inert="!opened || (mobile && page !== 'details')">
+          <article class="paper-page title-page" :inert="!opened">
             <div class="title-body">
               <h3>{{ book.title }}</h3>
               <p class="book-author">{{ book.author }}</p>
@@ -164,29 +164,22 @@ onBeforeUnmount(() => { disposed = true; animation?.cancel(); landingAnimations.
 .reading-controls button:hover { color:#fff; }
 .page-controls { display:none; }
 @media(max-width:700px) {
-  .reading-stage { overflow:visible; padding:15px 15px 28px; perspective:5000px; }
-  .reading-book { width:200%; height:500px; transform:translateX(-50%) rotateX(3deg) rotateY(-22deg) rotateZ(var(--shelf-lean)); }
-  .is-open .reading-book { transform:translateX(-50%) scale(1); }
-  .is-open.show-details .reading-book { transform:translateX(0); }
-  .paper-page { padding:26px 29px 22px; }
-  .personal-take { font-size:18px; line-height:1.85; }
-  .title-body h3 { font-size:30px; }
+  /* The whole spread stays in view; pages shrink instead of sliding one at a time. */
+  .reading-stage { overflow:visible; padding:12px 8px 22px; perspective:3000px; }
+  .reading-book { height:min(400px,58dvh); }
+  .paper-page { padding:16px 14px 14px; }
+  .page-body,.title-body { padding:6px 0; }
+  .page-body h3 { font-size:20px; margin-bottom:12px; }
+  .personal-take { font-size:12px; line-height:1.55; }
+  .signature { font-size:10px; margin-top:12px; }
+  .ink-rule { margin-bottom:12px; }
+  .title-body h3 { font-size:18px; margin:8px 0; }
+  .book-author { font-size:11px; }
+  .title-body .ink-rule { margin:12px auto; }
+  .find-book { font-size:11px; }
+  .purchase-caption { font-size:9px; }
   .page-running,.page-folio { font-size:7px; }
-  .page-controls { display:flex; gap:8px; }
-  .page-controls button[aria-pressed=true] { color:#fff; background:rgb(255 255 255 / 15%); border-color:rgb(255 255 255 / 50%); }
   .reading-controls { flex-wrap:wrap; gap:0 12px; }
-}
-@media(max-width:700px) and (max-height:760px) {
-  .reading-book { height:max(340px,calc(100dvh - 220px)); }
-  .personal-take { font-size:16px; line-height:1.65; }
-  .page-body h3 { font-size:26px; margin-bottom:16px; }
-  .signature { margin-top:15px; }
-}
-@media(max-width:700px) and (max-height:600px) {
-  .reading-book { height:max(260px,calc(100dvh - 200px)); }
-  .paper-page { padding:18px 24px; }
-  .title-body h3 { font-size:24px; margin-top:8px; }
-  .page-body,.title-body { padding:8px 0; }
 }
 @media(max-height:650px) and (min-width:701px) {
   .reading-stage { padding:8px 18px 16px; max-width:740px; margin:auto; }
