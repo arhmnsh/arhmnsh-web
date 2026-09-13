@@ -38,16 +38,15 @@ usePageSeo({
         <h1 class="page-title">Articles</h1>
 
       </div>
-      <a href="/rss.xml" class="tactile-button rss-button" aria-label="Subscribe to articles via RSS"><Rss class="h-4 w-4" aria-hidden="true" /> Follow along</a>
     </header>
     <div class="articles-toolbar">
       <nav aria-label="Filter articles by category" class="flex flex-wrap gap-2">
         <NuxtLink to="/articles" :aria-current="!category ? 'page' : undefined" class="filter-chip">All articles <span>{{ allArticles?.length || 0 }}</span></NuxtLink>
         <NuxtLink v-for="item in categories" :key="item.name" :to="{ path: '/articles', query: { c: item.name } }" :aria-current="selectedCategory === item.name ? 'page' : undefined" class="filter-chip">{{ item.name.replaceAll('-', ' ') }} <span>{{ item.count }}</span></NuxtLink>
       </nav>
-      <p class="articles-count" aria-live="polite">{{ articles.length }} {{ articles.length === 1 ? 'article' : 'articles' }}{{ selectedCategory ? ` in ${selectedCategory}` : '' }} <span aria-hidden="true">/</span> Newest first</p>
     </div>
     <ArticleList :category="selectedCategory" :articles="articles" />
+    <p class="articles-follow"><a href="/rss.xml" class="tactile-button" aria-label="Subscribe to articles via RSS"><Rss class="h-4 w-4" aria-hidden="true" /> Follow along</a></p>
 
   </div>
 </template>
@@ -58,6 +57,7 @@ usePageSeo({
 .title-period { color: var(--studio-accent); }
 .rss-button { flex-shrink: 0; margin-bottom: 5px; }
 .articles-toolbar { padding-bottom: 20px; }
+.articles-follow { margin-top: 2.5rem; }
 .articles-count { margin-top: 26px; display: flex; flex-wrap: wrap; gap: 10px; font-size: 11px; color: hsl(var(--muted-foreground)); }
 .articles-count span { opacity: .45; }
 .journal-note { margin-top: 32px; color: hsl(var(--muted-foreground)); font: italic 16px Georgia, serif; }

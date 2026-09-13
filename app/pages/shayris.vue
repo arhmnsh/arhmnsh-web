@@ -1,3 +1,3 @@
 <template>
-  <div class="min-h-screen w-full min-w-0 bg-background"><NuxtPage /></div>
+  <div class="min-w-0"><NuxtPage /></div>
 </template>

@@ -42,12 +42,8 @@ usePageSeo({
 
 <template>
   <div v-if="article" class="studio-page reading-page">
-    <nav aria-label="Article navigation" class="reading-navigation">
-      <NuxtLink :to="backLink" class="text-link"><ArrowLeft class="h-4 w-4" aria-hidden="true" /> {{ category ? `Back to ${category}` : 'All articles' }}</NuxtLink>
-
-    </nav>
     <header class="reading-header">
-      <div class="reading-meta"><time :datetime="dateTime(article.date)">{{ formatDate(article.date) }}</time><span aria-hidden="true">/</span><span>{{ readingTime }} min read</span></div>
+      <div class="reading-meta"><NuxtLink :to="backLink" class="back-pill"><ArrowLeft :size="14" aria-hidden="true" /> {{ category ? `Back to ${category}` : 'All articles' }}</NuxtLink><time :datetime="dateTime(article.date)">{{ formatDate(article.date) }}</time><span aria-hidden="true">/</span><span>{{ readingTime }} min read</span></div>
       <h1>{{ article.title }}</h1>
       <p v-if="article.description" class="reading-intro">{{ article.description }}</p>
       <div class="flex flex-wrap gap-2"><NuxtLink v-for="name in article.categories" :key="name" :to="{ path: '/articles', query: { c: name } }" class="filter-chip">{{ name.replaceAll('-', ' ') }}</NuxtLink></div>
@@ -79,16 +75,15 @@ usePageSeo({
 </template>
 
 <style scoped>
-.reading-navigation { display: flex; justify-content: space-between; align-items: center; gap: 24px; margin-bottom: 50px; }
-.reading-navigation .eyebrow { margin: 0; }
 .reading-header { max-width: 880px; padding-bottom: 42px; border-bottom: 1px solid var(--studio-line); margin-bottom: 42px; }
-.reading-meta { display: flex; flex-wrap: wrap; gap: 14px; color: hsl(var(--muted-foreground)); font-size: 11px; margin-bottom: 24px; }
-.reading-header h1 { max-width: 860px; margin-bottom: 22px; font-size: clamp(2.25rem, 4.8vw, 4.35rem); line-height: 1.08; letter-spacing: -.055em; font-weight: 600; text-wrap: balance; }
+.reading-meta { display: flex; flex-wrap: wrap; align-items: center; gap: 14px; color: hsl(var(--muted-foreground)); font-size: 11px; margin-bottom: 24px; }
+.reading-meta .back-pill { margin-right: 6px; }
+.reading-header h1 { max-width: 860px; margin-bottom: 22px; font-size: clamp(2rem, 4vw, 3.5rem); line-height: 1.1; letter-spacing: -.04em; font-weight: 500; text-wrap: balance; }
 .reading-intro { max-width: 720px; margin-bottom: 24px; font-size: clamp(1rem, 1.6vw, 1.18rem); line-height: 1.8; color: hsl(var(--muted-foreground)); }
 .reading-layout { max-width: 740px; }
 .reading-layout.has-toc { display: grid; grid-template-columns: 190px minmax(0, 1fr); gap: 44px; max-width: none; }
 .reading-body { min-width: 0; }
-.reading-toc { position: sticky; top: 112px; max-height: calc(100dvh - 140px); overflow-y: auto; padding: 4px; margin: -4px; font-size: 12px; }
+.reading-toc { position: sticky; top: 128px; max-height: calc(100dvh - 156px); overflow-y: auto; padding: 4px; margin: -4px; font-size: 12px; }
 .reading-toc summary { cursor: pointer; font-size: 10px; font-weight: 600; letter-spacing: .1em; text-transform: uppercase; color: var(--studio-accent); }
 .reading-toc nav { margin-top: 20px; }
 .reading-toc li { margin: 12px 0; line-height: 1.65; }
@@ -107,5 +102,5 @@ usePageSeo({
 .related-arrow { margin-top: auto; color: var(--studio-accent); }
 .reading-bottom { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 20px; margin-top: 32px; padding-top: 24px; border-top: 1px solid var(--studio-line); }
 @media (max-width: 900px) { .reading-layout.has-toc { grid-template-columns: 1fr; gap: 32px; max-width: 740px; } .reading-toc { max-height: none; overflow: visible; margin: 0; border: 1px solid var(--studio-line); border-radius: 16px; padding: 20px 24px; background: var(--studio-paper); } .reading-toc nav > ol { columns: 2; column-gap: 28px; } .reading-toc nav > ol > li { break-inside: avoid; } }
-@media (max-width: 580px) { .reading-navigation { margin-bottom: 36px; } .reading-navigation .eyebrow { display: none; } .reading-header { margin-bottom: 28px; padding-bottom: 28px; } .reading-toc nav > ol { columns: 1; } .related-grid { grid-template-columns: 1fr; } .reading-footer { margin-top: 42px; } }
+@media (max-width: 580px) { .reading-header { margin-bottom: 28px; padding-bottom: 28px; } .reading-toc nav > ol { columns: 1; } .related-grid { grid-template-columns: 1fr; } .reading-footer { margin-top: 42px; } }
 </style>

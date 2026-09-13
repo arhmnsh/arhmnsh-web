@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { MoveUpRight } from 'lucide-vue-next'
 import type { ShelfBook } from '~/utils/bookAppearance'
 usePageSeo({ title: 'Books', description: 'A personal library of biographies, design, technology, faith, and fiction. Pick up a book, turn it over, and read a note from my shelf.' })
 const { data: booksData } = await useAsyncData('books', () => queryCollection('books').all())
@@ -17,10 +16,6 @@ const books = computed(() => (booksData.value?.[0]?.meta?.body || []) as ShelfBo
       </div>
 
     </header>
-    <div class="library-toolbar">
-      <p><span class="library-dot" aria-hidden="true" />{{ books.length }} books</p>
-      <p class="shelf-instruction">Select a book <MoveUpRight :size="14" aria-hidden="true" /></p>
-    </div>
     <div class="library-room">
       <BookShelf v-if="books.length" :books="books" />
       <p v-else class="library-empty">The first books will be on the shelf soon.</p>
