@@ -24,6 +24,15 @@ export default defineNuxtConfig({
   colorMode: {
     classSuffix: ''
   },
+  experimental: {
+    defaults: {
+      nuxtLink: {
+        // Warm the next destination when it is hovered or focused, keeping
+        // unrelated content out of the initial page's download budget.
+        prefetchOn: { interaction: true, visibility: false }
+      }
+    }
+  },
   css: ['~/assets/css/main.css'],
   postcss: {
     plugins: {
