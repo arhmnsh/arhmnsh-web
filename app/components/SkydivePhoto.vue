@@ -10,14 +10,15 @@ function discover() {
   taps.value++
   if (photo.value && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
     wobble?.cancel()
-    const angle = 1 + taps.value * .45
+    // A quick press in, then a springy release that tilts a little further with every tap.
+    const angle = .8 + taps.value * .4
     wobble = photo.value.animate([
-      { transform:'rotate(0deg)' },
-      { transform:`rotate(${-angle}deg)`, offset:.2 },
-      { transform:`rotate(${angle}deg)`, offset:.45 },
-      { transform:`rotate(${-angle * .4}deg)`, offset:.7 },
-      { transform:'rotate(0deg)' }
-    ], { duration:440, easing:'ease-out' })
+      { transform: 'scale(1) rotate(0deg)' },
+      { transform: 'scale(.965) rotate(0deg)', offset: .18 },
+      { transform: `scale(1.035) rotate(${-angle}deg)`, offset: .5 },
+      { transform: `scale(.995) rotate(${angle * .45}deg)`, offset: .78 },
+      { transform: 'scale(1) rotate(0deg)' }
+    ], { duration: 720, easing: 'cubic-bezier(.2, .8, .2, 1)' })
   }
   if (taps.value === 5) {
     // Keep navigation within the activation event so browsers allow the new tab.
@@ -38,8 +39,12 @@ onBeforeUnmount(() => { wobble?.cancel(); if (resetTimer) clearTimeout(resetTime
 </template>
 
 <style scoped>
-.skydive-photo { display:block; width:100%; border-radius:2px; transform:scale(var(--photo-scale)); transform-origin:center; transition:transform 300ms cubic-bezier(.2,.8,.25,1),box-shadow 300ms; touch-action:manipulation; -webkit-tap-highlight-color:transparent; box-shadow:0 0 0 var(--hint-strength) hsl(var(--foreground) / .06); }
+.skydive-photo { display:block; width:100%; border-radius:1rem; overflow:hidden; transform:scale(var(--photo-scale)); transform-origin:center; transition:transform 500ms cubic-bezier(.2,.8,.2,1), box-shadow 500ms cubic-bezier(.2,.8,.2,1); touch-action:manipulation; -webkit-tap-highlight-color:transparent; box-shadow:0 .6rem 1.6rem hsl(var(--foreground) / .12), 0 0 0 var(--hint-strength) hsl(var(--foreground) / .06); }
 .skydive-photo:focus-visible { outline:2px solid hsl(var(--foreground)); outline-offset:5px; }
-.skydive-photo img { display:block; user-select:none; -webkit-user-drag:none; }
-@media(prefers-reduced-motion:reduce) { .skydive-photo { transform:none; transition:none; } }
+.skydive-photo img { display:block; border-radius:inherit; user-select:none; -webkit-user-drag:none; transition:transform 900ms cubic-bezier(.2,.8,.2,1); }
+@media (hover:hover) and (pointer:fine) {
+  .skydive-photo:hover { transform:translateY(-.35rem) rotate(-1deg) scale(calc(var(--photo-scale) * 1.01)); box-shadow:0 1.2rem 2.4rem hsl(var(--foreground) / .18), 0 0 0 var(--hint-strength) hsl(var(--foreground) / .06); }
+  .skydive-photo:hover img { transform:scale(1.04); }
+}
+@media(prefers-reduced-motion:reduce) { .skydive-photo, .skydive-photo img { transform:none; transition:none; } }
 </style>
