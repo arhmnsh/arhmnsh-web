@@ -31,7 +31,7 @@ defineProps<{
             <span v-if="article.categories?.length">{{ article.categories[0]?.replaceAll('-', ' ') }}</span>
             <span v-if="article.readTime">{{ article.readTime }} min read</span>
           </div>
-          <h2 class="article-heading">{{ article.title }}</h2>
+          <h2 class="article-heading" :data-shared="article.path">{{ article.title }}</h2>
 
 
         </div>

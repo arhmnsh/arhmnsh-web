@@ -69,7 +69,7 @@ usePageSeo({
 <template>
   <div v-if="shayri" class="studio-page poem-reading-page">
     <div class="poem-reading">
-      <header class="poem-reading-header"><h1>{{ shayri.title }}</h1><div class="poem-byline"><p>By <NuxtLink :to="{ path: '/shayris', query: { a: shayri.author } }">{{ shayri.author }}</NuxtLink></p><nav aria-label="Poetry navigation" class="poem-navigation"><NuxtLink :to="{ path: '/shayris', query: navigationQuery }" class="back-pill"><ArrowLeft :size="14" aria-hidden="true" /> All poems</NuxtLink><NuxtLink to="/shayris/explore" class="back-pill">Themes &amp; authors</NuxtLink></nav></div></header>
+      <header class="poem-reading-header"><h1 :data-shared="route.path.replace(/\/+$/, '')">{{ shayri.title }}</h1><div class="poem-byline"><p>By <NuxtLink :to="{ path: '/shayris', query: { a: shayri.author } }">{{ shayri.author }}</NuxtLink></p><nav aria-label="Poetry navigation" class="poem-navigation"><NuxtLink :to="{ path: '/shayris', query: navigationQuery }" class="back-pill"><ArrowLeft :size="14" aria-hidden="true" /> All poems</NuxtLink><NuxtLink to="/shayris/explore" class="back-pill">Themes &amp; authors</NuxtLink></nav></div></header>
       <div class="poem-rule" aria-hidden="true" />
       <article class="shayri-text manuscript-body prose prose-neutral dark:prose-invert max-w-none font-serif prose-headings:font-serif"><ContentRenderer :value="shayri" /></article>
       <p class="poem-end" aria-hidden="true">· &nbsp; · &nbsp; ·</p>

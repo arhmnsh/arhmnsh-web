@@ -36,7 +36,7 @@ usePageSeo({
         <div class="poetry-toolbar"><p role="status">{{ poems.length }} {{ poems.length === 1 ? 'poem' : 'poems' }}</p><button type="button" class="tactile-button mobile-filters" aria-haspopup="dialog" @click="filtersOpen = true"><SlidersHorizontal class="h-4 w-4" aria-hidden="true" /> Filters{{ filterCount ? ` (${filterCount})` : '' }}</button><button v-if="filterCount" type="button" class="text-link desktop-clear" @click="clearFilters">Clear filters</button></div>
         <div v-if="!poems.length" class="surface-card poetry-empty"><p class="empty-symbol" aria-hidden="true">“</p><h2>{{ allShayris?.length ? 'No matching poems' : 'No poems yet' }}</h2><p>{{ allShayris?.length ? 'No poems match these filters. Try another author or theme.' : 'Poems will appear here when published.' }}</p><button v-if="filterCount" type="button" class="text-link" @click="clearFilters">Browse all poems <ArrowUpRight class="h-4 w-4" aria-hidden="true" /></button></div>
         <ul v-else class="poem-grid">
-          <li v-for="(poem, index) in poems" :key="poem.path"><NuxtLink :to="{ path: poem.path, query: navigationQuery }" class="poem-card"><h2>{{ poem.title }}</h2><p class="poem-author">{{ poem.author }}</p></NuxtLink></li>
+          <li v-for="(poem, index) in poems" :key="poem.path"><NuxtLink :to="{ path: poem.path, query: navigationQuery }" class="poem-card"><h2 :data-shared="poem.path">{{ poem.title }}</h2><p class="poem-author">{{ poem.author }}</p></NuxtLink></li>
         </ul>
       </div>
     </div>

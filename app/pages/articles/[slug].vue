@@ -44,7 +44,7 @@ usePageSeo({
   <div v-if="article" class="studio-page reading-page">
     <header class="reading-header">
       <div class="reading-meta"><NuxtLink :to="backLink" class="back-pill"><ArrowLeft :size="14" aria-hidden="true" /> {{ category ? `Back to ${category}` : 'All articles' }}</NuxtLink><time :datetime="dateTime(article.date)">{{ formatDate(article.date) }}</time><span aria-hidden="true">/</span><span>{{ readingTime }} min read</span></div>
-      <h1>{{ article.title }}</h1>
+      <h1 :data-shared="route.path.replace(/\/+$/, '')">{{ article.title }}</h1>
       <p v-if="article.description" class="reading-intro">{{ article.description }}</p>
       <div class="flex flex-wrap gap-2"><NuxtLink v-for="name in article.categories" :key="name" :to="{ path: '/articles', query: { c: name } }" class="filter-chip">{{ name.replaceAll('-', ' ') }}</NuxtLink></div>
     </header>
