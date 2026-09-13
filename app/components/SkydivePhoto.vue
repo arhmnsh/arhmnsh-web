@@ -10,15 +10,14 @@ function discover() {
   taps.value++
   if (photo.value && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
     wobble?.cancel()
-    // A quick press in, then a springy release that tilts a little further with every tap.
-    const angle = .8 + taps.value * .4
+    // A small breath: a soft press, a gentle lift with a hint of tilt, and an easy settle.
+    const angle = .35 + taps.value * .15
     wobble = photo.value.animate([
-      { transform: 'scale(1) rotate(0deg)' },
-      { transform: 'scale(.965) rotate(0deg)', offset: .18 },
-      { transform: `scale(1.035) rotate(${-angle}deg)`, offset: .5 },
-      { transform: `scale(.995) rotate(${angle * .45}deg)`, offset: .78 },
+      { transform: 'scale(1) rotate(0deg)', easing: 'cubic-bezier(.4, 0, .6, 1)' },
+      { transform: 'scale(.985) rotate(0deg)', offset: .22, easing: 'cubic-bezier(.2, .7, .3, 1)' },
+      { transform: `scale(1.012) rotate(${-angle}deg)`, offset: .6, easing: 'cubic-bezier(.4, 0, .2, 1)' },
       { transform: 'scale(1) rotate(0deg)' }
-    ], { duration: 720, easing: 'cubic-bezier(.2, .8, .2, 1)' })
+    ], { duration: 900 })
   }
   if (taps.value === 5) {
     // Keep navigation within the activation event so browsers allow the new tab.
