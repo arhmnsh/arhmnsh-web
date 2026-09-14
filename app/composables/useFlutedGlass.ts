@@ -3,8 +3,8 @@ import type { Ref } from 'vue'
 /**
  * Fluted glass over a photograph, drawn with WebGL. The picture is seen through a sheet of vertical
  * glass ribs: each rib works as a small cylindrical lens, slicing the image into strips, bending it,
- * fringing the colours, and streaking it vertically. A tap brings the glass in at once and then
- * clears it outward from the point of contact. Rendering runs only while the glass is visible.
+ * fringing the colours, and streaking it vertically. A tap snaps the glass in and clears it
+ * outward from the point of contact within about a second. Rendering runs only while the glass is visible.
  */
 const VERTEX = `attribute vec2 a_pos; varying vec2 v_uv;
 void main() { v_uv = a_pos * .5 + .5; gl_Position = vec4(a_pos, 0., 1.); }`
@@ -23,15 +23,15 @@ void main() {
     float age = u_time - d.z;
     if (age <= 0.) continue;
     float dist = distance(p, vec2(d.x * aspect, d.y));
-    float rise = smoothstep(0., .16, age);
-    float front = max(age - .35, 0.) * .62;
-    float clearing = smoothstep(front - .28, front + .06, dist);
-    k = max(k, rise * clearing * exp(-age * .22));
+    float rise = smoothstep(0., .07, age);
+    float front = max(age - .1, 0.) * 1.7;
+    float clearing = smoothstep(front - .3, front + .05, dist);
+    k = max(k, rise * clearing * exp(-age * .8));
   }
   if (k < .002) { gl_FragColor = vec4(texture2D(u_tex, v_uv).rgb, 1.); return; }
   // Ribs of slightly uneven width; the pattern drifts a touch while the glass is present.
   float ribs = 26.;
-  float fx = (v_uv.x + u_time * .004) * ribs + .45 * sin(v_uv.x * 9.3) + .2 * sin(v_uv.x * 23.1);
+  float fx = (v_uv.x + u_time * .012) * ribs + .45 * sin(v_uv.x * 9.3) + .2 * sin(v_uv.x * 23.1);
   float cell = floor(fx);
   float f = fract(fx) - .5;
   float lens = f * (1.15 - 1.6 * f * f);
@@ -67,7 +67,7 @@ export function useFlutedGlass(canvas: Ref<HTMLCanvasElement | null>, source: st
   let drops: Array<{ x: number, y: number, at: number }> = []
   const start = typeof performance === 'undefined' ? 0 : performance.now()
   const uniforms: Record<string, WebGLUniformLocation | null> = {}
-  const LIFETIME = 4.2
+  const LIFETIME = 1.6
 
   function setup() {
     const element = canvas.value
