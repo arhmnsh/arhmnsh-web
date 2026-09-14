@@ -1,11 +1,10 @@
 <script setup lang="ts">
 /**
- * Sun by day, moon by night. Tapping squishes the button while the icon reshapes itself: the rays
- * spin in and the moon takes a bite out of the disc, or the bite lets go and the rays pop back
- * out. Around it the whole page joins in through a view transition. Going dark, the page flickers
- * like a dying bulb, goes out, and the night view rises out of the dark. Going light, a lamp
- * stutters on at the button and its glow spreads over the page, a touch too bright at first.
- * Browsers without view transitions, and people who prefer reduced motion, get the plain switch.
+ * Sun by day, moon by night. Tapping gives the button a small squish while the icon reshapes
+ * itself: the rays draw in and the moon takes a bite out of the disc, or the bite lets go and the
+ * rays return. Around it the page follows with one quiet view transition: the new theme spreads
+ * out from the button as a soft circle, with no flashing or flicker anywhere. Browsers without
+ * view transitions, and people who prefer reduced motion, get the plain switch.
  */
 const colorMode = useColorMode()
 const button = ref<HTMLButtonElement | null>(null)
@@ -15,7 +14,7 @@ const isDark = computed(() => colorMode.value === 'dark')
 const RAYS = Array.from({ length: 8 }, (_, index) => index)
 const STARS = [{ x: 5.2, y: 6.4, r: .95, i: 0 }, { x: 8.6, y: 3.6, r: .65, i: 1 }, { x: 3.6, y: 10.6, r: .55, i: 2 }]
 
-type Transitioning = Document & { startViewTransition?: (update: () => Promise<void> | void) => { finished: Promise<void> } }
+type Transitioning = Document & { startViewTransition?: (update: () => Promise<void> | void) => { ready: Promise<void>, finished: Promise<void> } }
 
 async function toggleTheme() {
   const next = isDark.value ? 'light' : 'dark'
@@ -37,6 +36,8 @@ async function toggleTheme() {
   root.classList.remove('theme-to-dark', 'theme-to-light')
   root.classList.add(mode)
   const transition = doc.startViewTransition(async () => { colorMode.preference = next; await nextTick() })
+  // A hidden tab skips the transition; the theme still switches, quietly.
+  transition.ready.catch(() => {})
   try { await transition.finished } catch {} finally { root.classList.remove(mode) }
 }
 </script>
@@ -64,62 +65,36 @@ async function toggleTheme() {
 .theme-toggle { display: grid; place-items: center; width: 44px; height: 44px; flex-shrink: 0; color: var(--studio-muted); border-radius: 50%; transition: color 180ms, background 180ms; }
 .theme-toggle:hover { color: hsl(var(--foreground)); background: hsl(var(--muted)); }
 .theme-toggle:active { background: hsl(var(--accent)); }
-.theme-toggle.is-squishing { animation: squish 520ms var(--studio-ease); }
-@keyframes squish { 0% { transform: scale(1); } 30% { transform: scale(.8, 1.15); } 55% { transform: scale(1.12, .9); } 75% { transform: scale(.97, 1.03); } 100% { transform: scale(1); } }
+.theme-toggle.is-squishing { animation: squish 460ms var(--studio-ease); }
+@keyframes squish { 0% { transform: scale(1); } 35% { transform: scale(.9, 1.06); } 65% { transform: scale(1.04, .97); } 100% { transform: scale(1); } }
 
 /* Every part turns about the centre of the icon, with a little spring in each move. */
-.sky { --bounce: cubic-bezier(.34, 1.56, .64, 1); --delay: 0ms; overflow: visible; }
+.sky { --bounce: cubic-bezier(.34, 1.25, .64, 1); overflow: visible; }
 .sky * { transform-box: view-box; transform-origin: 12px 12px; }
-.rays { transform: rotate(0deg); transition: transform 560ms var(--bounce) var(--delay); }
-.rays line { transform: rotate(calc(var(--i) * 45deg)) scale(1); opacity: 1; transition: transform 420ms var(--bounce), opacity 200ms linear; transition-delay: calc(var(--delay) + 180ms + var(--i) * 28ms), calc(var(--delay) + 220ms + var(--i) * 28ms); }
-.disc { transform: scale(1) rotate(0deg); transition: transform 620ms var(--bounce) var(--delay); }
-.bite { transform: translate(15px, -15px); transition: transform 560ms var(--bounce) calc(var(--delay) + 120ms); }
+.rays { transform: rotate(0deg); transition: transform 560ms var(--bounce); }
+.rays line { transform: rotate(calc(var(--i) * 45deg)) scale(1); opacity: 1; transition: transform 420ms var(--bounce), opacity 200ms linear; transition-delay: calc(180ms + var(--i) * 28ms), calc(220ms + var(--i) * 28ms); }
+.disc { transform: scale(1) rotate(0deg); transition: transform 620ms var(--bounce); }
+.bite { transform: translate(15px, -15px); transition: transform 560ms var(--bounce) calc(120ms); }
 .stars circle { transform: scale(0); transition: transform 380ms var(--bounce); transition-delay: 0ms; }
 
 .is-dark .rays { transform: rotate(-135deg); }
-.is-dark .rays line { transform: rotate(calc(var(--i) * 45deg)) scale(0); opacity: 0; transition-delay: calc(var(--delay) + var(--i) * 22ms), calc(var(--delay) + 60ms + var(--i) * 22ms); }
+.is-dark .rays line { transform: rotate(calc(var(--i) * 45deg)) scale(0); opacity: 0; transition-delay: calc(var(--i) * 22ms), calc(60ms + var(--i) * 22ms); }
 .is-dark .disc { transform: scale(1.18) rotate(-22deg); }
 .is-dark .bite { transform: translate(4.2px, -4.2px); }
-.is-dark .stars circle { transform: scale(1); transition-delay: calc(var(--delay) + 420ms + var(--i) * 90ms); }
+.is-dark .stars circle { transform: scale(1); transition-delay: calc(420ms + var(--i) * 90ms); }
 .is-dark:hover .stars circle { animation: twinkle 1.6s ease-in-out infinite; animation-delay: calc(var(--i) * 260ms); }
 @keyframes twinkle { 0%, 100% { transform: scale(1); opacity: 1; } 50% { transform: scale(.55); opacity: .5; } }
-
-/* While the page flickers out, the icon waits and the moon rises with the night view. */
-:global(html.theme-to-dark) .sky { --delay: 520ms; }
 
 @media (prefers-reduced-motion: reduce) {
   .theme-toggle.is-squishing { animation: none; }
 }
 </style>
 <style>
-/* The page-wide light switch. The default cross-fade is replaced by two little scenes. */
+/* The page-wide switch. The default cross-fade is replaced by the new theme spreading out from the button as a soft circle. */
 ::view-transition-old(root), ::view-transition-new(root) { animation: none; mix-blend-mode: normal; }
-
-/* Lights out: the old view flickers like a failing bulb and dies, leaving the bare dark canvas, then the night view rises out of it. */
-html.theme-to-dark::view-transition-old(root) { animation: bulb-out 560ms steps(1, end) forwards; }
-html.theme-to-dark::view-transition-new(root) { animation: night-rises 460ms cubic-bezier(.2, .8, .2, 1) 540ms backwards; }
-@keyframes bulb-out {
-  0% { opacity: 1; }
-  9% { opacity: .12; }
-  15% { opacity: 1; }
-  27% { opacity: .35; }
-  33% { opacity: .9; }
-  45% { opacity: .05; }
-  52% { opacity: .7; }
-  60% { opacity: .2; }
-  66%, 100% { opacity: 0; }
-}
-@keyframes night-rises { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: none; } }
-
-/* Lights on: a lamp stutters on around the button, then its glow spreads over the page, too bright at first, and settles as the eyes adjust. */
-html.theme-to-light::view-transition-new(root) { animation: lamp-on 920ms both; }
-@keyframes lamp-on {
-  0% { clip-path: circle(0px at var(--theme-x) var(--theme-y)); opacity: 1; filter: brightness(2); animation-timing-function: steps(1, end); }
-  6% { clip-path: circle(48px at var(--theme-x) var(--theme-y)); opacity: 1; animation-timing-function: steps(1, end); }
-  11% { opacity: 0; animation-timing-function: steps(1, end); }
-  16% { opacity: 1; animation-timing-function: steps(1, end); }
-  21% { opacity: .15; animation-timing-function: steps(1, end); }
-  27% { clip-path: circle(48px at var(--theme-x) var(--theme-y)); opacity: 1; filter: brightness(1.7); animation-timing-function: cubic-bezier(.2, .8, .2, 1); }
-  100% { clip-path: circle(var(--theme-r) at var(--theme-x) var(--theme-y)); opacity: 1; filter: brightness(1); }
+html:is(.theme-to-dark, .theme-to-light)::view-transition-new(root) { animation: theme-spreads 760ms cubic-bezier(.3, .7, .2, 1) both; }
+@keyframes theme-spreads {
+  from { clip-path: circle(0px at var(--theme-x) var(--theme-y)); }
+  to { clip-path: circle(var(--theme-r) at var(--theme-x) var(--theme-y)); }
 }
 </style>
