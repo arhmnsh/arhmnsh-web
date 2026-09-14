@@ -2,21 +2,21 @@
 const taps = ref(0)
 const surface = ref<HTMLButtonElement | null>(null)
 const water = ref<HTMLCanvasElement | null>(null)
-const { sweep, follow, active, setup } = useFlutedGlass(water, '/images/me-1024.webp')
+const { tap, look, active, setup } = useFlutedGlass(water, '/images/me-1024.webp')
 const reduced = () => window.matchMedia('(prefers-reduced-motion: reduce)').matches
 const hint = computed(() => taps.value ? `${5 - taps.value} more ${taps.value === 4 ? 'tap' : 'taps'} to discover something hidden.` : '')
 let resetTimer: ReturnType<typeof setTimeout> | undefined
 function reset() { taps.value = 0 }
 
-// A tap sends a pane of fluted glass sweeping across the picture from the side that was tapped.
-// The photo also grows a little with every tap and eases back once the taps stop.
+// A tap slides a pane of fluted glass over the picture from the side that was tapped; the next tap, or a
+// short wait, clears it rib by rib. The photo also grows a little with every tap and eases back once the taps stop.
 function discover(event: MouseEvent) {
   if (resetTimer) clearTimeout(resetTimer)
   taps.value++
   const host = surface.value
   if (host && !reduced()) {
     const bounds = host.getBoundingClientRect()
-    sweep(event.detail === 0 ? 0 : (event.clientX - bounds.left) / bounds.width)
+    tap(event.detail === 0 ? 0 : (event.clientX - bounds.left) / bounds.width)
   }
   if (taps.value === 5) {
     // Keep navigation within the activation event so browsers allow the new tab.
@@ -26,13 +26,13 @@ function discover(event: MouseEvent) {
   }
   resetTimer = setTimeout(reset, 8000)
 }
-// With a mouse, the pane rides along under the pointer; it lifts away when the pointer leaves.
+// With a mouse, where the pointer sits across the photo stands in for the viewing angle through the glass.
 function move(event: PointerEvent) {
   const host = surface.value
-  if (!host || event.pointerType !== 'mouse' || reduced()) return
-  follow((event.clientX - host.getBoundingClientRect().left) / host.clientWidth)
+  if (!host || event.pointerType !== 'mouse') return
+  look((event.clientX - host.getBoundingClientRect().left) / host.clientWidth)
 }
-function leave() { follow(null) }
+function leave() { look(null) }
 function warm() { if (!reduced()) setup() }
 onBeforeUnmount(() => { if (resetTimer) clearTimeout(resetTimer) })
 </script>
