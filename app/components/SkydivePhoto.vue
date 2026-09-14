@@ -52,7 +52,7 @@ onBeforeUnmount(() => { live.forEach(animation => animation.cancel()); if (reset
 
 <template>
   <button ref="surface" type="button" class="skydive-photo" aria-label="Skydiving photo" :style="{ '--hint-strength': taps * 2 + 'px' }" @click="discover">
-    <img ref="photo" src="/images/me-640.webp" srcset="/images/me-640.webp 640w, /images/me-1024.webp 1024w" sizes="(min-width: 1200px) 450px, (min-width: 761px) 40vw, (min-width: 481px) 350px, 280px" width="2576" height="1552" fetchpriority="high" decoding="async" alt="AbdurRahaman Shah skydiving above the coast" class="aspect-[2576/1552] w-full object-cover" />
+    <img ref="photo" src="/images/me-640.webp" srcset="/images/me-640.webp 640w, /images/me-1024.webp 1024w" sizes="(min-width: 1200px) 450px, (min-width: 761px) 40vw, (min-width: 481px) 350px, 280px" width="2569" height="1552" fetchpriority="high" decoding="async" alt="AbdurRahaman Shah skydiving above the coast" class="aspect-[2569/1552] w-full object-cover" />
   </button>
   <span class="sr-only" role="status">{{ hint }}</span>
 </template>
