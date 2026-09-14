@@ -41,7 +41,7 @@ onBeforeUnmount(() => { if (resetTimer) clearTimeout(resetTimer) })
 </template>
 
 <style scoped>
-.skydive-photo { position:relative; display:block; width:100%; border-radius:1rem; overflow:hidden; isolation:isolate; transform:translateY(var(--lift, 0px)) scale(var(--photo-scale, 1)); transform-origin:center; transition:transform 700ms cubic-bezier(.2,.8,.2,1), box-shadow 700ms cubic-bezier(.2,.8,.2,1); touch-action:manipulation; -webkit-tap-highlight-color:transparent; box-shadow:0 .6rem 1.6rem hsl(var(--foreground) / .12); }
+.skydive-photo { position:relative; display:block; width:100%; border-radius:1rem; overflow:hidden; isolation:isolate; transform:translateY(var(--lift, 0px)) scale(var(--photo-scale, 1)); transform-origin:center; transition:transform 450ms cubic-bezier(.2,.8,.2,1), box-shadow 450ms cubic-bezier(.2,.8,.2,1); touch-action:manipulation; -webkit-tap-highlight-color:transparent; box-shadow:0 .6rem 1.6rem hsl(var(--foreground) / .12); }
 .skydive-photo:focus-visible { outline:2px solid hsl(var(--foreground)); outline-offset:5px; }
 .skydive-photo img { display:block; border-radius:inherit; user-select:none; -webkit-user-drag:none; }
 /* The water surface sits over the photo and only shows while waves are moving; it draws the same picture, so the hand-off is invisible. */

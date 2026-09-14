@@ -22,10 +22,10 @@ void main() {
     if (age <= 0.) continue;
     vec2 diff = p - vec2(d.x * aspect, d.y);
     float dist = length(diff);
-    float front = .4 * age;                         // how far the leading crest has travelled
+    float front = .6 * age;                         // how far the leading crest has travelled
     float behind = front - dist;                     // distance behind the leading crest
     if (behind < -.04) continue;
-    float life = exp(-age * 1.5);                   // the drop's energy fades with time
+    float life = exp(-age * 2.2);                   // the drop's energy fades with time
     float tail = exp(-max(behind, 0.) * 4.5);        // waves trail off behind the front
     float edge = smoothstep(-.04, .03, behind);      // the front rises smoothly
     float spread = 1. / (1. + dist * 3.);            // energy thins as the ring widens
@@ -114,7 +114,7 @@ export function useWaterRipple(canvas: Ref<HTMLCanvasElement | null>, source: st
   function draw() {
     if (!gl || !ready) return
     const now = (performance.now() - start) / 1000
-    drops = drops.filter(drop => now - drop.at < 2.6)
+    drops = drops.filter(drop => now - drop.at < 1.8)
     resize()
     gl.uniform1f(uniforms.u_time, now)
     gl.uniform1i(uniforms.u_count, drops.length)
