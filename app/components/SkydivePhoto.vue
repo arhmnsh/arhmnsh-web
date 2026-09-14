@@ -2,21 +2,21 @@
 const taps = ref(0)
 const surface = ref<HTMLButtonElement | null>(null)
 const water = ref<HTMLCanvasElement | null>(null)
-const { tap, active, setup } = useFlutedGlass(water, '/images/me-1024.webp')
+const { sweep, follow, active, setup } = useFlutedGlass(water, '/images/me-1024.webp')
+const reduced = () => window.matchMedia('(prefers-reduced-motion: reduce)').matches
 const hint = computed(() => taps.value ? `${5 - taps.value} more ${taps.value === 4 ? 'tap' : 'taps'} to discover something hidden.` : '')
 let resetTimer: ReturnType<typeof setTimeout> | undefined
 function reset() { taps.value = 0 }
 
-// A tap puts a sheet of fluted glass over the picture, which then clears from the point of contact.
+// A tap sends a pane of fluted glass sweeping across the picture from the side that was tapped.
 // The photo also grows a little with every tap and eases back once the taps stop.
 function discover(event: MouseEvent) {
   if (resetTimer) clearTimeout(resetTimer)
   taps.value++
   const host = surface.value
-  if (host && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+  if (host && !reduced()) {
     const bounds = host.getBoundingClientRect()
-    const fromKeyboard = event.detail === 0
-    tap(fromKeyboard ? .5 : (event.clientX - bounds.left) / bounds.width, fromKeyboard ? .5 : (event.clientY - bounds.top) / bounds.height)
+    sweep(event.detail === 0 ? 0 : (event.clientX - bounds.left) / bounds.width)
   }
   if (taps.value === 5) {
     // Keep navigation within the activation event so browsers allow the new tab.
@@ -26,13 +26,19 @@ function discover(event: MouseEvent) {
   }
   resetTimer = setTimeout(reset, 8000)
 }
-// Warm the surface on the first hover so the first drop responds at once.
-function warm() { if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) setup() }
+// With a mouse, the pane rides along under the pointer; it lifts away when the pointer leaves.
+function move(event: PointerEvent) {
+  const host = surface.value
+  if (!host || event.pointerType !== 'mouse' || reduced()) return
+  follow((event.clientX - host.getBoundingClientRect().left) / host.clientWidth)
+}
+function leave() { follow(null) }
+function warm() { if (!reduced()) setup() }
 onBeforeUnmount(() => { if (resetTimer) clearTimeout(resetTimer) })
 </script>
 
 <template>
-  <button ref="surface" type="button" class="skydive-photo" :class="{ 'is-rippling': active }" aria-label="Skydiving photo" :style="{ '--photo-scale': 1 + taps * .025 }" @click="discover" @pointerenter="warm">
+  <button ref="surface" type="button" class="skydive-photo" :class="{ 'is-rippling': active }" aria-label="Skydiving photo" :style="{ '--photo-scale': 1 + taps * .025 }" @click="discover" @pointerenter="warm" @pointermove="move" @pointerleave="leave" @pointercancel="leave">
     <img src="/images/me-640.webp" srcset="/images/me-640.webp 640w, /images/me-1024.webp 1024w" sizes="(min-width: 1200px) 450px, (min-width: 761px) 40vw, (min-width: 481px) 350px, 280px" width="2569" height="1552" fetchpriority="high" decoding="async" alt="AbdurRahaman Shah skydiving above the coast" class="aspect-[2569/1552] w-full object-cover" />
     <canvas ref="water" class="water" aria-hidden="true" />
   </button>

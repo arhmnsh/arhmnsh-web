@@ -1,37 +1,41 @@
-import type { Ref } from 'vue'
-
 /**
  * Fluted glass over a photograph, drawn with WebGL. The picture is seen through a sheet of vertical
  * glass ribs: each rib works as a small cylindrical lens, slicing the image into strips, bending it,
- * fringing the colours, and streaking it vertically. A tap snaps the glass in and clears it
- * outward from the point of contact within about a second. Rendering runs only while the glass is visible.
+ * fringing the colours, and streaking it vertically. On a fine pointer the pane is a band that
+ * follows the cursor across the photo; a tap sends the whole pane sweeping across from the side that
+ * was tapped. The ribs belong to the pane, so they travel with it. Rendering runs only while glass
+ * is visible.
  */
 const VERTEX = `attribute vec2 a_pos; varying vec2 v_uv;
 void main() { v_uv = a_pos * .5 + .5; gl_Position = vec4(a_pos, 0., 1.); }`
 
 const FRAGMENT = `precision highp float;
-uniform sampler2D u_tex; uniform vec2 u_size; uniform float u_time; uniform int u_count; uniform vec3 u_drops[8];
+uniform sampler2D u_tex; uniform vec2 u_size; uniform float u_time; uniform vec3 u_hover; uniform int u_count; uniform vec2 u_sweeps[4];
 varying vec2 v_uv;
+float ease(float t) { t = clamp(t, 0., 1.); return t < .5 ? 2. * t * t : 1. - pow(-2. * t + 2., 2.) / 2.; }
 void main() {
   float aspect = u_size.x / u_size.y;
-  vec2 p = vec2(v_uv.x * aspect, v_uv.y);
-  // How much glass covers this pixel: it appears everywhere at once, then a clearing spreads from the tap.
-  float k = 0.;
-  for (int i = 0; i < 8; i++) {
+  float x = v_uv.x * aspect;
+  // Which pane covers this pixel, and where that pane is: the band under the pointer or a sweeping sheet.
+  float k = 0.; float pane = 0.;
+  float halfWidth = u_hover.z * .5;
+  float band = u_hover.y * smoothstep(halfWidth, halfWidth - .16, abs(x - u_hover.x * aspect));
+  if (band > k) { k = band; pane = u_hover.x * aspect; }
+  for (int i = 0; i < 4; i++) {
     if (i >= u_count) break;
-    vec3 d = u_drops[i];
-    float age = u_time - d.z;
+    vec2 s = u_sweeps[i];
+    float age = u_time - s.y;
     if (age <= 0.) continue;
-    float dist = distance(p, vec2(d.x * aspect, d.y));
-    float rise = smoothstep(0., .07, age);
-    float front = max(age - .1, 0.) * 1.7;
-    float clearing = smoothstep(front - .3, front + .05, dist);
-    k = max(k, rise * clearing * exp(-age * .8));
+    float width = aspect * .62;
+    float travel = ease(age / .9);
+    float centre = mix(-width * .5 - .05, aspect + width * .5 + .05, s.x > .5 ? 1. - travel : travel);
+    float cover = smoothstep(width * .5, width * .5 - .14, abs(x - centre));
+    if (cover > k) { k = cover; pane = centre; }
   }
   if (k < .002) { gl_FragColor = vec4(texture2D(u_tex, v_uv).rgb, 1.); return; }
-  // Ribs of slightly uneven width; the pattern drifts a touch while the glass is present.
-  float ribs = 26.;
-  float fx = (v_uv.x + u_time * .012) * ribs + .45 * sin(v_uv.x * 9.3) + .2 * sin(v_uv.x * 23.1);
+  // Ribs of slightly uneven width, fixed to the pane so they move with it.
+  float local = x - pane;
+  float fx = local * 15.5 + .45 * sin(local * 9.3) + .2 * sin(local * 23.1);
   float cell = floor(fx);
   float f = fract(fx) - .5;
   float lens = f * (1.15 - 1.6 * f * f);
@@ -42,8 +46,8 @@ void main() {
   float fringe = lens * .022 * k;
   float dy = .0065 * k;
   vec3 color = vec3(0.);
-  for (int s = -1; s <= 1; s++) {
-    vec2 o = uv + vec2(0., float(s) * dy);
+  for (int t = -1; t <= 1; t++) {
+    vec2 o = uv + vec2(0., float(t) * dy);
     color += vec3(texture2D(u_tex, clamp(o + vec2(fringe, 0.), .001, .999)).r,
                   texture2D(u_tex, clamp(o, .001, .999)).g,
                   texture2D(u_tex, clamp(o - vec2(fringe, 0.), .001, .999)).b);
@@ -64,10 +68,12 @@ export function useFlutedGlass(canvas: Ref<HTMLCanvasElement | null>, source: st
   let program: WebGLProgram | null = null
   let ready = false
   let frame = 0
-  let drops: Array<{ x: number, y: number, at: number }> = []
+  let sweeps: Array<{ side: number, at: number }> = []
+  const hover = { x: .5, strength: 0, target: 0 }
   const start = typeof performance === 'undefined' ? 0 : performance.now()
   const uniforms: Record<string, WebGLUniformLocation | null> = {}
-  const LIFETIME = 1.6
+  const SWEEP = .95
+  const BAND = .55
 
   function setup() {
     const element = canvas.value
@@ -96,7 +102,7 @@ export function useFlutedGlass(canvas: Ref<HTMLCanvasElement | null>, source: st
     const position = gl.getAttribLocation(program, 'a_pos')
     gl.enableVertexAttribArray(position)
     gl.vertexAttribPointer(position, 2, gl.FLOAT, false, 0, 0)
-    for (const name of ['u_tex', 'u_size', 'u_time', 'u_count', 'u_drops']) uniforms[name] = gl.getUniformLocation(program, name)
+    for (const name of ['u_tex', 'u_size', 'u_time', 'u_hover', 'u_count', 'u_sweeps']) uniforms[name] = gl.getUniformLocation(program, name)
     const texture = gl.createTexture()
     gl.bindTexture(gl.TEXTURE_2D, texture)
     gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, 1)
@@ -108,7 +114,7 @@ export function useFlutedGlass(canvas: Ref<HTMLCanvasElement | null>, source: st
       gl.bindTexture(gl.TEXTURE_2D, texture)
       gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGB, gl.RGB, gl.UNSIGNED_BYTE, image)
       ready = true
-      if (drops.length) loop()
+      if (sweeps.length || hover.target) loop()
     }
     image.src = source
     return true
@@ -127,13 +133,16 @@ export function useFlutedGlass(canvas: Ref<HTMLCanvasElement | null>, source: st
   function draw() {
     if (!gl || !ready) return
     const now = (performance.now() - start) / 1000
-    drops = drops.filter(drop => now - drop.at < LIFETIME)
+    sweeps = sweeps.filter(sweep => now - sweep.at < SWEEP)
+    hover.strength += (hover.target - hover.strength) * .16
+    if (Math.abs(hover.strength - hover.target) < .004) hover.strength = hover.target
     resize()
     gl.uniform1f(uniforms.u_time, now)
-    gl.uniform1i(uniforms.u_count, drops.length)
-    const data = new Float32Array(24)
-    drops.forEach((drop, index) => data.set([drop.x, drop.y, drop.at], index * 3))
-    gl.uniform3fv(uniforms.u_drops, data)
+    gl.uniform3f(uniforms.u_hover, hover.x, hover.strength, BAND)
+    gl.uniform1i(uniforms.u_count, sweeps.length)
+    const data = new Float32Array(8)
+    sweeps.forEach((sweep, index) => data.set([sweep.side, sweep.at], index * 2))
+    gl.uniform2fv(uniforms.u_sweeps, data)
     gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4)
   }
 
@@ -141,22 +150,32 @@ export function useFlutedGlass(canvas: Ref<HTMLCanvasElement | null>, source: st
     cancelAnimationFrame(frame)
     const tick = () => {
       draw()
-      if (drops.length) frame = requestAnimationFrame(tick)
+      if (sweeps.length || hover.strength > 0 || hover.target > 0) frame = requestAnimationFrame(tick)
       else active.value = false
     }
     frame = requestAnimationFrame(tick)
   }
 
-  /** Bring the glass in, clearing from a point given in 0..1 coordinates from the top-left of the photo. */
-  function tap(x: number, y: number) {
+  /** Sweep the pane across the photo, entering from the side nearest the given 0..1 x position. */
+  function sweep(x: number) {
     if (!setup()) return false
-    if (drops.length >= 8) drops.shift()
-    drops.push({ x, y: 1 - y, at: (performance.now() - start) / 1000 })
+    if (sweeps.length >= 4) sweeps.shift()
+    sweeps.push({ side: x < .5 ? 0 : 1, at: (performance.now() - start) / 1000 })
     active.value = true
     if (ready) loop()
     return true
   }
 
+  /** Hold the pane under the pointer at a 0..1 x position, or lift it away with null. */
+  function follow(x: number | null) {
+    if (x === null) { hover.target = 0; return }
+    if (!setup()) return
+    hover.x = x
+    hover.target = 1
+    active.value = true
+    if (ready) loop()
+  }
+
   onBeforeUnmount(() => { cancelAnimationFrame(frame); gl?.getExtension('WEBGL_lose_context')?.loseContext(); gl = null })
-  return { tap, active, setup }
+  return { sweep, follow, active, setup }
 }
