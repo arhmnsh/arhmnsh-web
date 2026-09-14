@@ -2,13 +2,13 @@
 const taps = ref(0)
 const surface = ref<HTMLButtonElement | null>(null)
 const water = ref<HTMLCanvasElement | null>(null)
-const { drop, active, setup } = useWaterRipple(water, '/images/me-1024.webp')
+const { tap, active, setup } = useFlutedGlass(water, '/images/me-1024.webp')
 const hint = computed(() => taps.value ? `${5 - taps.value} more ${taps.value === 4 ? 'tap' : 'taps'} to discover something hidden.` : '')
 let resetTimer: ReturnType<typeof setTimeout> | undefined
 function reset() { taps.value = 0 }
 
-// A tap is a drop on water: the picture ripples out from the point of contact, and it grows a little
-// with every tap, then eases back once the taps stop.
+// A tap puts a sheet of fluted glass over the picture, which then clears from the point of contact.
+// The photo also grows a little with every tap and eases back once the taps stop.
 function discover(event: MouseEvent) {
   if (resetTimer) clearTimeout(resetTimer)
   taps.value++
@@ -16,7 +16,7 @@ function discover(event: MouseEvent) {
   if (host && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
     const bounds = host.getBoundingClientRect()
     const fromKeyboard = event.detail === 0
-    drop(fromKeyboard ? .5 : (event.clientX - bounds.left) / bounds.width, fromKeyboard ? .5 : (event.clientY - bounds.top) / bounds.height)
+    tap(fromKeyboard ? .5 : (event.clientX - bounds.left) / bounds.width, fromKeyboard ? .5 : (event.clientY - bounds.top) / bounds.height)
   }
   if (taps.value === 5) {
     // Keep navigation within the activation event so browsers allow the new tab.
@@ -43,7 +43,7 @@ onBeforeUnmount(() => { if (resetTimer) clearTimeout(resetTimer) })
 .skydive-photo { position:relative; display:block; width:100%; border-radius:1rem; overflow:hidden; isolation:isolate; transform:translateY(var(--lift, 0px)) scale(var(--photo-scale, 1)); transform-origin:center; transition:transform 700ms cubic-bezier(.2,.8,.2,1), box-shadow 700ms cubic-bezier(.2,.8,.2,1); touch-action:manipulation; -webkit-tap-highlight-color:transparent; box-shadow:0 .6rem 1.6rem hsl(var(--foreground) / .12); }
 .skydive-photo:focus-visible { outline:2px solid hsl(var(--foreground)); outline-offset:5px; }
 .skydive-photo img { display:block; border-radius:inherit; user-select:none; -webkit-user-drag:none; }
-/* The water surface sits over the photo and only shows while waves are moving; it draws the same picture, so the hand-off is invisible. */
+/* The glass sits over the photo and only shows while it is present; it draws the same picture, so the hand-off is invisible. */
 .water { position:absolute; inset:0; width:100%; height:100%; border-radius:inherit; opacity:0; pointer-events:none; transition:opacity 260ms ease; }
 .is-rippling .water { opacity:1; transition-duration:60ms; }
 @media (hover:hover) and (pointer:fine) {

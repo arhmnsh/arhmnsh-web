@@ -1,9 +1,10 @@
 import type { Ref } from 'vue'
 
 /**
- * A water surface over a photograph, drawn with WebGL. Each drop starts a ring of damped waves
- * that travels outwards; the picture is refracted through the height field and the crests catch a
- * little light, so the image itself appears to bend. Rendering runs only while waves are visible.
+ * Fluted glass over a photograph, drawn with WebGL. The picture is seen through a sheet of vertical
+ * glass ribs: each rib works as a small cylindrical lens, slicing the image into strips, bending it,
+ * fringing the colours, and streaking it vertically. A tap brings the glass in at once and then
+ * clears it outward from the point of contact. Rendering runs only while the glass is visible.
  */
 const VERTEX = `attribute vec2 a_pos; varying vec2 v_uv;
 void main() { v_uv = a_pos * .5 + .5; gl_Position = vec4(a_pos, 0., 1.); }`
@@ -14,39 +15,50 @@ varying vec2 v_uv;
 void main() {
   float aspect = u_size.x / u_size.y;
   vec2 p = vec2(v_uv.x * aspect, v_uv.y);
-  float height = 0.; vec2 grad = vec2(0.);
+  // How much glass covers this pixel: it appears everywhere at once, then a clearing spreads from the tap.
+  float k = 0.;
   for (int i = 0; i < 8; i++) {
     if (i >= u_count) break;
     vec3 d = u_drops[i];
     float age = u_time - d.z;
     if (age <= 0.) continue;
-    vec2 diff = p - vec2(d.x * aspect, d.y);
-    float dist = length(diff);
-    float front = .38 * age;                         // how far the leading crest has travelled
-    float behind = front - dist;                     // distance behind the leading crest
-    if (behind < -.04) continue;
-    float life = exp(-age * 1.1);                   // the drop's energy fades with time
-    float tail = exp(-max(behind, 0.) * 4.5);        // waves trail off behind the front
-    float edge = smoothstep(-.04, .03, behind);      // the front rises smoothly
-    float spread = 1. / (1. + dist * 3.);            // energy thins as the ring widens
-    float amp = .02 * life * tail * edge * spread;
-    float phase = behind * 40.;
-    height += sin(phase) * amp;
-    vec2 dir = dist > 1e-4 ? diff / dist : vec2(0.);
-    grad += dir * cos(phase) * 40. * amp;
+    float dist = distance(p, vec2(d.x * aspect, d.y));
+    float rise = smoothstep(0., .16, age);
+    float front = max(age - .35, 0.) * .62;
+    float clearing = smoothstep(front - .28, front + .06, dist);
+    k = max(k, rise * clearing * exp(-age * .22));
   }
-  vec2 shift = grad * .7;
-  shift.x /= aspect;
-  vec3 color = texture2D(u_tex, clamp(v_uv - shift, .001, .999)).rgb;
-  vec3 normal = normalize(vec3(-grad * 7., 1.));
-  vec3 light = normalize(vec3(-.35, .75, .6));
-  float spec = pow(max(dot(normal, light), 0.), 70.) * min(length(grad) * 20., 1.);
-  color += spec * .7;
-  color *= 1. + height * 6.;
+  if (k < .002) { gl_FragColor = vec4(texture2D(u_tex, v_uv).rgb, 1.); return; }
+  // Ribs of slightly uneven width; the pattern drifts a touch while the glass is present.
+  float ribs = 26.;
+  float fx = (v_uv.x + u_time * .004) * ribs + .45 * sin(v_uv.x * 9.3) + .2 * sin(v_uv.x * 23.1);
+  float cell = floor(fx);
+  float f = fract(fx) - .5;
+  float lens = f * (1.15 - 1.6 * f * f);
+  vec2 uv = v_uv;
+  uv.x += lens * .11 * k;
+  uv.y += (sin(v_uv.y * 26. + cell * 1.9) * .006 + sin(cell * 3.7) * .004) * k;
+  // Colour fringing and a vertical streak, both proportional to how much glass is present.
+  float fringe = lens * .022 * k;
+  float dy = .0065 * k;
+  vec3 color = vec3(0.);
+  for (int s = -1; s <= 1; s++) {
+    vec2 o = uv + vec2(0., float(s) * dy);
+    color += vec3(texture2D(u_tex, clamp(o + vec2(fringe, 0.), .001, .999)).r,
+                  texture2D(u_tex, clamp(o, .001, .999)).g,
+                  texture2D(u_tex, clamp(o - vec2(fringe, 0.), .001, .999)).b);
+  }
+  color /= 3.;
+  // Each rib catches a soft highlight on one flank and darkens at its seams.
+  float highlight = exp(-pow((f + .17) * 7., 2.)) * .22 + exp(-pow((f - .34) * 16., 2.)) * .1;
+  float seam = smoothstep(.36, .5, abs(f)) * .38;
+  color = color * (1. - seam * k) + highlight * k;
+  // A faint milky lift, as glass is never perfectly clear.
+  color = mix(color, color * .92 + .08, .35 * k);
   gl_FragColor = vec4(color, 1.);
 }`
 
-export function useWaterRipple(canvas: Ref<HTMLCanvasElement | null>, source: string) {
+export function useFlutedGlass(canvas: Ref<HTMLCanvasElement | null>, source: string) {
   const active = ref(false)
   let gl: WebGLRenderingContext | null = null
   let program: WebGLProgram | null = null
@@ -55,6 +67,7 @@ export function useWaterRipple(canvas: Ref<HTMLCanvasElement | null>, source: st
   let drops: Array<{ x: number, y: number, at: number }> = []
   const start = typeof performance === 'undefined' ? 0 : performance.now()
   const uniforms: Record<string, WebGLUniformLocation | null> = {}
+  const LIFETIME = 4.2
 
   function setup() {
     const element = canvas.value
@@ -75,7 +88,7 @@ export function useWaterRipple(canvas: Ref<HTMLCanvasElement | null>, source: st
       gl.attachShader(program, compile(gl.FRAGMENT_SHADER, FRAGMENT))
       gl.linkProgram(program)
       if (!gl.getProgramParameter(program, gl.LINK_STATUS)) throw new Error('link')
-    } catch { gl = null; return false }
+    } catch (error) { if (import.meta.dev) console.warn('[glass] shader failed', error); gl = null; return false }
     gl.useProgram(program)
     const buffer = gl.createBuffer()
     gl.bindBuffer(gl.ARRAY_BUFFER, buffer)
@@ -114,7 +127,7 @@ export function useWaterRipple(canvas: Ref<HTMLCanvasElement | null>, source: st
   function draw() {
     if (!gl || !ready) return
     const now = (performance.now() - start) / 1000
-    drops = drops.filter(drop => now - drop.at < 3.2)
+    drops = drops.filter(drop => now - drop.at < LIFETIME)
     resize()
     gl.uniform1f(uniforms.u_time, now)
     gl.uniform1i(uniforms.u_count, drops.length)
@@ -134,8 +147,8 @@ export function useWaterRipple(canvas: Ref<HTMLCanvasElement | null>, source: st
     frame = requestAnimationFrame(tick)
   }
 
-  /** Start a ripple at a point given in 0..1 coordinates from the top-left of the photo. */
-  function drop(x: number, y: number) {
+  /** Bring the glass in, clearing from a point given in 0..1 coordinates from the top-left of the photo. */
+  function tap(x: number, y: number) {
     if (!setup()) return false
     if (drops.length >= 8) drops.shift()
     drops.push({ x, y: 1 - y, at: (performance.now() - start) / 1000 })
@@ -145,5 +158,5 @@ export function useWaterRipple(canvas: Ref<HTMLCanvasElement | null>, source: st
   }
 
   onBeforeUnmount(() => { cancelAnimationFrame(frame); gl?.getExtension('WEBGL_lose_context')?.loseContext(); gl = null })
-  return { drop, active, setup }
+  return { tap, active, setup }
 }
