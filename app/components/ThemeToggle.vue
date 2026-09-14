@@ -26,19 +26,18 @@ async function toggleTheme() {
   await nextTick()
   squishing.value = true
   if (reduced || !rect || !doc.startViewTransition) { colorMode.preference = next; return }
-  // The effect spreads from the button, so the circle must reach the farthest corner from it.
+  // The new theme spreads from the button, so the circle must reach the farthest corner from it.
   const x = rect.left + rect.width / 2, y = rect.top + rect.height / 2
-  const reach = Math.hypot(Math.max(x, window.innerWidth - x), Math.max(y, window.innerHeight - y))
-  root.style.setProperty('--theme-x', `${x}px`)
-  root.style.setProperty('--theme-y', `${y}px`)
-  root.style.setProperty('--theme-r', `${Math.ceil(reach)}px`)
-  const mode = next === 'dark' ? 'theme-to-dark' : 'theme-to-light'
-  root.classList.remove('theme-to-dark', 'theme-to-light')
-  root.classList.add(mode)
+  const reach = Math.ceil(Math.hypot(Math.max(x, window.innerWidth - x), Math.max(y, window.innerHeight - y)))
   const transition = doc.startViewTransition(async () => { colorMode.preference = next; await nextTick() })
-  // A hidden tab skips the transition; the theme still switches, quietly.
-  transition.ready.catch(() => {})
-  try { await transition.finished } catch {} finally { root.classList.remove(mode) }
+  // Pixel values are handed straight to the snapshot so the circle starts at the switch in every browser.
+  transition.ready.then(() => {
+    root.animate(
+      [{ clipPath: `circle(0px at ${x}px ${y}px)` }, { clipPath: `circle(${reach}px at ${x}px ${y}px)` }],
+      { duration: 760, easing: 'cubic-bezier(.3, .7, .2, 1)', pseudoElement: '::view-transition-new(root)' }
+    )
+  }).catch(() => {}) // A hidden tab skips the transition; the theme still switches, quietly.
+  await transition.finished.catch(() => {})
 }
 </script>
 <template>
@@ -90,11 +89,6 @@ async function toggleTheme() {
 }
 </style>
 <style>
-/* The page-wide switch. The default cross-fade is replaced by the new theme spreading out from the button as a soft circle. */
+/* The page-wide switch: the default cross-fade is replaced by the new theme spreading out from the button as a soft circle, driven from the script. */
 ::view-transition-old(root), ::view-transition-new(root) { animation: none; mix-blend-mode: normal; }
-html:is(.theme-to-dark, .theme-to-light)::view-transition-new(root) { animation: theme-spreads 760ms cubic-bezier(.3, .7, .2, 1) both; }
-@keyframes theme-spreads {
-  from { clip-path: circle(0px at var(--theme-x) var(--theme-y)); }
-  to { clip-path: circle(var(--theme-r) at var(--theme-x) var(--theme-y)); }
-}
 </style>
