@@ -7,7 +7,7 @@ onMounted(() => {
   const root = document.documentElement
   const hide = () => {
     root.classList.remove('has-soft-cursor')
-    cursor.value?.classList.remove('is-visible', 'is-over', 'is-pressed', 'is-text')
+    cursor.value?.classList.remove('is-visible', 'is-over', 'is-pressed', 'is-text', 'is-ring')
   }
   const move = (event: PointerEvent) => {
     // Native dialogs sit in the browser's top layer, above anything in the page, so the native cursor takes over there.
@@ -21,6 +21,8 @@ onMounted(() => {
     element.classList.add('is-visible')
     element.classList.toggle('is-over', Boolean(target?.closest('a, button:not(:disabled), summary, label, [data-cursor]')))
     element.classList.toggle('is-text', Boolean(target?.closest('.prose, .reading-body, .shayri-text')))
+    // Small icons would vanish behind the lens, so icon buttons get an open ring instead.
+    element.classList.toggle('is-ring', Boolean(target?.closest('[data-cursor="ring"]')))
     root.classList.add('has-soft-cursor')
   }
   const down = (event: PointerEvent) => {
@@ -65,6 +67,7 @@ onBeforeUnmount(() => cleanup?.())
 .soft-cursor.is-visible { opacity: 1; }
 .soft-cursor span { display: block; width: 26px; height: 26px; margin: -13px; border-radius: 50%; backdrop-filter: invert(30%) blur(10px); -webkit-backdrop-filter: invert(30%) blur(10px); transition: width 260ms var(--studio-ease), height 260ms var(--studio-ease), margin 260ms var(--studio-ease), transform 200ms var(--studio-ease), opacity 200ms; }
 .soft-cursor.is-over span { width: 50px; height: 50px; margin: -25px; }
+.soft-cursor.is-ring span { box-shadow: inset 0 0 0 1.5px hsl(var(--foreground) / .3); backdrop-filter: none; -webkit-backdrop-filter: none; }
 .soft-cursor.is-text span { width: 4px; height: 26px; margin: -13px -2px; border-radius: 2px; backdrop-filter: invert(60%); -webkit-backdrop-filter: invert(60%); }
 .soft-cursor.is-pressed span { transform: scale(.75); }
 @media (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference) {

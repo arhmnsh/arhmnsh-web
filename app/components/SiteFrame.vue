@@ -98,7 +98,7 @@ onBeforeUnmount(() => { window.removeEventListener('scroll', onScroll); cancelAn
         <div class="frame-top">
           <p class="frame-name"><NuxtLink to="/">AbdurRahaman Shah</NuxtLink></p>
           <div class="frame-tools">
-            <button type="button" class="tool-button" aria-label="Search this site" aria-haspopup="dialog" @click="openSearch"><Search :size="18" :stroke-width="1.6" aria-hidden="true" /></button>
+            <button type="button" class="tool-button" data-cursor="ring" aria-label="Search this site" aria-haspopup="dialog" @click="openSearch"><Search :size="18" :stroke-width="1.6" aria-hidden="true" /></button>
             <ThemeToggle />
           </div>
         </div>

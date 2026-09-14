@@ -42,7 +42,7 @@ async function toggleTheme() {
 </script>
 <template>
   <ClientOnly>
-    <button ref="button" type="button" class="theme-toggle" :class="{ 'is-dark': isDark, 'is-squishing': squishing }" :aria-label="isDark ? 'Switch to light theme' : 'Switch to dark theme'" @click="toggleTheme" @animationend="squishing = false">
+    <button ref="button" type="button" class="theme-toggle" data-cursor="ring" :class="{ 'is-dark': isDark, 'is-squishing': squishing }" :aria-label="isDark ? 'Switch to light theme' : 'Switch to dark theme'" @click="toggleTheme" @animationend="squishing = false">
       <svg class="sky" viewBox="0 0 24 24" width="18" height="18" aria-hidden="true">
         <mask :id="maskId" maskUnits="userSpaceOnUse" x="0" y="0" width="24" height="24">
           <rect width="24" height="24" fill="#fff" />
