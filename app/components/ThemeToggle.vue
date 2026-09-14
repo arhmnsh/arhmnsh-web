@@ -26,14 +26,19 @@ async function toggleTheme() {
   await nextTick()
   squishing.value = true
   if (reduced || !rect || !doc.startViewTransition) { colorMode.preference = next; return }
-  // The new theme spreads from the button, so the circle must reach the farthest corner from it.
+  // The new theme spreads from the button, so the circle must reach the farthest corner from it. The
+  // snapshot is addressed in percentages of its own box: pixel values drift when the page is rendered
+  // scaled, as in device emulation, while percentages land on the switch in every case. A percentage
+  // radius is resolved against the box's diagonal over the square root of two.
+  const width = window.innerWidth, height = window.innerHeight
   const x = rect.left + rect.width / 2, y = rect.top + rect.height / 2
-  const reach = Math.ceil(Math.hypot(Math.max(x, window.innerWidth - x), Math.max(y, window.innerHeight - y)))
+  const reach = Math.hypot(Math.max(x, width - x), Math.max(y, height - y))
+  const at = `${(x / width * 100).toFixed(3)}% ${(y / height * 100).toFixed(3)}%`
+  const radius = (reach / (Math.hypot(width, height) / Math.SQRT2) * 100).toFixed(3)
   const transition = doc.startViewTransition(async () => { colorMode.preference = next; await nextTick() })
-  // Pixel values are handed straight to the snapshot so the circle starts at the switch in every browser.
   transition.ready.then(() => {
     root.animate(
-      [{ clipPath: `circle(0px at ${x}px ${y}px)` }, { clipPath: `circle(${reach}px at ${x}px ${y}px)` }],
+      [{ clipPath: `circle(0% at ${at})` }, { clipPath: `circle(${radius}% at ${at})` }],
       { duration: 760, easing: 'cubic-bezier(.3, .7, .2, 1)', pseudoElement: '::view-transition-new(root)' }
     )
   }).catch(() => {}) // A hidden tab skips the transition; the theme still switches, quietly.
