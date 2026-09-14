@@ -22,14 +22,14 @@ void main() {
     if (age <= 0.) continue;
     vec2 diff = p - vec2(d.x * aspect, d.y);
     float dist = length(diff);
-    float front = .6 * age;                         // how far the leading crest has travelled
+    float front = .8 * age;                         // how far the leading crest has travelled
     float behind = front - dist;                     // distance behind the leading crest
     if (behind < -.04) continue;
-    float life = exp(-age * 2.2);                   // the drop's energy fades with time
+    float life = exp(-age * 3.);                   // the drop's energy fades with time
     float tail = exp(-max(behind, 0.) * 4.5);        // waves trail off behind the front
     float edge = smoothstep(-.04, .03, behind);      // the front rises smoothly
     float spread = 1. / (1. + dist * 3.);            // energy thins as the ring widens
-    float amp = .009 * life * tail * edge * spread;
+    float amp = .0065 * life * tail * edge * spread;
     float phase = behind * 40.;
     height += sin(phase) * amp;
     vec2 dir = dist > 1e-4 ? diff / dist : vec2(0.);
@@ -41,8 +41,8 @@ void main() {
   vec3 normal = normalize(vec3(-grad * 7., 1.));
   vec3 light = normalize(vec3(-.35, .75, .6));
   float spec = pow(max(dot(normal, light), 0.), 80.) * min(length(grad) * 25., 1.);
-  color += spec * .35;
-  color *= 1. + height * 4.;
+  color += spec * .25;
+  color *= 1. + height * 2.5;
   gl_FragColor = vec4(color, 1.);
 }`
 
@@ -114,7 +114,7 @@ export function useWaterRipple(canvas: Ref<HTMLCanvasElement | null>, source: st
   function draw() {
     if (!gl || !ready) return
     const now = (performance.now() - start) / 1000
-    drops = drops.filter(drop => now - drop.at < 1.8)
+    drops = drops.filter(drop => now - drop.at < 1.3)
     resize()
     gl.uniform1f(uniforms.u_time, now)
     gl.uniform1i(uniforms.u_count, drops.length)

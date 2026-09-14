@@ -27,13 +27,14 @@ function discover(event: MouseEvent) {
   }
   resetTimer = setTimeout(reset, 8000)
 }
-// Warm the surface on the first hover so the first drop responds at once.
+// Prepare the surface as soon as the page is idle so the first tap answers without a pause.
 function warm() { if (!reduced()) setup() }
+onMounted(() => { if ('requestIdleCallback' in window) window.requestIdleCallback(warm, { timeout: 1500 }); else setTimeout(warm, 300) })
 onBeforeUnmount(() => { if (resetTimer) clearTimeout(resetTimer) })
 </script>
 
 <template>
-  <button ref="surface" type="button" class="skydive-photo" :class="{ 'is-rippling': active }" aria-label="Skydiving photo" :style="{ '--photo-scale': 1 + taps * .025 }" @click="discover" @pointerenter="warm">
+  <button ref="surface" type="button" class="skydive-photo" :class="{ 'is-rippling': active }" aria-label="Skydiving photo" :style="{ '--photo-scale': 1 + taps * .015 }" @click="discover" @pointerenter="warm">
     <img src="/images/me-640.webp" srcset="/images/me-640.webp 640w, /images/me-1024.webp 1024w" sizes="(min-width: 1200px) 450px, (min-width: 761px) 40vw, (min-width: 481px) 350px, 280px" width="2569" height="1552" fetchpriority="high" decoding="async" alt="AbdurRahaman Shah skydiving above the coast" class="aspect-[2569/1552] w-full object-cover" />
     <canvas ref="water" class="water" aria-hidden="true" />
   </button>
@@ -41,12 +42,12 @@ onBeforeUnmount(() => { if (resetTimer) clearTimeout(resetTimer) })
 </template>
 
 <style scoped>
-.skydive-photo { position:relative; display:block; width:100%; border-radius:1rem; overflow:hidden; isolation:isolate; transform:translateY(var(--lift, 0px)) scale(var(--photo-scale, 1)); transform-origin:center; transition:transform 450ms cubic-bezier(.2,.8,.2,1), box-shadow 450ms cubic-bezier(.2,.8,.2,1); touch-action:manipulation; -webkit-tap-highlight-color:transparent; box-shadow:0 .6rem 1.6rem hsl(var(--foreground) / .12); }
+.skydive-photo { position:relative; display:block; width:100%; border-radius:1rem; overflow:hidden; isolation:isolate; transform:translateY(var(--lift, 0px)) scale(var(--photo-scale, 1)); transform-origin:center; transition:transform 280ms cubic-bezier(.25,.9,.3,1), box-shadow 280ms cubic-bezier(.25,.9,.3,1); touch-action:manipulation; -webkit-tap-highlight-color:transparent; box-shadow:0 .6rem 1.6rem hsl(var(--foreground) / .12); }
 .skydive-photo:focus-visible { outline:2px solid hsl(var(--foreground)); outline-offset:5px; }
 .skydive-photo img { display:block; border-radius:inherit; user-select:none; -webkit-user-drag:none; }
 /* The water surface sits over the photo and only shows while waves are moving; it draws the same picture, so the hand-off is invisible. */
-.water { position:absolute; inset:0; width:100%; height:100%; border-radius:inherit; opacity:0; pointer-events:none; transition:opacity 260ms ease; }
-.is-rippling .water { opacity:1; transition-duration:60ms; }
+.water { position:absolute; inset:0; width:100%; height:100%; border-radius:inherit; opacity:0; pointer-events:none; transition:opacity 140ms ease; }
+.is-rippling .water { opacity:1; transition-duration:0ms; }
 @media (hover:hover) and (pointer:fine) {
   .skydive-photo:hover { --lift:-.3rem; box-shadow:0 1.2rem 2.4rem hsl(var(--foreground) / .18); }
 }
