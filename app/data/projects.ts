@@ -19,5 +19,6 @@ export const workProjects: Project[] = [
 
 export const sideProjects: Project[] = [
   { name: 'Salaf Sayings', field: 'Side project', glyph: 'S', href: 'https://salafsayings.arhmn.sh', description: 'Sayings from the early generations, one at a time.', notes: [] },
-  { name: 'Athkar', field: 'Side project', glyph: 'A', href: 'https://athkar.arhmn.sh', description: 'Daily remembrances, morning and evening.', notes: [] }
+  { name: 'Athkar', field: 'Side project', glyph: 'A', href: 'https://athkar.arhmn.sh', description: 'Daily remembrances, morning and evening.', notes: [] },
+  { name: 'Ruqyah', field: 'Side project', glyph: 'R', href: 'https://ruqyah.arhmn.sh', description: 'Qur’an and prophetic duas for self-protection, morning and evening.', notes: [] }
 ]
