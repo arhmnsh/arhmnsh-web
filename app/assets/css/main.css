@@ -171,7 +171,25 @@ img { max-width: 100%; }
 .prose :where(img, iframe, video) { max-width: 100%; border-radius: .65rem; }
 .prose :where(iframe) { width: 100%; aspect-ratio: 16 / 9; height: auto; }
 .prose :where(table) { display: block; max-width: 100%; overflow-x: auto; }
-.prose > p:first-of-type::first-letter, .prose > div > p:first-of-type::first-letter { float: left; font-size: 3.5rem; line-height: 1; font-weight: 400; margin: .1rem .5rem 0 0; font-family: var(--font-serif); color: var(--studio-accent); }
+.prose > p:first-of-type::first-letter, .prose > div > p:first-of-type::first-letter {
+  -webkit-initial-letter: 2;
+  initial-letter: 2;
+  float: left;
+  font-size: 3.25rem;
+  line-height: .8;
+  font-weight: 400;
+  margin: .15rem .32rem 0 0;
+  font-family: var(--font-serif);
+  color: var(--studio-accent);
+}
+@supports (initial-letter: 2) or (-webkit-initial-letter: 2) {
+  .prose > p:first-of-type::first-letter, .prose > div > p:first-of-type::first-letter {
+    float: none;
+    font-size: inherit;
+    line-height: inherit;
+    margin: 0 .32rem 0 0;
+  }
+}
 .shayri-title { font-family: var(--font-shayri); font-weight: 700; letter-spacing: -.035em; text-transform: none; }
 .shayri-author { font-family: var(--font-shayri); font-style: italic; font-weight: 600; letter-spacing: .04em; }
 .shayri-text > p:first-of-type::first-letter, .shayri-text > div > p:first-of-type::first-letter { float: left; font-size: clamp(3rem, 5vw, 4rem); line-height: .78; font-weight: 700; margin: .38rem .7rem 0 0; font-family: var(--font-shayri-hand); }
